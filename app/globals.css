@@ -5,7 +5,6 @@
 @layer base {
   html {
     background: theme("colors.ink.DEFAULT");
-    scroll-behavior: smooth;
   }
 
   body {

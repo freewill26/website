@@ -13,7 +13,11 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios-filled/40/FFFFFF/whatsapp.png\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios-filled/40/FFFFFF/external-link.png\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/40/FFFFFF/right.png\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/40/FFFFFF/left.png\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/40/FFFFFF/left.png\")",
+      "Bash(sed 's/fill=\"#00687F\"/fill=\"#FFFFFF\"/' logo-freewill.svg)",
+      "Bash(sed 's/fill=\"#00687F\"/fill=\"#181A20\"/' logo-freewill.svg)",
+      "Bash(which rsvg-convert *)",
+      "Bash(qlmanage -t -s 128 -o /tmp /Users/apple/Desktop/pronttera/freewill-website/app/icon.svg)"
     ],
     "additionalDirectories": [
       "/Users/apple/Desktop/pronttera/freewill-web/app/products/[code]"

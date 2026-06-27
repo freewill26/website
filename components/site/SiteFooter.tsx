@@ -21,7 +21,7 @@ export default function SiteFooter() {
     >
       <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
         <div>
-          <Image src="/assets/logo-freewill.svg" alt="Freewill" width={140} height={32} className="h-8 w-auto" />
+          <Image src="/assets/logo-freewill.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />
           <div className="mb-5 mt-1 text-[9px] font-bold tracking-[0.34em] text-brand">
             INFRA FOR SPORTS
           </div>
@@ -60,11 +60,15 @@ export default function SiteFooter() {
         </FooterColumn>
       </div>
 
-      <div
-        className="mt-16 select-none text-center font-display leading-[0.8]"
-        style={{ fontSize: "clamp(64px,17vw,300px)", color: "rgba(24,26,32,0.06)" }}
-      >
-        FREEWILL
+      <div className="mt-16 select-none">
+        <Image
+          src="/assets/logo-freewill-dark.svg"
+          alt=""
+          aria-hidden
+          width={600}
+          height={125}
+          className="h-auto w-full opacity-[0.06]"
+        />
       </div>
 
       <div

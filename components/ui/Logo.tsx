@@ -17,7 +17,7 @@ export default function Logo({ withTagline = false, className = "", color = "bra
 
   return (
     <Link href="/" className={`inline-flex flex-col leading-none ${className}`.trim()}>
-      <Image src={src} alt="Freewill" width={140} height={32} className="h-8 w-auto" priority />
+      <Image src={src} alt="Freewill" width={600} height={125} className="h-8 w-auto" priority />
       {withTagline && (
         <span className="mt-1 text-[9px] font-bold tracking-[0.34em] text-brand-accent">
           INFRA FOR SPORTS

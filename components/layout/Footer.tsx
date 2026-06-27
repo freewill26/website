@@ -18,7 +18,7 @@ export default function Footer() {
       <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
         {/* Brand */}
         <div>
-          <Image src="/assets/logo-freewill-white.svg" alt="Freewill" width={140} height={32} className="h-8 w-auto" />
+          <Image src="/assets/logo-freewill-white.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />
           <div className="mb-5 mt-1 text-[9px] font-bold tracking-[0.34em] text-brand-accent">
             INFRA FOR SPORTS
           </div>
@@ -61,8 +61,15 @@ export default function Footer() {
       </div>
 
       {/* Oversized watermark */}
-      <div className="mt-16 select-none text-center font-display text-[clamp(64px,17vw,300px)] leading-[0.8] text-mist/[0.04]">
-        FREEWILL
+      <div className="mt-16 select-none">
+        <Image
+          src="/assets/logo-freewill-white.svg"
+          alt=""
+          aria-hidden
+          width={600}
+          height={125}
+          className="h-auto w-full opacity-[0.05]"
+        />
       </div>
 
       <div className="mt-6 flex flex-wrap justify-between gap-4 border-t border-brand-accent/12 pt-6 text-[11px] tracking-[0.08em] text-mist/30">

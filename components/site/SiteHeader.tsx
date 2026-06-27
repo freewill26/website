@@ -84,7 +84,7 @@ export default function SiteHeader({ solid = false }: SiteHeaderProps) {
           }}
         >
           <Link href="/" className="flex items-center gap-3 no-underline">
-            <Image src="/assets/logo-freewill.svg" alt="Freewill" width={140} height={32} className="h-8 w-auto" priority />
+            <Image src="/assets/logo-freewill.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" priority />
           </Link>
 
           <nav className="hidden items-center gap-[26px] min-[981px]:flex">

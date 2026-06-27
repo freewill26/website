@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { WhatsAppIcon, EditIcon } from "@/components/ui/icons";
+import { WhatsAppIcon } from "@/components/ui/icons";
 
 /**
- * Persistent floating actions anchored to the bottom-right corner: a WhatsApp
- * quick-chat button stacked above the "Get Free Estimate" pill.
+ * Persistent floating action anchored to the bottom-right corner: a single
+ * WhatsApp quick-chat pill.
  */
 export default function FloatingEstimate() {
   return (
@@ -13,25 +12,17 @@ export default function FloatingEstimate() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        className="fw-anim-float flex h-[54px] w-[54px] items-center justify-center rounded-full text-white no-underline transition-transform hover:scale-105"
-        style={{ background: "#25D366", boxShadow: "0 14px 32px rgba(37,211,102,0.45)" }}
-      >
-        <WhatsAppIcon size={28} />
-      </a>
-
-      <Link
-        href="/contact"
-        className="fw-anim-float inline-flex items-center gap-3 rounded-full bg-brand px-6 py-4 text-[13px] font-bold tracking-[0.08em] text-white no-underline transition-colors hover:bg-[#004E5F]"
-        style={{ boxShadow: "0 16px 38px rgba(0,104,127,0.42)" }}
+        className="fw-anim-float inline-flex items-center gap-3 rounded-full px-6 py-4 text-[13px] font-bold tracking-[0.08em] text-white no-underline transition-transform hover:scale-105"
+        style={{ background: "#25D366", boxShadow: "0 16px 38px rgba(37,211,102,0.45)" }}
       >
         <span
           className="flex h-[30px] w-[30px] items-center justify-center rounded-full"
           style={{ background: "rgba(255,255,255,0.18)" }}
         >
-          <EditIcon size={15} />
+          <WhatsAppIcon size={18} />
         </span>
-        GET FREE ESTIMATE
-      </Link>
+        LET&apos;S CONNECT
+      </a>
     </div>
   );
 }
