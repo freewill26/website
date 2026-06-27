@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(node -e \"const p=require\\('./package.json'\\);const d={...p.dependencies,...p.devDependencies};['three','@react-three/fiber','@react-three/drei','@types/three','clsx','tailwind-merge','tailwindcss','react'].forEach\\(k=>console.log\\(k.padEnd\\(22\\), d[k]||'—'\\)\\)\")",
+      "Bash(npm install *)",
+      "Bash(node -e \"['three','@react-three/fiber','@react-three/drei','@types/three','clsx','tailwind-merge'].forEach\\(k=>{try{console.log\\(k.padEnd\\(22\\), require\\(k+'/package.json'\\).version\\)}catch\\(e\\){console.log\\(k.padEnd\\(22\\),'MISSING'\\)}}\\)\")",
+      "Bash(cd /Users/apple/Desktop/pronttera/freewill-web *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios-filled/48/5FD0E0/checkmark.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/52/888888/image.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios-filled/40/FFFFFF/whatsapp.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios-filled/40/FFFFFF/external-link.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/40/FFFFFF/right.png\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://img.icons8.com/ios/40/FFFFFF/left.png\")"
+    ],
+    "additionalDirectories": [
+      "/Users/apple/Desktop/pronttera/freewill-web/app/products/[code]"
+    ]
+  }
+}
