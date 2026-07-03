@@ -87,9 +87,27 @@ export default function HomeSplash() {
       />
       <div
         ref={splashRef}
-        className="fixed inset-0 z-[1002] box-border flex flex-col justify-between bg-cream"
+        className="fixed inset-0 z-[1002] box-border flex flex-col justify-between overflow-hidden bg-[#0d1017]"
         style={{ padding: "clamp(24px,4vw,56px)", ...wipe }}
       >
+        {/* Stadium backdrop + darkening overlay for legibility */}
+        <Image
+          src="/assets/splash-stadium.jpg"
+          alt=""
+          aria-hidden
+          fill
+          priority
+          sizes="100vw"
+          className="-z-10 object-cover"
+        />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(13,16,23,0.72) 0%, rgba(13,16,23,0.5) 45%, rgba(13,16,23,0.82) 100%)",
+          }}
+        />
+
         <div
           className="flex flex-1 flex-col justify-between"
           style={{
@@ -99,26 +117,26 @@ export default function HomeSplash() {
         >
           <div className="flex items-start justify-between">
             <div>
-              <Image src="/assets/logo-freewill.svg" alt="Freewill" width={140} height={32} className="h-8 w-auto" />
-              <div className="mt-1 text-[10px] font-bold tracking-[0.34em] text-brand">
+              <Image src="/assets/logo-freewill-white.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />
+              <div className="mt-1 text-[10px] font-bold tracking-[0.34em] text-white/80">
                 INFRA FOR SPORTS
               </div>
             </div>
-            <div className="text-[11px] font-semibold tracking-[0.22em] text-[#181A20]/50">
+            <div className="text-[11px] font-semibold tracking-[0.22em] text-white/55">
               PUNE · INDIA · EST. 1990
             </div>
           </div>
 
           <div className="flex items-end justify-between gap-8">
-            <div className="pb-6 text-xs font-semibold tracking-[0.22em] text-[#181A20]/55">
+            <div className="pb-6 text-xs font-semibold tracking-[0.22em] text-white/60">
               LOADING THE GROUND INDIA PLAYS ON
             </div>
             <div
-              className="flex items-baseline font-display leading-[0.82] text-[#181A20]"
+              className="flex items-baseline font-display leading-[0.82] text-white"
               style={{ fontSize: "clamp(110px,21vw,260px)" }}
             >
               <span>{String(Math.floor(pct)).padStart(2, "0")}</span>
-              <span className="ml-2 text-brand" style={{ fontSize: "0.28em" }}>
+              <span className="ml-2 text-brand-accent" style={{ fontSize: "0.28em" }}>
                 %
               </span>
             </div>
@@ -127,10 +145,10 @@ export default function HomeSplash() {
 
         <div
           className="mt-7 h-0.5 w-full"
-          style={{ background: "rgba(24,26,32,0.14)" }}
+          style={{ background: "rgba(255,255,255,0.2)" }}
         >
           <div
-            className="h-full bg-brand"
+            className="h-full bg-brand-accent"
             style={{
               transform: `scaleX(${pct / 100})`,
               transformOrigin: "left center",

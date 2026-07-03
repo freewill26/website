@@ -1,4 +1,4 @@
-const YT_ID = "aqz-KE-bpKQ";
+const YT_ID = "StguKQPzkEs";
 
 /** Full-bleed YouTube showreel, autoplaying muted. */
 export default function HomeShowreel() {
@@ -17,7 +17,12 @@ export default function HomeShowreel() {
           allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen
           className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
-          style={{ width: "100vw", height: "56.25vw", minHeight: "100vh", minWidth: "177.78vh" }}
+          style={{
+            width: "100vw",
+            height: "56.25vw",
+            minHeight: "100vh",
+            minWidth: "177.78vh",
+          }}
         />
       </div>
     </section>

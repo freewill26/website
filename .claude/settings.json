@@ -17,7 +17,11 @@
       "Bash(sed 's/fill=\"#00687F\"/fill=\"#FFFFFF\"/' logo-freewill.svg)",
       "Bash(sed 's/fill=\"#00687F\"/fill=\"#181A20\"/' logo-freewill.svg)",
       "Bash(which rsvg-convert *)",
-      "Bash(qlmanage -t -s 128 -o /tmp /Users/apple/Desktop/pronttera/freewill-website/app/icon.svg)"
+      "Bash(qlmanage -t -s 128 -o /tmp /Users/apple/Desktop/pronttera/freewill-website/app/icon.svg)",
+      "Bash(ls -la ~/Downloads 2>/dev/null | grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)\" | tail -20; echo \"=== Desktop ===\"; ls -la ~/Desktop 2>/dev/null | grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)\" | tail -20; echo \"=== project ===\"; find /Users/apple/Desktop/pronttera/freewill-website -path '*/node_modules' -prune -o \\\\\\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \\\\\\) -print 2>/dev/null | grep -v node_modules)",
+      "Read(//Users/apple/Downloads/**)",
+      "Read(//Users/apple/Desktop/**)",
+      "Bash(sips -g pixelWidth -g pixelHeight piqsels.com-id-frgau.jpg piqsels.com-id-swvbl.jpg)"
     ],
     "additionalDirectories": [
       "/Users/apple/Desktop/pronttera/freewill-web/app/products/[code]"
