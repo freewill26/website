@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import { NEWS } from "@/lib/homeContent";
@@ -43,8 +44,18 @@ export default function HomeNews() {
               style={{ border: "1px solid rgba(24,26,32,0.08)" }}
             >
               <div className="relative aspect-[16/10] overflow-hidden">
-                <ImageSlot label="News" className="absolute inset-0 h-full w-full" />
-                <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">
+                {n.image ? (
+                  <Image
+                    src={n.image}
+                    alt={n.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <ImageSlot label="News" className="absolute inset-0 h-full w-full" />
+                )}
+                <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white z-10">
                   {n.cat}
                 </span>
               </div>

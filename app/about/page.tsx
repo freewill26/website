@@ -45,7 +45,7 @@ export default function AboutPage() {
           kicker="02 — THE CRAFT"
           titleLines={[
             "Built to Last,",
-            <span key="perform" style={{ color: "#5FD0E0" }}>
+            <span style={{ color: "#5FD0E0" }}>
               Built to Perform.
             </span>,
           ]}

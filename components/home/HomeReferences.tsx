@@ -141,7 +141,7 @@ export default function HomeReferences() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           ref={cursorImgRef}
-          src=""
+          src={undefined}
           alt=""
           className="h-full w-full object-cover"
           style={{ background: "#0F1428" }}

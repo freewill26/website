@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ImageSlot from "@/components/site/ImageSlot";
 import { TESTIMONIALS } from "@/lib/homeContent";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
@@ -77,7 +78,19 @@ export default function HomeTestimonials() {
                   {t.quote}
                 </p>
                 <div className="flex items-center gap-4">
-                  <ImageSlot shape="circle" className="h-[62px] w-[62px] flex-none" />
+                  {t.avatar ? (
+                    <div className="relative h-[62px] w-[62px] flex-none overflow-hidden rounded-full border border-[#181A20]/10">
+                      <Image
+                        src={t.avatar}
+                        alt={t.name}
+                        fill
+                        sizes="62px"
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  ) : (
+                    <ImageSlot shape="circle" className="h-[62px] w-[62px] flex-none" />
+                  )}
                   <div>
                     <div className="text-[15px] font-bold text-[#181A20]">{t.name}</div>
                     <div className="text-[13px] leading-[1.5] text-[#181A20]/55">

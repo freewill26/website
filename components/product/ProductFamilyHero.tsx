@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import { ROUTES } from "@/lib/navigation";
@@ -13,7 +14,18 @@ export default function ProductFamilyHero({ family }: { family: ProductFamily })
       className="relative flex min-h-screen flex-col justify-end overflow-hidden"
       style={{ background: "#0F1428", scrollMarginTop: "104px" }}
     >
-      <ImageSlot tone="light" label="Court photo" className="absolute inset-0 h-full w-full" />
+      {family.heroImage ? (
+        <Image
+          src={family.heroImage}
+          alt={family.nameLead}
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover object-center opacity-40"
+        />
+      ) : (
+        <ImageSlot tone="light" label="Court photo" className="absolute inset-0 h-full w-full" />
+      )}
       <div
         className="absolute inset-0"
         style={{

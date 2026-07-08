@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import { GALLERY } from "@/lib/homeContent";
@@ -38,24 +39,34 @@ export default function HomeGallery() {
           >
             {g.isVideo ? (
               <>
-                <div
-                  className="fw-anim-shimmer absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(120deg,#0c1b2c,#16314a,#0c1b2c)",
-                    backgroundSize: "200% 100%",
-                  }}
+                <video
+                  src="/assets/lulu.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
                 <div
-                  className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-white"
+                  className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-white z-10"
                   style={{ background: "rgba(11,16,32,0.6)" }}
                 >
-                  <span className="block h-1.5 w-1.5 rounded-full" style={{ background: "#C3F53C" }} />
+                  <span className="block h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: "#C3F53C" }} />
                   LIVE
                 </div>
               </>
             ) : (
-              <ImageSlot label={g.ph} className="absolute inset-0 h-full w-full" />
+              g.img ? (
+                <Image
+                  src={g.img}
+                  alt={g.ph || "Gallery"}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+                />
+              ) : (
+                <ImageSlot label={g.ph} className="absolute inset-0 h-full w-full" />
+              )
             )}
           </div>
         ))}

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
-import { PRODUCTS, type ProductCard } from "@/lib/homeContent";
+import type { ProductCard } from "@/lib/homeContent";
 import { ArrowUpRightIcon, ArrowRightIcon } from "@/components/ui/icons";
+import productsData from "@/data/products.json";
 
 const SPAN_CLASS: Record<ProductCard["span"], string> = {
   hero: "col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-2",
@@ -42,54 +43,60 @@ export default function HomeProducts() {
       </FwReveal>
 
       <div className="grid grid-cols-1 gap-3.5 [grid-auto-rows:168px] sm:grid-cols-2 lg:grid-cols-4 lg:[grid-auto-rows:208px]">
-        {PRODUCTS.map((p) => (
-          <FwReveal
-            key={p.no}
-            className={`group relative cursor-pointer overflow-hidden rounded-xl ${SPAN_CLASS[p.span]}`}
-            style={{ border: "1px solid rgba(24,26,32,0.08)" }}
-          >
-            <ImageSlot label={p.ph} className="absolute inset-0 h-full w-full" />
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(16,18,26,0) 42%, rgba(16,18,26,0.86) 100%)",
-              }}
-            />
-            <div
-              className="pointer-events-none absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full px-3 py-[7px]"
-              style={{
-                background: "rgba(20,22,30,0.55)",
-                backdropFilter: "blur(6px)",
-                WebkitBackdropFilter: "blur(6px)",
-              }}
-            >
-              <span className="font-display text-xs text-white/70">{p.no}</span>
-              <span className="text-[10px] font-bold tracking-[0.14em] text-[#9FC0FF]">
-                {p.kicker}
-              </span>
-            </div>
-            <div className="pointer-events-none absolute inset-x-[18px] bottom-4 flex items-end justify-between gap-3">
-              <div>
-                <div
-                  className="font-display uppercase leading-[1.1] text-white"
-                  style={{ fontSize: "clamp(20px,1.6vw,28px)" }}
-                >
-                  {p.title}
-                </div>
-                <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72]">
-                  {p.sub}
-                </div>
-              </div>
-              <span
-                className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                style={{ background: "rgba(255,255,255,0.16)" }}
+        {productsData.flatMap((product) =>
+          product.categories.map((category, idx) => {
+            const no = String(idx + 1).padStart(2, "0");
+            const span: ProductCard["span"] = idx === 0 ? "hero" : idx === 1 || idx === 6 ? "wide" : "";
+            return (
+              <FwReveal
+                key={`${product.id}-${category.name}`}
+                className={`group relative cursor-pointer overflow-hidden rounded-xl ${SPAN_CLASS[span]}`}
+                style={{ border: "1px solid rgba(24,26,32,0.08)" }}
               >
-                <ArrowUpRightIcon size={15} />
-              </span>
-            </div>
-          </FwReveal>
-        ))}
+                <ImageSlot label={category.name} className="absolute inset-0 h-full w-full" />
+                <div
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(16,18,26,0) 42%, rgba(16,18,26,0.86) 100%)",
+                  }}
+                />
+                <div
+                  className="pointer-events-none absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full px-3 py-[7px]"
+                  style={{
+                    background: "rgba(20,22,30,0.55)",
+                    backdropFilter: "blur(6px)",
+                    WebkitBackdropFilter: "blur(6px)",
+                  }}
+                >
+                  <span className="font-display text-xs text-white/70">{no}</span>
+                  <span className="text-[10px] font-bold tracking-[0.14em] text-[#9FC0FF]">
+                    {category.kicker}
+                  </span>
+                </div>
+                <div className="pointer-events-none absolute inset-x-[18px] bottom-4 flex items-end justify-between gap-3">
+                  <div>
+                    <div
+                      className="font-display uppercase leading-[1.1] text-white"
+                      style={{ fontSize: "clamp(20px,1.6vw,28px)" }}
+                    >
+                      {category.title}
+                    </div>
+                    <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72]">
+                      {category.categoryDescription}
+                    </div>
+                  </div>
+                  <span
+                    className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    style={{ background: "rgba(255,255,255,0.16)" }}
+                  >
+                    <ArrowUpRightIcon size={15} />
+                  </span>
+                </div>
+              </FwReveal>
+            );
+          })
+        ).slice(0, 5)}
 
         <FwReveal className="col-span-1 sm:col-span-2 lg:col-span-2">
           <Link

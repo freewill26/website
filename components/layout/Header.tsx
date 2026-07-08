@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS, ROUTES } from "@/lib/navigation";
@@ -19,13 +19,47 @@ const DESKTOP_NAV = NAV_ITEMS.filter((item) => item.label !== "Catalogues");
 export default function Header() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+
+          if (currentScrollY > lastScrollY.current + 10) {
+            // Scrolling down
+            setIsVisible(false);
+          } else if (currentScrollY < lastScrollY.current - 10) {
+            // Scrolling up
+            setIsVisible(true);
+          }
+
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (href: string) =>
     href !== "#" && (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-[200]">
+      <div
+        className="fixed inset-x-0 top-0 z-[200] transition-transform duration-300 ease-out"
+        style={{
+          transform: isVisible ? "translateY(0)" : "translateY(-100%)",
+        }}
+      >
         <MarqueeRibbon />
 
         <header className="flex items-center justify-between gap-4 border-b border-brand-accent/15 bg-ink/[0.88] px-[6vw] py-4 backdrop-blur-md">

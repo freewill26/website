@@ -17,26 +17,27 @@ export interface GalleryItem {
   /** Video runtime label, e.g. "1:24". */
   duration?: string;
   videoSrc?: string;
+  image?: string;
 }
 
 const VIDEO = "/assets/lulu.mp4";
 
 export const GALLERY_ITEMS: GalleryItem[] = [
-  { id: 1, category: "Multi-Sport Facilities", type: "image", title: "Shiv Chhatrapati Complex", location: "Balewadi, Pune", height: 340 },
-  { id: 2, category: "Basketball Courts", type: "video", title: "Maple Pro Install", location: "Bengaluru, Karnataka", height: 420, duration: "1:24", videoSrc: VIDEO },
-  { id: 3, category: "Synthetic Tracks", type: "image", title: "8-Lane Athletics Track", location: "Guwahati, Assam", height: 300 },
-  { id: 4, category: "Acrylic Courts", type: "image", title: "Acrylic Hard Court", location: "Chennai, Tamil Nadu", height: 380 },
-  { id: 5, category: "Tennis Courts", type: "image", title: "Centre Court Resurface", location: "New Delhi", height: 300 },
-  { id: 6, category: "Indoor Sports Flooring", type: "video", title: "Taraflex Roll-Out", location: "Mumbai, Maharashtra", height: 360, duration: "0:48", videoSrc: VIDEO },
-  { id: 7, category: "Pickleball Courts", type: "image", title: "Cushioned Pickleball", location: "Hyderabad, Telangana", height: 430 },
-  { id: 8, category: "Basketball Courts", type: "image", title: "FIBA Show Court", location: "Pune, Maharashtra", height: 320 },
-  { id: 9, category: "Multi-Sport Facilities", type: "image", title: "Indoor Arena Fit-Out", location: "Kochi, Kerala", height: 300 },
-  { id: 10, category: "Acrylic Courts", type: "video", title: "PU Court Line Marking", location: "Ahmedabad, Gujarat", height: 380, duration: "1:02", videoSrc: VIDEO },
-  { id: 11, category: "Tennis Courts", type: "image", title: "Clay-Look Acrylic", location: "Jaipur, Rajasthan", height: 340 },
-  { id: 12, category: "Synthetic Tracks", type: "image", title: "Warm-Up Track", location: "Bhubaneswar, Odisha", height: 300 },
-  { id: 13, category: "Indoor Sports Flooring", type: "image", title: "Badminton Wood-Look", location: "Lucknow, UP", height: 410 },
-  { id: 14, category: "Pickleball Courts", type: "image", title: "Rooftop Pickleball", location: "Gurugram, Haryana", height: 320 },
-  { id: 15, category: "Multi-Sport Facilities", type: "image", title: "University Sports Hub", location: "Manipal, Karnataka", height: 360 },
+  { id: 1, category: "Multi-Sport Facilities", type: "image", title: "Shiv Chhatrapati Complex", location: "Balewadi, Pune", height: 340, image: "/assets/home-about-arena.png" },
+  { id: 2, category: "Basketball Courts", type: "video", title: "Maple Pro Install", location: "Bengaluru, Karnataka", height: 420, duration: "1:24", videoSrc: VIDEO, image: "/assets/product-maple.png" },
+  { id: 3, category: "Synthetic Tracks", type: "image", title: "8-Lane Athletics Track", location: "Guwahati, Assam", height: 300, image: "/assets/product-track.png" },
+  { id: 4, category: "Acrylic Courts", type: "image", title: "Acrylic Hard Court", location: "Chennai, Tamil Nadu", height: 380, image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&w=1200&q=80" },
+  { id: 5, category: "Tennis Courts", type: "image", title: "Centre Court Resurface", location: "New Delhi", height: 300, image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80" },
+  { id: 6, category: "Indoor Sports Flooring", type: "video", title: "Taraflex Roll-Out", location: "Mumbai, Maharashtra", height: 360, duration: "0:48", videoSrc: VIDEO, image: "/assets/product-taraflex.png" },
+  { id: 7, category: "Pickleball Courts", type: "image", title: "Cushioned Pickleball", location: "Hyderabad, Telangana", height: 430, image: "/assets/product-pickleball.png" },
+  { id: 8, category: "Basketball Courts", type: "image", title: "FIBA Show Court", location: "Pune, Maharashtra", height: 320, image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80" },
+  { id: 9, category: "Multi-Sport Facilities", type: "image", title: "Indoor Arena Fit-Out", location: "Kochi, Kerala", height: 300, image: "/assets/product-seating.png" },
+  { id: 10, category: "Acrylic Courts", type: "video", title: "PU Court Line Marking", location: "Ahmedabad, Gujarat", height: 380, duration: "1:02", videoSrc: VIDEO, image: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&w=1200&q=80" },
+  { id: 11, category: "Tennis Courts", type: "image", title: "Clay-Look Acrylic", location: "Jaipur, Rajasthan", height: 340, image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1200&q=80" },
+  { id: 12, category: "Synthetic Tracks", type: "image", title: "Warm-Up Track", location: "Bhubaneswar, Odisha", height: 300, image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80" },
+  { id: 13, category: "Indoor Sports Flooring", type: "image", title: "Badminton Wood-Look", location: "Lucknow, UP", height: 410, image: "/assets/milestone-1992-taraflex.png" },
+  { id: 14, category: "Pickleball Courts", type: "image", title: "Rooftop Pickleball", location: "Gurugram, Haryana", height: 320, image: "/assets/product-pickleball.png" },
+  { id: 15, category: "Multi-Sport Facilities", type: "image", title: "University Sports Hub", location: "Manipal, Karnataka", height: 360, image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80" },
 ];
 
 /** Filter order shown in the chip bar ("All" first). */

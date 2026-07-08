@@ -1,8 +1,16 @@
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 
+import type { ProductFamily } from "@/lib/productFamily";
+
 /** "In play" — a pair of editorial image grids with a live video tile. */
-export default function ProductInPlay() {
+export default function ProductInPlay({ family }: { family?: ProductFamily }) {
+  const matchImg = family?.inPlayMatchImage || "/assets/milestone-1992-taraflex.png";
+  const detailImg = family?.inPlayDetailImage || "/assets/home-about-install.png";
+  const heroImg = family?.heroImage || "/assets/product-seating.png";
+  const aboutImg = family?.aboutImage || "/assets/product-seating.png";
+
   return (
     <section
       id="fw-inplay"
@@ -21,12 +29,13 @@ export default function ProductInPlay() {
             className="m-0 font-display uppercase leading-none text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,76px)" }}
           >
-            On the court.
+            {family?.nameLead ? `In the arena.` : `On the court.`}
           </h2>
         </div>
         <p className="m-0 max-w-[380px] text-[15px] leading-[1.8] text-[#181A20]/60">
-          Taraflex installed and in play across India — every frame surfaced and
-          handed over by Freewill.
+          {family?.nameLead
+            ? `${family.nameLead} installed and in play across India — every frame engineered and handed over by Freewill.`
+            : `Taraflex installed and in play across India — every frame surfaced and handed over by Freewill.`}
         </p>
       </FwReveal>
 
@@ -52,8 +61,24 @@ export default function ProductInPlay() {
             LIVE
           </span>
         </div>
-        <ImageSlot label="Match" className="overflow-hidden rounded-[14px]" />
-        <ImageSlot label="Detail" className="overflow-hidden rounded-[14px]" />
+        <div className="relative overflow-hidden rounded-[14px]">
+          <Image
+            src={matchImg}
+            alt="Match"
+            fill
+            sizes="50vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="relative overflow-hidden rounded-[14px]">
+          <Image
+            src={detailImg}
+            alt="Detail"
+            fill
+            sizes="50vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
       </div>
 
       {/* Grid 2: wide image + three images */}
@@ -61,10 +86,42 @@ export default function ProductInPlay() {
         className="grid grid-cols-3 gap-4"
         style={{ gridAutoRows: "clamp(190px,23vw,320px)" }}
       >
-        <ImageSlot label="Wide arena" className="col-span-3 overflow-hidden rounded-[14px]" />
-        <ImageSlot label="Court" className="overflow-hidden rounded-[14px]" />
-        <ImageSlot label="Crowd" className="overflow-hidden rounded-[14px]" />
-        <ImageSlot label="Install" className="overflow-hidden rounded-[14px]" />
+        <div className="relative col-span-3 overflow-hidden rounded-[14px]">
+          <Image
+            src={heroImg}
+            alt="Wide arena"
+            fill
+            sizes="100vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="relative overflow-hidden rounded-[14px]">
+          <Image
+            src={aboutImg}
+            alt="Seating detail"
+            fill
+            sizes="33vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="relative overflow-hidden rounded-[14px]">
+          <Image
+            src={matchImg}
+            alt="Stadium seating"
+            fill
+            sizes="33vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
+        <div className="relative overflow-hidden rounded-[14px]">
+          <Image
+            src={detailImg}
+            alt="Bleachers"
+            fill
+            sizes="33vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+          />
+        </div>
       </div>
     </section>
   );

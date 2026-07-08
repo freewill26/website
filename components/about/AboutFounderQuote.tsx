@@ -23,9 +23,9 @@ export default function AboutFounderQuote() {
           lines={[
             "In 1990 we saw a gap — the",
             "world's best surfaces existed",
-            <>
+            <span>
               everywhere <span style={{ color: "#5FD0E0" }}>but India.</span>
-            </>,
+            </span>,
             "We set out to change that.",
           ]}
         />

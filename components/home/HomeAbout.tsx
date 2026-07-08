@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
-import ImageSlot from "@/components/site/ImageSlot";
 
 /** "About Freewill" split: copy on the left, layered photo collage on the right. */
 export default function HomeAbout() {
@@ -43,20 +43,31 @@ export default function HomeAbout() {
         </FwReveal>
 
         <FwReveal className="relative min-h-[440px] lg:min-h-[560px]">
-          <ImageSlot
-            label="Flagship arena"
-            className="absolute right-0 top-0 h-[88%] w-[78%]"
-            shape="rounded"
-          />
-          <ImageSlot
-            label="Install detail"
-            className="absolute bottom-0 left-0 h-[42%] w-[42%]"
-            shape="rounded"
+          <div className="absolute right-0 top-0 h-[88%] w-[78%] overflow-hidden rounded-[6px]">
+            <Image
+              src="/assets/home-about-arena.png"
+              alt="Flagship arena"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div
+            className="absolute bottom-0 left-0 h-[42%] w-[42%] overflow-hidden rounded-[6px]"
             style={{
               boxShadow: "0 32px 64px rgba(24,26,32,0.22)",
               outline: "10px solid #FFFFFF",
             }}
-          />
+          >
+            <Image
+              src="/assets/home-about-install.png"
+              alt="Install detail"
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover"
+            />
+          </div>
           <div
             className="absolute left-[8%] top-[4%] max-w-[240px] rounded-md bg-brand px-6 py-5 text-white"
             style={{ boxShadow: "0 24px 48px rgba(0,104,127,0.30)" }}

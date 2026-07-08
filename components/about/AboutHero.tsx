@@ -49,7 +49,6 @@ export default function AboutHero() {
           lines={[
             "Welcome to",
             <span
-              key="freewill"
               className="fw-anim-shimmer inline-block bg-clip-text text-transparent"
               style={{
                 background:

@@ -36,7 +36,7 @@ export async function generateMetadata({
   if (!product) return { title: "Product not found · Freewill" };
 
   return {
-    title: `Taraflex® ${product.name} (${product.code}) · Freewill`,
+    title: `${product.name} (${product.code}) · Freewill`,
     description: product.tagline,
   };
 }

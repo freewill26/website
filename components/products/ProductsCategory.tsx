@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/components/ui/icons";
 import ImageSlot from "@/components/site/ImageSlot";
@@ -104,7 +105,17 @@ export default function ProductsCategory({ category }: { category: ProductCatego
                   </div>
                 </>
               ) : (
-                <ImageSlot label={c.ph} className="absolute inset-0 h-full w-full" />
+                c.image ? (
+                  <Image
+                    src={c.image}
+                    alt={c.title}
+                    fill
+                    sizes="(max-width: 768px) 80vw, 400px"
+                    className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <ImageSlot label={c.ph} className="absolute inset-0 h-full w-full" />
+                )
               )}
               <span className="absolute right-3 top-3 rounded-full bg-brand px-[13px] py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">
                 {c.tag}

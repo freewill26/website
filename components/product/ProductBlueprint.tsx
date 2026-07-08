@@ -68,48 +68,80 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
             <MaskedHeading
               className="m-0 max-w-[11ch] font-display uppercase leading-[0.9] text-[#EAF8FB]"
               style={{ fontSize: "clamp(46px,8vw,150px)" }}
-              lines={["Built to", <span key="spec" style={{ color: "#5FD0E0" }}>spec.</span>]}
+              lines={["Built to", <span style={{ color: "#5FD0E0" }}>spec.</span>]}
             />
           </div>
 
-          {/* Centred court schematic */}
+          {/* Centred schematic */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-[6vw]">
-            <svg
-              ref={svgRef}
-              viewBox="0 0 600 340"
-              className="h-auto w-[min(820px,86vw)] overflow-visible"
-            >
-              <g fill="none" stroke="#5FD0E0" strokeWidth="1.4" vectorEffect="non-scaling-stroke">
-                <rect pathLength={1} x="60" y="40" width="480" height="260" style={drawStyle(0)} />
-                <rect pathLength={1} x="76" y="56" width="448" height="228" strokeWidth="0.8" opacity="0.6" style={drawStyle(1)} />
-                <line pathLength={1} x1="300" y1="40" x2="300" y2="300" style={drawStyle(2)} />
-                <circle pathLength={1} cx="300" cy="170" r="46" style={drawStyle(3)} />
-                <circle cx="300" cy="170" r="3" fill="#5FD0E0" stroke="none" />
-                <path pathLength={1} d="M60 110 H150 V230 H60" style={drawStyle(4)} />
-                <path pathLength={1} d="M540 110 H450 V230 H540" style={drawStyle(5)} />
-              </g>
-              <g stroke="#9FE4EF" strokeWidth="0.8" fill="none" opacity="0.85" vectorEffect="non-scaling-stroke">
-                <line pathLength={1} x1="60" y1="20" x2="540" y2="20" style={drawStyle(2)} />
-                <line x1="60" y1="14" x2="60" y2="26" />
-                <line x1="540" y1="14" x2="540" y2="26" />
-                <line pathLength={1} x1="30" y1="40" x2="30" y2="300" style={drawStyle(3)} />
-                <line x1="24" y1="40" x2="36" y2="40" />
-                <line x1="24" y1="300" x2="36" y2="300" />
-              </g>
-              <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="0.04em">
-                <text x="300" y="14" textAnchor="middle">18.00 m</text>
-                <text x="18" y="175" textAnchor="middle" transform="rotate(-90 18 175)">9.00 m</text>
-                <text x="300" y="326" textAnchor="middle" opacity="0.7">
-                  POINT-ELASTIC · THICKNESS 9.0 mm · SHOCK ABSORPTION ≥ 53%
-                </text>
-              </g>
-              <g stroke="#5FD0E0" strokeWidth="1" opacity="0.55">
-                <path d="M40 40 h-14 M40 40 v-14" />
-                <path d="M560 40 h14 M560 40 v-14" />
-                <path d="M40 300 h-14 M40 300 v14" />
-                <path d="M560 300 h14 M560 300 v14" />
-              </g>
-            </svg>
+            {family.slug.includes("seating") || family.slug.includes("bleacher") || family.nameLead.toLowerCase().includes("seating") ? (
+              <svg
+                ref={svgRef}
+                viewBox="0 0 600 340"
+                className="h-auto w-[min(820px,86vw)] overflow-visible"
+              >
+                <g fill="none" stroke="#5FD0E0" strokeWidth="1.4" vectorEffect="non-scaling-stroke">
+                  <path pathLength={1} d="M80 280 H520 V260 H450 V210 H380 V160 H310 V110 H240 V60 H80 Z" style={drawStyle(0)} />
+                  <path pathLength={1} d="M450 260 H520 M380 210 H450 M310 160 H380 M240 110 H310 M170 60 H240" style={drawStyle(1)} />
+                  <path pathLength={1} d="M465 242 h30 v-12 h-30 z M395 192 h30 v-12 h-30 z M325 142 h30 v-12 h-30 z M255 92 h30 v-12 h-30 z" style={drawStyle(2)} />
+                  <line pathLength={1} x1="240" y1="280" x2="240" y2="110" style={drawStyle(3)} />
+                  <line pathLength={1} x1="310" y1="280" x2="310" y2="160" style={drawStyle(4)} />
+                  <line pathLength={1} x1="380" y1="280" x2="380" y2="210" style={drawStyle(5)} />
+                </g>
+                <g stroke="#9FE4EF" strokeWidth="0.8" fill="none" opacity="0.85" vectorEffect="non-scaling-stroke">
+                  <line pathLength={1} x1="80" y1="300" x2="520" y2="300" style={drawStyle(2)} />
+                  <line x1="80" y1="294" x2="80" y2="306" />
+                  <line x1="520" y1="294" x2="520" y2="306" />
+                  <line pathLength={1} x1="540" y1="60" x2="540" y2="280" style={drawStyle(3)} />
+                  <line x1="534" y1="60" x2="546" y2="60" />
+                  <line x1="534" y1="280" x2="546" y2="280" />
+                </g>
+                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="0.04em">
+                  <text x="300" y="318" textAnchor="middle">BLEACHER TREAD DEPTH: 850 mm · TOTAL SPAN: 12.5 m</text>
+                  <text x="555" y="175" textAnchor="middle" transform="rotate(-90 555 175)">GRANDSTAND HEIGHT: 3.80 m</text>
+                  <text x="300" y="38" textAnchor="middle" opacity="0.8">
+                    FOLDABLE BLEACHER SCHEMATIC · EN 13200 STRUCTURAL CERTIFIED
+                  </text>
+                </g>
+              </svg>
+            ) : (
+              <svg
+                ref={svgRef}
+                viewBox="0 0 600 340"
+                className="h-auto w-[min(820px,86vw)] overflow-visible"
+              >
+                <g fill="none" stroke="#5FD0E0" strokeWidth="1.4" vectorEffect="non-scaling-stroke">
+                  <rect pathLength={1} x="60" y="40" width="480" height="260" style={drawStyle(0)} />
+                  <rect pathLength={1} x="76" y="56" width="448" height="228" strokeWidth="0.8" opacity="0.6" style={drawStyle(1)} />
+                  <line pathLength={1} x1="300" y1="40" x2="300" y2="300" style={drawStyle(2)} />
+                  <circle pathLength={1} cx="300" cy="170" r="46" style={drawStyle(3)} />
+                  <circle cx="300" cy="170" r="3" fill="#5FD0E0" stroke="none" />
+                  <path pathLength={1} d="M60 110 H150 V230 H60" style={drawStyle(4)} />
+                  <path pathLength={1} d="M540 110 H450 V230 H540" style={drawStyle(5)} />
+                </g>
+                <g stroke="#9FE4EF" strokeWidth="0.8" fill="none" opacity="0.85" vectorEffect="non-scaling-stroke">
+                  <line pathLength={1} x1="60" y1="20" x2="540" y2="20" style={drawStyle(2)} />
+                  <line x1="60" y1="14" x2="60" y2="26" />
+                  <line x1="540" y1="14" x2="540" y2="26" />
+                  <line pathLength={1} x1="30" y1="40" x2="30" y2="300" style={drawStyle(3)} />
+                  <line x1="24" y1="40" x2="36" y2="40" />
+                  <line x1="24" y1="300" x2="36" y2="300" />
+                </g>
+                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="0.04em">
+                  <text x="300" y="14" textAnchor="middle">18.00 m</text>
+                  <text x="18" y="175" textAnchor="middle" transform="rotate(-90 18 175)">9.00 m</text>
+                  <text x="300" y="326" textAnchor="middle" opacity="0.7">
+                    POINT-ELASTIC · THICKNESS 9.0 mm · SHOCK ABSORPTION ≥ 53%
+                  </text>
+                </g>
+                <g stroke="#5FD0E0" strokeWidth="1" opacity="0.55">
+                  <path d="M40 40 h-14 M40 40 v-14" />
+                  <path d="M560 40 h14 M560 40 v-14" />
+                  <path d="M40 300 h-14 M40 300 v14" />
+                  <path d="M560 300 h14 M560 300 v14" />
+                </g>
+              </svg>
+            )}
           </div>
 
           {/* Caption + stats */}

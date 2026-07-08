@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
-import ImageSlot from "@/components/site/ImageSlot";
 
 /** Products index hero — dark arena backdrop with the page headline + CTAs. */
 export default function ProductsHero() {
@@ -10,7 +10,14 @@ export default function ProductsHero() {
       className="relative h-[92vh] min-h-[600px] overflow-hidden"
       style={{ background: "#0F1428", scrollMarginTop: "104px" }}
     >
-      <ImageSlot tone="light" label="Hero arena" className="absolute inset-0 h-full w-full" />
+      <Image
+        src="/assets/splash-stadium.jpg"
+        alt="Hero arena"
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 object-cover object-center opacity-40"
+      />
       <div
         className="absolute inset-0"
         style={{

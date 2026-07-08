@@ -1,0 +1,323 @@
+[
+  {
+    "id": "01",
+    "title": "Flooring Systems",
+    "categories": [
+      {
+        "name": "Vinyl Sports Flooring",
+        "kicker": "TARAFLEX®",
+        "title": "Sports Flooring",
+        "description": "Olympic vinyl indoor surfaces",
+        "categoryDescription": "Competition-grade vinyl surfaces engineered for professional sports",
+        "items": [
+          { "name": "Taraflex Sports M Evolution", "spec": "High-Performance Vinyl Flooring" },
+          { "name": "Taraflex Sports M Comfort", "spec": "Comfort-Grade Vinyl Flooring" },
+          { "name": "Taraflex Sports M Performance", "spec": "Competition-Grade Vinyl Flooring" },
+          { "name": "Taraflex Badminton", "spec": "Badminton-Specific Vinyl Flooring" },
+          { "name": "Taraflex Bateco", "spec": "Multi-Sport Vinyl Flooring" }
+        ]
+      },
+      {
+        "name": "Maple Wood Sports Flooring",
+        "kicker": "HARDWOOD",
+        "title": "Maple Courts",
+        "description": "Floating timber systems",
+        "categoryDescription": "Floating hardwood systems with shock absorption for elite performance",
+        "items": [
+          { "name": "Junckers UNOBAT 50", "spec": "Sports Flooring" },
+          { "name": "Junckers UNOBAT 45", "spec": "Sports Flooring" },
+          { "name": "Junckers UNOBAT 62+", "spec": "Sports Flooring" },
+          { "name": "Connor Alliance", "spec": "Hardwood Sports Flooring" },
+          { "name": "Connor NeoShok", "spec": "Shock-Absorbing Sports Flooring" },
+          { "name": "CONNOR Rezill Sleepers", "spec": "Sleeper System Flooring" },
+          { "name": "Duracushion II", "spec": "Cushioned Hardwood Flooring" }
+        ]
+      },
+      {
+        "name": "Combi Floor",
+        "kicker": "MULTI-SPORT",
+        "title": "Combination Flooring",
+        "description": "Multi-discipline surfaces",
+        "categoryDescription": "Versatile surfaces supporting multiple sports in one venue",
+        "items": [
+          { "name": "Multi-Sport Combination Flooring", "spec": "Multi-Sport Combination Flooring" }
+        ]
+      },
+      {
+        "name": "Children's Safety Flooring",
+        "kicker": "SAFETY",
+        "title": "Safety Flooring",
+        "description": "Impact-absorbing surfaces",
+        "categoryDescription": "Protective surfaces designed for child safety and impact protection",
+        "items": [
+          { "name": "Impact-Absorbing Safety Flooring", "spec": "Impact-Absorbing Safety Flooring" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "02",
+    "title": "Seating & Stadium",
+    "categories": [
+      {
+        "name": "Seating System",
+        "kicker": "SEATING",
+        "title": "Stadium Seating",
+        "description": "Tip-up & telescopic systems",
+        "categoryDescription": "Modular seating solutions from fixed stands to retractable systems",
+        "items": [
+          { "name": "Fixed Seating System", "spec": "Permanent Fixed Seating" },
+          { "name": "Foldable Bleacher", "spec": "Foldable Stepped Seating" },
+          { "name": "Demountable Grand Stand Seating", "spec": "Temporary Grand Stand" },
+          { "name": "Tip Up Seating System", "spec": "Tip-Up Chair Seating" },
+          { "name": "Telescopic Seating System", "spec": "Retractable Telescopic Seating" },
+          { "name": "Dugout", "spec": "Player Dugout Bench Seating" },
+          { "name": "Aluminium Bleachers", "spec": "Aluminium Step Bleacher Seating" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "03",
+    "title": "Gymnastics & Equipment",
+    "categories": [
+      {
+        "name": "Gymnastic Equipments",
+        "kicker": "FIG-APPROVED",
+        "title": "Gymnastics Equipment",
+        "description": "Competition apparatus",
+        "categoryDescription": "FIG-certified apparatus for artistic, rhythmic and trampoline gymnastics",
+        "items": [
+          { "name": "Parallel Bars Melbourne", "spec": "1403110" },
+          { "name": "Uneven Bars Bern", "spec": "1383200" },
+          { "name": "Tumbling Track Spiethway III", "spec": "1790210" },
+          { "name": "High Bar Stuttgart", "spec": "1384214" },
+          { "name": "Balance Beam Soft Touch", "spec": "1414210" },
+          { "name": "Pommel Horse", "spec": "1406104" },
+          { "name": "Still Ring Frame Berlin", "spec": "1384034" },
+          { "name": "Vaulting Table", "spec": "1407210" },
+          { "name": "Springboard Moscow 8 Hard Version", "spec": "1411714" },
+          { "name": "Springboard Moscow 5 Soft Version", "spec": "1411704" },
+          { "name": "Elastic Swing Floor", "spec": "1790752" },
+          { "name": "Competition Trampoline Ultimate 4x4", "spec": "1495023" },
+          { "name": "Mini-Horizontal Bar", "spec": "1403424" },
+          { "name": "Mini-Parallel Bar", "spec": "1403434" },
+          { "name": "Mini-Still Ring Frame", "spec": "1403444" },
+          { "name": "Mini-Uneven Bar", "spec": "1403454" },
+          { "name": "4-Station Frame", "spec": "1403458" },
+          { "name": "Double Rebounder", "spec": "1403414" },
+          { "name": "Mat Gym and Fun", "spec": "1403464" }
+        ]
+      },
+      {
+        "name": "Physical Education Equipment",
+        "kicker": "PE",
+        "title": "PE Equipment",
+        "description": "Physical education apparatus",
+        "categoryDescription": "Educational and training equipment for school and institutional use",
+        "items": [
+          { "name": "Mat-Box", "spec": "1555915" },
+          { "name": "Multibox", "spec": "Multi-Activity PE Box" },
+          { "name": "Climbing Island", "spec": "1555534" },
+          { "name": "Jumper", "spec": "1408254" },
+          { "name": "COMBIFRAME 4-IN-1", "spec": "1409294" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "04",
+    "title": "Sports Equipment",
+    "categories": [
+      {
+        "name": "Sports Equipment",
+        "kicker": "INDOOR",
+        "title": "Court Equipment",
+        "description": "Hoops, nets & posts",
+        "categoryDescription": "Standard equipment for indoor and outdoor ball sports",
+        "items": [
+          { "name": "Badminton", "spec": "Posts / Nets / Shuttles" },
+          { "name": "Basketball", "spec": "Posts / Backboards / Rings" },
+          { "name": "Portable Basketball Backstops", "spec": "Portable Wheeled Backstop" },
+          { "name": "Volleyball", "spec": "Posts / Nets / Antennas" },
+          { "name": "Tennis", "spec": "Posts / Nets / Court Accessories" },
+          { "name": "Hockey", "spec": "Goals / Boards / Accessories" },
+          { "name": "Handball", "spec": "Goals / Nets / Accessories" },
+          { "name": "Aluminium Futsal Goal Posts", "spec": "Aluminium Futsal Goals" },
+          { "name": "Aluminium Football Goal Post", "spec": "Aluminium Football Goals" }
+        ]
+      },
+      {
+        "name": "Fixed Indoor Ceiling Suspended Basketball Post",
+        "kicker": "BASKETBALL",
+        "title": "Basketball Posts",
+        "description": "Fixed ceiling-mounted systems",
+        "categoryDescription": "Permanently installed ceiling-mounted basketball systems",
+        "items": [
+          { "name": "Ceiling-Mounted Fixed Post", "spec": "Ceiling-Mounted Fixed Post" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "05",
+    "title": "Specialized Surfaces",
+    "categories": [
+      {
+        "name": "Cricket Surface",
+        "kicker": "CRICKET",
+        "title": "Cricket Surfaces",
+        "description": "Professional pitch systems",
+        "categoryDescription": "Cricket-specific pitches from junior practice to international standards",
+        "items": [
+          { "name": "Practice Play Junior", "spec": "Junior Practice Pitch" },
+          { "name": "Tournament 10", "spec": "Club / Tournament Level Pitch" },
+          { "name": "Match Play I", "spec": "Professional Match Pitch" }
+        ]
+      },
+      {
+        "name": "Climbing Walls",
+        "kicker": "VERTICAL",
+        "title": "Climbing Walls",
+        "description": "IFSC-spec structures",
+        "categoryDescription": "Competition and recreational climbing structures with digital options",
+        "items": [
+          { "name": "MozaiK wood", "spec": "Wooden Panel Climbing Wall" },
+          { "name": "Augmented Climbing Wall", "spec": "Interactive Digital Climbing Wall" },
+          { "name": "Clip n Climb", "spec": "Recreational Climbing Attraction" },
+          { "name": "IFSC Speed Walls", "spec": "Competition Speed Climbing Wall" }
+        ]
+      },
+      {
+        "name": "Outdoor Sports Flooring",
+        "kicker": "MODULAR",
+        "title": "Court Tiles",
+        "description": "Outdoor sport-court systems",
+        "categoryDescription": "Modular outdoor court systems for multiple sports",
+        "items": [
+          { "name": "Sport Court PowerGame", "spec": "Modular Outdoor Sports Surface" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "06",
+    "title": "Sports Surfaces & Courts",
+    "categories": [
+      {
+        "name": "Mats",
+        "kicker": "MATS",
+        "title": "Sports Mats",
+        "description": "Wrestling, martial arts & training",
+        "categoryDescription": "Specialized mats for combat sports, training, and multipurpose use",
+        "items": [
+          { "name": "Wrestling Mat", "spec": "Competition / Training Wrestling Mat" },
+          { "name": "Taekwando / Kabaddi / Kho-Kho Mat", "spec": "Multi-Sport Martial Arts Mat" },
+          { "name": "Flexi Roll Multi-Purpose mat", "spec": "Portable Roll-Out Mat" }
+        ]
+      },
+      {
+        "name": "Squash Court",
+        "kicker": "SQUASH",
+        "title": "Squash Courts",
+        "description": "Full system walls",
+        "categoryDescription": "Complete squash court wall systems with professional specifications",
+        "items": [
+          { "name": "COURTWALL 4.0", "spec": "Full System walls" }
+        ]
+      },
+      {
+        "name": "Modular Pumptrack",
+        "kicker": "PUMPTRACK",
+        "title": "Modular Pumptrack",
+        "description": "Outdoor modular riding track",
+        "categoryDescription": "Bike and scooter pump tracks with modular construction",
+        "items": [
+          { "name": "Modular Pumptrack", "spec": "Outdoor Modular Riding Track" }
+        ]
+      },
+      {
+        "name": "Multi Utility Games Arena",
+        "kicker": "MUGA",
+        "title": "Multi-Sport Arena",
+        "description": "Outdoor multi-purpose courts",
+        "categoryDescription": "Outdoor arenas supporting multiple sports in one facility",
+        "items": [
+          { "name": "MUGA 6030", "spec": "Multi-Sport Outdoor Court" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "07",
+    "title": "Facilities & Systems",
+    "categories": [
+      {
+        "name": "Score Boards",
+        "kicker": "BODET",
+        "title": "Scoreboards & Timing",
+        "description": "Display & timing systems",
+        "categoryDescription": "Professional scoring and timing displays for indoor and outdoor venues",
+        "items": [
+          { "name": "Indoor Scoreboards", "spec": "Standard" },
+          { "name": "Indoor Scoreboards", "spec": "with LED Screen" },
+          { "name": "Outdoor Scoreboards", "spec": "Standard" },
+          { "name": "Outdoor Scoreboards", "spec": "with LED Screen" },
+          { "name": "Scorepad", "spec": "Portable Digital Scorepad" }
+        ]
+      },
+      {
+        "name": "Audio System",
+        "kicker": "SOUND",
+        "title": "Audio Systems",
+        "description": "PA & sound solutions",
+        "categoryDescription": "Public address and sound reinforcement systems for venues",
+        "items": [
+          { "name": "Public Address & Sound System", "spec": "Public Address & Sound System" }
+        ]
+      },
+      {
+        "name": "Divider Curtain",
+        "kicker": "DIVIDER",
+        "title": "Divider Curtains",
+        "description": "Space partitioning systems",
+        "categoryDescription": "Motorised and manual divider curtains for flexible space management",
+        "items": [
+          { "name": "Roll Up Curtain", "spec": "Motorised Roll-Up Divider" },
+          { "name": "Walk Draw Curtain", "spec": "Manual Draw Divider" }
+        ]
+      },
+      {
+        "name": "Sports Field Fence System",
+        "kicker": "FENCE",
+        "title": "Sports Fencing",
+        "description": "Field perimeter systems",
+        "categoryDescription": "Perimeter fencing with optional LED lighting for field safety",
+        "items": [
+          { "name": "Fencing", "spec": "with LED light" },
+          { "name": "Fencing", "spec": "without lights" }
+        ]
+      },
+      {
+        "name": "Storage Trolley",
+        "kicker": "STORAGE",
+        "title": "Storage Trolleys",
+        "description": "Equipment transport & storage",
+        "categoryDescription": "Mobile storage and transport solutions for sports equipment",
+        "items": [
+          { "name": "Equipment Storage & Transport Trolley", "spec": "Equipment Storage & Transport Trolley" }
+        ]
+      },
+      {
+        "name": "Synchronised Clocks",
+        "kicker": "TIMING",
+        "title": "Synchronized Clocks",
+        "description": "Indoor & outdoor timing",
+        "categoryDescription": "Synchronized clock systems for multiple indoor and outdoor locations",
+        "items": [
+          { "name": "Indoor / Outdoor Synchronised Clock System", "spec": "Indoor / Outdoor Synchronised Clock System" }
+        ]
+      }
+    ]
+  }
+]

@@ -42,7 +42,7 @@ export default async function ProductFamilyPage({ params }: FamilyPageProps) {
         <ProductFamilyHero family={data} />
         <ProductFamilyAbout family={data} />
         <ProductBlueprint family={data} />
-        <ProductInPlay />
+        <ProductInPlay family={data} />
         <ProductFamilyContact />
       </main>
       <SiteFooter />

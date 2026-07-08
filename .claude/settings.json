@@ -21,7 +21,8 @@
       "Bash(ls -la ~/Downloads 2>/dev/null | grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)\" | tail -20; echo \"=== Desktop ===\"; ls -la ~/Desktop 2>/dev/null | grep -iE \"\\\\.\\(jpg|jpeg|png|webp\\)\" | tail -20; echo \"=== project ===\"; find /Users/apple/Desktop/pronttera/freewill-website -path '*/node_modules' -prune -o \\\\\\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \\\\\\) -print 2>/dev/null | grep -v node_modules)",
       "Read(//Users/apple/Downloads/**)",
       "Read(//Users/apple/Desktop/**)",
-      "Bash(sips -g pixelWidth -g pixelHeight piqsels.com-id-frgau.jpg piqsels.com-id-swvbl.jpg)"
+      "Bash(sips -g pixelWidth -g pixelHeight piqsels.com-id-frgau.jpg piqsels.com-id-swvbl.jpg)",
+      "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")"
     ],
     "additionalDirectories": [
       "/Users/apple/Desktop/pronttera/freewill-web/app/products/[code]"

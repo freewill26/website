@@ -21,7 +21,7 @@ export default function AboutAwards() {
           style={{ fontSize: "clamp(42px,5.5vw,88px)" }}
           lines={[
             "Trusted on the",
-            <span key="stages" style={{ color: "#5FD0E0" }}>
+            <span style={{ color: "#5FD0E0" }}>
               biggest stages.
             </span>,
           ]}

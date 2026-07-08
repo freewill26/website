@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import ImageSlot from "@/components/site/ImageSlot";
 import {
   GALLERY_ITEMS,
@@ -157,7 +158,17 @@ export default function GalleryClient() {
                 }}
               >
                 <div className="relative w-full overflow-hidden" style={{ height: g.height }}>
-                  <ImageSlot label={g.title} className="absolute inset-0 h-full w-full" />
+                  {g.image ? (
+                    <Image
+                      src={g.image}
+                      alt={g.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
+                    />
+                  ) : (
+                    <ImageSlot label={g.title} className="absolute inset-0 h-full w-full" />
+                  )}
                   <div
                     className="pointer-events-none absolute inset-0"
                     style={{
@@ -329,7 +340,17 @@ function Lightbox({
                 boxShadow: "0 40px 100px rgba(0,0,0,0.6)",
               }}
             >
-              <ImageSlot tone="light" label={item.title} className="absolute inset-0 h-full w-full" />
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  sizes="92vw"
+                  className="absolute inset-0 object-cover object-center"
+                />
+              ) : (
+                <ImageSlot tone="light" label={item.title} className="absolute inset-0 h-full w-full" />
+              )}
             </div>
           )}
         </div>

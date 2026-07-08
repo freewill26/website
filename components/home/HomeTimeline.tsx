@@ -92,7 +92,18 @@ export default function HomeTimeline() {
                 className="relative mr-7 h-[min(560px,58vh)] min-h-[400px] w-[min(620px,82vw)] flex-none overflow-hidden rounded-[14px]"
                 style={{ boxShadow: "0 32px 64px rgba(0,0,0,0.4)" }}
               >
-                <ImageSlot tone="light" label="Milestone" className="absolute inset-0 h-full w-full" />
+                {m.image ? (
+                  <Image
+                    src={m.image}
+                    alt={m.title}
+                    fill
+                    sizes="(max-width: 768px) 80vw, 600px"
+                    className="absolute inset-0 object-cover object-center"
+                    priority={i < 2}
+                  />
+                ) : (
+                  <ImageSlot tone="light" label="Milestone" className="absolute inset-0 h-full w-full" />
+                )}
                 <div
                   className="pointer-events-none absolute inset-0"
                   style={{
