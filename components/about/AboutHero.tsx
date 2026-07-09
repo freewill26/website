@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 
-/** About hero — gridded navy backdrop with a shimmering gradient wordmark. */
+/** About hero — stadium photo under navy gradients with a shimmering gradient wordmark. */
 export default function AboutHero() {
   return (
     <section
@@ -9,11 +9,17 @@ export default function AboutHero() {
       className="relative flex min-h-screen items-center overflow-hidden"
       style={{ background: "#0A0E1C" }}
     >
+      <img
+        src="/assets/splash-stadium.jpg"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 120% at 30% 40%, #14233d 0%, #0b1324 55%, #0A0E1C 100%)",
+            "radial-gradient(120% 120% at 30% 40%, rgba(20,35,61,0.55) 0%, rgba(11,19,36,0.72) 55%, rgba(10,14,28,0.88) 100%)",
         }}
       />
       <div

@@ -1,5 +1,6 @@
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
+import ParallaxMedia from "@/components/site/ParallaxMedia";
 import { LinkedInIcon, XTwitterIcon, FacebookIcon } from "@/components/ui/icons";
 import { FOUNDERS, EMPLOYEES } from "@/lib/aboutContent";
 
@@ -34,15 +35,17 @@ export default function AboutTeam() {
               }`}
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-ink-card lg:w-[38%]">
-                {f.image ? (
-                  <img
-                    src={f.image}
-                    alt={f.name}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                ) : (
-                  <ImageSlot label={f.name} className="absolute inset-0 h-full w-full" />
-                )}
+                <ParallaxMedia>
+                  {f.image ? (
+                    <img
+                      src={f.image}
+                      alt={f.name}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <ImageSlot label={f.name} className="absolute inset-0 h-full w-full" />
+                  )}
+                </ParallaxMedia>
               </div>
 
               <div className="flex flex-1 flex-col justify-center">
@@ -133,7 +136,9 @@ export default function AboutTeam() {
               style={{ boxShadow: "0 1px 10px rgba(24,26,32,0.07)" }}
             >
               <div className="relative aspect-square overflow-hidden" style={{ background: "#DCD3BE" }}>
-                <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image} />
+                <ParallaxMedia scale={1.18}>
+                  <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image} />
+                </ParallaxMedia>
               </div>
               <div className="px-[18px] pb-5 pt-4">
                 <div className="mb-[3px] font-display text-[17px] text-[#111820]">

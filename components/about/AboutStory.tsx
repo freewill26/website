@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
+import ParallaxMedia from "@/components/site/ParallaxMedia";
 
 interface AboutStoryProps {
   id: string;
@@ -38,12 +39,14 @@ export default function AboutStory({
       className="relative aspect-[4/5] w-full flex-none self-stretch overflow-hidden rounded-2xl md:w-[46%]"
       style={{ background: dark ? "#1B2238" : "#DCD3BE" }}
     >
-      <ImageSlot
-        tone={dark ? "light" : "dark"}
-        label={imageLabel}
-        className="absolute inset-0 h-full w-full"
-        src={imageSrc}
-      />
+      <ParallaxMedia>
+        <ImageSlot
+          tone={dark ? "light" : "dark"}
+          label={imageLabel}
+          className="absolute inset-0 h-full w-full"
+          src={imageSrc}
+        />
+      </ParallaxMedia>
     </div>
   );
 
@@ -80,8 +83,11 @@ export default function AboutStory({
       <FwReveal as="div">
         <Link
           href={ctaHref}
-          className="inline-flex items-center gap-2 pb-[3px] text-xs font-bold tracking-[0.12em] no-underline transition-colors"
-          style={{ color: accent, borderBottom: `1px solid ${accent}66` }}
+          className={`inline-block rounded-full px-8 py-[18px] text-[13px] font-bold tracking-[0.1em] no-underline transition-colors ${
+            dark
+              ? "bg-[#F6F4EC] text-[#111820] hover:bg-[#5FD0E0]"
+              : "bg-[#181A20] text-white hover:bg-brand"
+          }`}
         >
           {ctaLabel}
         </Link>
