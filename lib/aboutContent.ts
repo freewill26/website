@@ -62,25 +62,49 @@ export const AWARDS: Award[] = [
   { year: "—", title: "South Asian Games", org: "Sports Infrastructure" },
 ];
 
+export interface FounderSocial {
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
+}
+
 export interface Founder {
   name: string;
   role: string;
   bio: string;
+  image?: string;
+  social?: FounderSocial;
+  quote?: string;
 }
 
 export const FOUNDERS: Founder[] = [
-  { name: "Liyakat Shaikh", role: "Managing Director", bio: "A pioneer in Indian sports infrastructure, Liyakat has led Freewill's growth from a sports equipment supplier into India's most innovative sports infrastructure company over 35 years." },
-  { name: "Rajesh Kharabanda", role: "Chairman, Freewill Group", bio: "With decades of strategic leadership in sports and business, Rajesh provides the vision that has made Freewill a trusted name across every tier of Indian sport." },
+  {
+    name: "Rajesh Kharabanda",
+    role: "Chairman, Freewill Group",
+    bio: "With decades of strategic leadership in sports and business, Rajesh provides the vision that has made Freewill a trusted name across every tier of Indian sport.",
+    image: "/assets/team/rajesh-kharabanda.png",
+    social: { linkedin: "#", twitter: "#" },
+    quote: "Growth means nothing if it doesn't raise the standard for the athletes who play on what we build.",
+  },
+  {
+    name: "Liyakat Shaikh",
+    role: "Managing Director",
+    bio: "A pioneer in Indian sports infrastructure, Liyakat has led Freewill's growth from a sports equipment supplier into India's most innovative sports infrastructure company over 35 years.",
+    image: "/assets/team/liyakat-shaikh.png",
+    social: { linkedin: "#", twitter: "#" },
+    quote: "Every court we've built carries the same promise we started with in 1990 — bring the world's best to Indian sport.",
+  },
 ];
 
 export interface Employee {
   name: string;
   role: string;
+  image?: string;
 }
 
 export const EMPLOYEES: Employee[] = [
-  { name: "Sales Lead", role: "Business Development" },
-  { name: "Technical Head", role: "Installation & Quality" },
-  { name: "Design Lead", role: "Court & Venue Design" },
-  { name: "Project Manager", role: "Operations" },
+  { name: "Sales Lead", role: "Business Development", image: "/assets/team/sales-lead.png" },
+  { name: "Technical Head", role: "Installation & Quality", image: "/assets/team/technical-head.png" },
+  { name: "Design Lead", role: "Court & Venue Design", image: "/assets/team/design-lead.png" },
+  { name: "Project Manager", role: "Operations", image: "/assets/team/project-manager.png" },
 ];

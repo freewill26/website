@@ -1,0 +1,137 @@
+{
+  "global": {
+    "domain": "https://freewillsports.in",
+    "defaultDescription": "Taraflex® vinyl sports flooring — competition surfaces specified by FIBA, FIVB and BWF. The ground India plays on.",
+    "defaultOgImage": "/assets/og-default.jpg",
+    "defaultOgType": "website",
+    "twitterHandle": "@freewillsports",
+    "twitterCard": "summary_large_image",
+    "locale": "en_IN",
+    "robots": "index, follow",
+    "defaultKeywords": [
+      "sports infrastructure India",
+      "Freewill Sports",
+      "Taraflex flooring",
+      "sports flooring India",
+      "stadium seating",
+      "sports surfaces"
+    ]
+  },
+  "pages": [
+    {
+      "route": "/",
+      "siteName": "Freewill",
+      "titleTemplate": "%s · Freewill",
+      "title": "Freewill · Sports Infrastructure Since 1990",
+      "description": "Taraflex® vinyl sports flooring — competition surfaces specified by FIBA, FIVB and BWF. The ground India plays on.",
+      "ogImage": "/assets/og-home.jpg",
+      "ogType": "website",
+      "keywords": [
+        "sports infrastructure India",
+        "Freewill Sports",
+        "Taraflex flooring",
+        "vinyl sports flooring",
+        "stadium seating India",
+        "sports surfaces",
+        "FIBA approved flooring",
+        "FIVB flooring"
+      ]
+    },
+    {
+      "route": "/about",
+      "siteName": "Freewill",
+      "titleTemplate": "%s · Freewill",
+      "title": "About Freewill · Sports Infrastructure Since 1990",
+      "description": "The most innovative sports infrastructure company in India — building the ground a billion people play on since 1990.",
+      "ogImage": "/assets/og-about.jpg",
+      "ogType": "website",
+      "keywords": [
+        "about Freewill Sports",
+        "sports infrastructure company India",
+        "Freewill history",
+        "sports infrastructure since 1990",
+        "Pune sports company"
+      ]
+    },
+    {
+      "route": "/products",
+      "siteName": "Freewill Products",
+      "titleTemplate": "%s · Freewill Products",
+      "title": "Products & Systems · Freewill",
+      "description": "Everything the game is played on — Olympic vinyl, floating maple, all-weather turf, telescopic seating and competition equipment, indoor to outdoor.",
+      "ogImage": "/assets/og-products.jpg",
+      "ogType": "website",
+      "keywords": [
+        "sports products India",
+        "Taraflex vinyl flooring",
+        "maple sports flooring",
+        "telescopic seating",
+        "gymnastics equipment",
+        "artificial turf India",
+        "sports equipment supplier India"
+      ]
+    },
+    {
+      "route": "/news",
+      "siteName": "Freewill News",
+      "titleTemplate": "%s · Freewill News",
+      "title": "News & Updates · Freewill",
+      "description": "Projects, partnerships and milestones from Freewill — the team building India's sports infrastructure since 1990.",
+      "ogImage": "/assets/og-news.jpg",
+      "ogType": "website",
+      "keywords": [
+        "Freewill news",
+        "sports infrastructure news India",
+        "sports projects India",
+        "Freewill milestones"
+      ]
+    },
+    {
+      "route": "/blog",
+      "siteName": "Freewill Blog",
+      "titleTemplate": "%s · Freewill Blog",
+      "title": "Blog · Freewill",
+      "description": "Buyer's guides, maintenance know-how and design insight from 35 years of building India's sports infrastructure.",
+      "ogImage": "/assets/og-blog.jpg",
+      "ogType": "website",
+      "keywords": [
+        "sports flooring guide",
+        "indoor sports surface guide",
+        "how to choose sports surface",
+        "sports infrastructure blog",
+        "Taraflex maintenance"
+      ]
+    },
+    {
+      "route": "/contact",
+      "siteName": "Freewill",
+      "titleTemplate": "%s · Freewill",
+      "title": "Contact Freewill · Get a Quote",
+      "description": "Talk to India's leading sports infrastructure specialists. Get a quote, request a site visit or ask a technical question.",
+      "ogImage": "/assets/og-contact.jpg",
+      "ogType": "website",
+      "keywords": [
+        "contact Freewill Sports",
+        "sports flooring quote India",
+        "get sports surface quote",
+        "sports infrastructure inquiry"
+      ]
+    },
+    {
+      "route": "/gallery",
+      "siteName": "Freewill",
+      "titleTemplate": "%s · Freewill",
+      "title": "Gallery · Freewill Projects",
+      "description": "A visual record of courts, arenas and facilities built by Freewill across India.",
+      "ogImage": "/assets/og-gallery.jpg",
+      "ogType": "website",
+      "keywords": [
+        "Freewill projects gallery",
+        "sports courts India",
+        "sports arena India",
+        "indoor court gallery",
+        "sports infrastructure gallery"
+      ]
+    }
+  ]
+}

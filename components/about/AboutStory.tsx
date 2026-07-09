@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MaskedHeading, FwReveal, ClipReveal } from "@/components/site/FwReveal";
+import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 
 interface AboutStoryProps {
@@ -13,6 +13,7 @@ interface AboutStoryProps {
   imageSide: "left" | "right";
   /** `dark` swaps to the navy panel palette. */
   variant?: "cream" | "dark";
+  imageSrc?: string;
 }
 
 /** One alternating story row (image + copy) from the About narrative. */
@@ -26,13 +27,14 @@ export default function AboutStory({
   imageLabel,
   imageSide,
   variant = "cream",
+  imageSrc,
 }: AboutStoryProps) {
   const dark = variant === "dark";
   const accent = dark ? "#5FD0E0" : "#00687F";
   const kickerColor = dark ? "#9FE4EF" : "#00687F";
 
   const image = (
-    <ClipReveal
+    <div
       className="relative aspect-[4/5] w-full flex-none self-stretch overflow-hidden rounded-2xl md:w-[46%]"
       style={{ background: dark ? "#1B2238" : "#DCD3BE" }}
     >
@@ -40,8 +42,9 @@ export default function AboutStory({
         tone={dark ? "light" : "dark"}
         label={imageLabel}
         className="absolute inset-0 h-full w-full"
+        src={imageSrc}
       />
-    </ClipReveal>
+    </div>
   );
 
   const copy = (

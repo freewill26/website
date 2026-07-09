@@ -21,12 +21,12 @@ export default function AboutFounderQuote() {
           className="m-0 font-display uppercase leading-[1.18] text-[#F6F4EC]"
           style={{ fontSize: "clamp(28px,3.6vw,58px)" }}
           lines={[
-            "In 1990 we saw a gap — the",
-            "world's best surfaces existed",
+            "Growth means nothing if it",
+            "doesn't raise the standard",
             <span>
-              everywhere <span style={{ color: "#5FD0E0" }}>but India.</span>
+              for the <span style={{ color: "#5FD0E0" }}>athletes</span>
             </span>,
-            "We set out to change that.",
+            "who play on what we build.",
           ]}
         />
         <FwReveal
@@ -35,10 +35,10 @@ export default function AboutFounderQuote() {
         >
           <div>
             <div className="font-display text-[22px] text-[#F6F4EC]">
-              Liyakat Shaikh
+              Rajesh Kharabanda
             </div>
             <div className="mt-1 text-[11px] font-bold tracking-[0.18em] text-[#9FE4EF]">
-              MANAGING DIRECTOR, FREEWILL
+              CHAIRMAN, FREEWILL GROUP
             </div>
           </div>
         </FwReveal>

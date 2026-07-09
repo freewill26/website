@@ -1,5 +1,6 @@
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
+import { LinkedInIcon, XTwitterIcon, FacebookIcon } from "@/components/ui/icons";
 import { FOUNDERS, EMPLOYEES } from "@/lib/aboutContent";
 
 /** Founders (large cards) and the wider team (compact cards). */
@@ -24,27 +25,91 @@ export default function AboutTeam() {
         />
       </FwReveal>
 
-      <div className="mb-[clamp(56px,7vw,96px)] grid gap-6 md:grid-cols-2">
-        {FOUNDERS.map((f) => (
+      <div className="mb-[clamp(56px,7vw,96px)] flex flex-col gap-[clamp(48px,6vw,88px)]">
+        {FOUNDERS.map((f, i) => (
           <FwReveal key={f.name}>
             <div
-              className="overflow-hidden rounded-2xl bg-white"
-              style={{ boxShadow: "0 2px 20px rgba(24,26,32,0.09)" }}
+              className={`flex flex-col items-stretch gap-8 lg:gap-14 ${
+                i % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"
+              }`}
             >
-              <div className="relative aspect-[3/2] overflow-hidden" style={{ background: "#DCD3BE" }}>
-                <ImageSlot label={f.name} className="absolute inset-0 h-full w-full" />
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-ink-card lg:w-[38%]">
+                {f.image ? (
+                  <img
+                    src={f.image}
+                    alt={f.name}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : (
+                  <ImageSlot label={f.name} className="absolute inset-0 h-full w-full" />
+                )}
               </div>
-              <div className="p-[clamp(22px,2.5vw,32px)]">
-                <div
-                  className="mb-1 font-display text-[#111820]"
-                  style={{ fontSize: "clamp(22px,2.2vw,30px)" }}
-                >
-                  {f.name}
-                </div>
-                <div className="mb-3.5 text-[11px] font-bold tracking-[0.16em] text-brand">
+
+              <div className="flex flex-1 flex-col justify-center">
+                <MaskedHeading
+                  as="div"
+                  className="mb-2 font-display uppercase leading-[1.02] text-[#111820]"
+                  style={{ fontSize: "clamp(40px,5vw,68px)" }}
+                  lines={[f.name]}
+                />
+                <div className="mb-5 text-xs font-bold tracking-[0.16em] text-brand">
                   {f.role}
                 </div>
-                <p className="m-0 text-sm leading-[1.8] text-[#181A20]/[0.62]">{f.bio}</p>
+                <p
+                  className="m-0 mb-7 max-w-[46ch] text-[15px] leading-[1.85] text-[#181A20]/[0.62]"
+                >
+                  {f.bio}
+                </p>
+                {f.social && (
+                  <div className="flex items-center gap-3">
+                    {f.social.linkedin && (
+                      <a
+                        href={f.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${f.name} on LinkedIn`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181A20]/[0.06] transition-colors hover:bg-brand/10"
+                      >
+                        <LinkedInIcon size={16} color="181A20" />
+                      </a>
+                    )}
+                    {f.social.twitter && (
+                      <a
+                        href={f.social.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${f.name} on X`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181A20]/[0.06] transition-colors hover:bg-brand/10"
+                      >
+                        <XTwitterIcon size={16} color="181A20" />
+                      </a>
+                    )}
+                    {f.social.facebook && (
+                      <a
+                        href={f.social.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${f.name} on Facebook`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181A20]/[0.06] transition-colors hover:bg-brand/10"
+                      >
+                        <FacebookIcon size={16} color="181A20" />
+                      </a>
+                    )}
+                  </div>
+                )}
+                {f.quote && (
+                  <div
+                    className="mt-8 pl-5"
+                    style={{ borderLeft: "2px solid rgba(0,104,127,0.3)" }}
+                  >
+                    <div className="mb-2 font-display leading-[0.5] text-brand" style={{ fontSize: "48px" }}>
+                      &ldquo;
+                    </div>
+                    <p className="m-0 max-w-[42ch] font-display italic leading-[1.4] text-[#181A20]/80" style={{ fontSize: "clamp(17px,1.6vw,21px)", textTransform: "none" }}>
+                      {f.quote}&rdquo;
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </FwReveal>
@@ -68,7 +133,7 @@ export default function AboutTeam() {
               style={{ boxShadow: "0 1px 10px rgba(24,26,32,0.07)" }}
             >
               <div className="relative aspect-square overflow-hidden" style={{ background: "#DCD3BE" }}>
-                <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" />
+                <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image} />
               </div>
               <div className="px-[18px] pb-5 pt-4">
                 <div className="mb-[3px] font-display text-[17px] text-[#111820]">

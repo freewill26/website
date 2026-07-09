@@ -23,9 +23,11 @@ interface SiteHeaderProps {
 export default function SiteHeader({ solid = false }: SiteHeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     if (solid) return;
@@ -34,6 +36,25 @@ export default function SiteHeader({ solid = false }: SiteHeaderProps) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [solid]);
+
+  // Hide the header when scrolling down, reveal it when scrolling up.
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastScrollY.current;
+      if (y < 80) {
+        setHidden(false);
+      } else if (delta > 4) {
+        setHidden(true);
+      } else if (delta < -4) {
+        setHidden(false);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close the mega-menu on route change, and clean up its timer.
   useEffect(() => setProductsOpen(false), [pathname]);
@@ -56,7 +77,13 @@ export default function SiteHeader({ solid = false }: SiteHeaderProps) {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-[200]">
+      <div
+        className="fixed inset-x-0 top-0 z-[200] transition-transform duration-300 ease-in-out"
+        style={{
+          transform:
+            hidden && !menuOpen && !productsOpen ? "translateY(-100%)" : "translateY(0)",
+        }}
+      >
         {/* Credentials ribbon */}
         <div className="flex h-9 items-center overflow-hidden bg-brand">
           <div className="inline-flex w-max whitespace-nowrap fw-anim-ribbon">

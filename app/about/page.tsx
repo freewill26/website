@@ -39,15 +39,14 @@ export default function AboutPage() {
           ctaHref="/products"
           imageLabel="Sports surface"
           imageSide="left"
+          imageSrc="/assets/about-story-surface.png"
         />
         <AboutStory
           id="fw-s2"
           kicker="02 — THE CRAFT"
           titleLines={[
             "Built to Last,",
-            <span style={{ color: "#5FD0E0" }}>
-              Built to Perform.
-            </span>,
+            <span style={{ color: "#5FD0E0" }}>Built to Perform.</span>,
           ]}
           body="Every surface follows a rigorous process — sub-floor assessment, preparation, surface lay and final line marking — backed by 35 years of expertise and trained to international standards."
           ctaLabel="Get a Quote →"
@@ -55,6 +54,7 @@ export default function AboutPage() {
           imageLabel="Installation"
           imageSide="right"
           variant="dark"
+          imageSrc="/assets/about-story-install.png"
         />
         <AboutStory
           id="fw-s3"
@@ -65,9 +65,10 @@ export default function AboutPage() {
           ctaHref="/#fw-contact"
           imageLabel="Innovation"
           imageSide="left"
+          imageSrc="/assets/about-story-innovation.png"
         />
         <AboutFounderQuote />
-        <AboutTimeline />
+        {/* <AboutTimeline /> */}
         <AboutTeam />
         <AboutAwards />
         <AboutBrands />

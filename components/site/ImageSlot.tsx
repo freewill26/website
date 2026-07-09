@@ -9,6 +9,8 @@ interface ImageSlotProps {
   shape?: "rect" | "rounded" | "circle";
   className?: string;
   style?: CSSProperties;
+  /** When provided, renders the real photo instead of the placeholder. */
+  src?: string;
 }
 
 /**
@@ -22,9 +24,25 @@ export default function ImageSlot({
   shape = "rect",
   className = "",
   style,
+  src,
 }: ImageSlotProps) {
   const radius =
     shape === "circle" ? "9999px" : shape === "rounded" ? "6px" : "0";
+
+  if (src) {
+    return (
+      <div
+        className={`relative overflow-hidden ${className}`.trim()}
+        style={{ borderRadius: radius, ...style }}
+      >
+        <img
+          src={src}
+          alt={label}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
 
   const background =
     tone === "dark"
