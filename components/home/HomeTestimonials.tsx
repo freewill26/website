@@ -3,23 +3,29 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ImageSlot from "@/components/site/ImageSlot";
-import { TESTIMONIALS } from "@/lib/homeContent";
+import type { TestimonialVM } from "@/lib/api/home";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
 
 /** Auto-playing partner-testimonial carousel with manual prev/next + dots. */
-export default function HomeTestimonials() {
+export default function HomeTestimonials({
+  testimonials,
+}: {
+  testimonials: TestimonialVM[];
+}) {
   const [index, setIndex] = useState(0);
   const paused = useRef(false);
-  const count = TESTIMONIALS.length;
+  const count = testimonials.length;
 
   useEffect(() => {
+    if (count === 0) return;
     const timer = setInterval(() => {
       if (!paused.current) setIndex((i) => (i + 1) % count);
     }, 5200);
     return () => clearInterval(timer);
   }, [count]);
 
-  const go = (delta: number) => setIndex((i) => (i + delta + count) % count);
+  const go = (delta: number) =>
+    setIndex((i) => (count === 0 ? 0 : (i + delta + count) % count));
 
   return (
     <section
@@ -62,8 +68,8 @@ export default function HomeTestimonials() {
             transitionTimingFunction: "cubic-bezier(0.7,0,0.2,1)",
           }}
         >
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="box-border w-full flex-none p-1.5">
+          {testimonials.map((t) => (
+            <div key={t.id} className="box-border w-full flex-none p-1.5">
               <div
                 className="mx-auto flex max-w-[920px] flex-col gap-7 rounded-[20px] p-[clamp(32px,5vw,64px)]"
                 style={{ background: "#F6F1E6", border: "1px solid rgba(24,26,32,0.08)" }}
@@ -105,9 +111,9 @@ export default function HomeTestimonials() {
       </div>
 
       <div className="mt-8 flex justify-center gap-2.5">
-        {TESTIMONIALS.map((t, i) => (
+        {testimonials.map((t, i) => (
           <button
-            key={t.name}
+            key={t.id}
             type="button"
             onClick={() => setIndex(i)}
             aria-label={`Go to testimonial ${i + 1}`}

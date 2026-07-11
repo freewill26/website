@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { FwReveal } from "@/components/site/FwReveal";
-import { REGIONS } from "@/lib/homeContent";
+import type { RegionVM } from "@/lib/api/home";
 import type { GlobeMarker } from "@/components/ui/3d-globe";
 
 /* The R3F canvas can't be server-rendered, so load it on the client only. */
@@ -42,7 +42,7 @@ const MARKERS: GlobeMarker[] = [
 ];
 
 /** "Built here, sourced worldwide" — an interactive 3D globe of Freewill's reach. */
-export default function HomeGlobe() {
+export default function HomeGlobe({ regions }: { regions: RegionVM[] }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <section
@@ -72,9 +72,9 @@ export default function HomeGlobe() {
             manufacturers to bring Olympic-grade systems to every arena.
           </p>
           <div className="flex flex-col gap-3.5">
-            {REGIONS.map((r) => (
+            {regions.map((r) => (
               <div
-                key={r.name}
+                key={r.id}
                 className="flex items-center gap-4 pt-3.5"
                 style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}
               >

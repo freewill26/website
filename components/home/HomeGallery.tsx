@@ -4,24 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
-import ImageSlot from "@/components/site/ImageSlot";
-import { GALLERY } from "@/lib/homeContent";
+import type { GalleryImageVM } from "@/lib/api/home";
 import { ArrowRightIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 
-/** The photo tiles that are viewable in the lightbox (videos stay inline). */
-const PHOTOS = GALLERY.filter((g) => !g.isVideo && g.img).map((g) => ({
-  img: g.img as string,
-  label: g.ph ?? "Freewill project",
-}));
-
-/** Full-bleed gallery grid mixing photo tiles and "live" motion tiles. */
-export default function HomeGallery() {
+/** Products gallery — a grid of image tiles (7) with a full-screen lightbox. */
+export default function HomeGallery({ images }: { images: GalleryImageVM[] }) {
+  const photos = images.map((g) => ({ img: g.img, label: g.label }));
   const [viewer, setViewer] = useState(-1);
-  const open = viewer >= 0 && viewer < PHOTOS.length;
-
-  // Map a grid tile back to its index within PHOTOS so clicks open the right slide.
-  const photoIndexOf = (img?: string) =>
-    img ? PHOTOS.findIndex((p) => p.img === img) : -1;
+  const open = viewer >= 0 && viewer < photos.length;
 
   return (
     <section id="fw-gallery" className="bg-cream pt-[clamp(64px,7vw,110px)]">
@@ -47,64 +37,38 @@ export default function HomeGallery() {
       </FwReveal>
 
       <div className="grid grid-cols-2 gap-1 md:grid-cols-4">
-        {GALLERY.map((g, i) => {
-          const pIdx = photoIndexOf(g.img);
-          const clickable = !g.isVideo && pIdx >= 0;
-          return (
-            <div
-              key={i}
-              className="group relative aspect-square overflow-hidden"
-              style={{ background: "#DCD3BE" }}
+        {images.map((g, i) => (
+          <div
+            key={g.id}
+            className="group relative aspect-square overflow-hidden"
+            style={{ background: "#DCD3BE" }}
+          >
+            <button
+              type="button"
+              onClick={() => setViewer(i)}
+              aria-label={`View ${g.label}`}
+              className="absolute inset-0 block h-full w-full cursor-pointer border-0 p-0"
             >
-              {g.isVideo ? (
-                <>
-                  <video
-                    src="/assets/lulu.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div
-                    className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold tracking-[0.14em] text-white z-10"
-                    style={{ background: "rgba(11,16,32,0.6)" }}
-                  >
-                    <span className="block h-1.5 w-1.5 rounded-full animate-pulse" style={{ background: "#C3F53C" }} />
-                    LIVE
-                  </div>
-                </>
-              ) : g.img ? (
-                <button
-                  type="button"
-                  onClick={() => clickable && setViewer(pIdx)}
-                  aria-label={`View ${g.ph ?? "image"}`}
-                  className="absolute inset-0 block h-full w-full cursor-pointer border-0 p-0"
-                >
-                  <Image
-                    src={g.img}
-                    alt={g.ph || "Gallery"}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  />
-                  {/* Hover affordance so it reads as openable */}
-                  <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
-                  <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-center justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="font-display text-[13px] uppercase tracking-[0.04em] text-white drop-shadow">
-                      {g.ph}
-                    </span>
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90">
-                      <ArrowRightIcon size={15} color="0A0E1C" />
-                    </span>
-                  </span>
-                </button>
-              ) : (
-                <ImageSlot label={g.ph} className="absolute inset-0 h-full w-full" />
-              )}
-            </div>
-          );
-        })}
+              <Image
+                src={g.img}
+                alt={g.label}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              />
+              {/* Hover affordance so it reads as openable */}
+              <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
+              <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-center justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="font-display text-[13px] uppercase tracking-[0.04em] text-white drop-shadow">
+                  {g.label}
+                </span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/90">
+                  <ArrowRightIcon size={15} color="0A0E1C" />
+                </span>
+              </span>
+            </button>
+          </div>
+        ))}
 
         <Link
           href="/gallery"
@@ -134,11 +98,11 @@ export default function HomeGallery() {
 
       {open && (
         <GalleryLightbox
-          photos={PHOTOS}
+          photos={photos}
           index={viewer}
           onClose={() => setViewer(-1)}
           onNav={(delta) =>
-            setViewer((v) => (v + delta + PHOTOS.length) % PHOTOS.length)
+            setViewer((v) => (v + delta + photos.length) % photos.length)
           }
         />
       )}

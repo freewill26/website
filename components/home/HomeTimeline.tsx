@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import ImageSlot from "@/components/site/ImageSlot";
-import { MILESTONES } from "@/lib/homeContent";
+import type { MilestoneVM } from "@/lib/api/home";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
 /**
@@ -12,7 +12,7 @@ import { ArrowRightIcon } from "@/components/ui/icons";
  * scroll-scrubbed horizontal timeline). The outer height is sized to the track
  * so 1px of vertical scroll maps to 1px of horizontal travel.
  */
-export default function HomeTimeline() {
+export default function HomeTimeline({ milestones }: { milestones: MilestoneVM[] }) {
   const outerRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progRef = useRef<HTMLDivElement>(null);
@@ -86,16 +86,16 @@ export default function HomeTimeline() {
             id="fw-tl-track"
             className="flex items-center px-[6vw] will-change-transform"
           >
-            {MILESTONES.map((m, i) => (
+            {milestones.map((m, i) => (
               <article
-                key={i}
+                key={m.id}
                 className="relative mr-7 h-[min(560px,58vh)] min-h-[400px] w-[min(620px,82vw)] flex-none overflow-hidden rounded-[14px]"
                 style={{ boxShadow: "0 32px 64px rgba(0,0,0,0.4)" }}
               >
                 {m.image ? (
                   <Image
                     src={m.image}
-                    alt={m.title}
+                    alt={m.imageAlt}
                     fill
                     sizes="(max-width: 768px) 80vw, 600px"
                     className="absolute inset-0 object-cover object-center"
