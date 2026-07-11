@@ -5,6 +5,7 @@ import { useState } from "react";
 import { FwReveal } from "@/components/site/FwReveal";
 import type { RegionVM } from "@/lib/api/home";
 import type { GlobeMarker } from "@/components/ui/3d-globe";
+import { splitLastWord } from "@/utils/text";
 
 /* The R3F canvas can't be server-rendered, so load it on the client only. */
 const Globe3D = dynamic(
@@ -41,9 +42,16 @@ const MARKERS: GlobeMarker[] = [
   { lat: 25.2048, lng: 55.2708, label: "Dubai", src: MARKER_SRC },
 ];
 
+interface HomeGlobeProps {
+  regions: RegionVM[];
+  heading: string;
+  description: string;
+}
+
 /** "Built here, sourced worldwide" — an interactive 3D globe of Freewill's reach. */
-export default function HomeGlobe({ regions }: { regions: RegionVM[] }) {
+export default function HomeGlobe({ regions, heading, description }: HomeGlobeProps) {
   const [active, setActive] = useState<string | null>(null);
+  const [headingRest, headingLast] = splitLastWord(heading);
   return (
     <section
       id="fw-globe"
@@ -62,14 +70,10 @@ export default function HomeGlobe({ regions }: { regions: RegionVM[] }) {
             className="m-0 mb-[26px] font-display uppercase leading-[0.96]"
             style={{ fontSize: "clamp(40px,5vw,86px)" }}
           >
-            Built here.
-            <br />
-            Sourced <span style={{ color: "#5E93FF" }}>worldwide.</span>
+            {headingRest} <span style={{ color: "#5E93FF" }}>{headingLast}</span>
           </h2>
           <p className="m-0 mb-9 max-w-[460px] text-base leading-[1.8] text-[#F6F4EC]/[0.66]">
-            From our base in Pune, Freewill delivers and installs across the
-            subcontinent and beyond — partnering with the world&apos;s leading
-            manufacturers to bring Olympic-grade systems to every arena.
+            {description}
           </p>
           <div className="flex flex-col gap-3.5">
             {regions.map((r) => (

@@ -26,4 +26,6 @@ export const API_ROUTES = {
   news: (id: string) => `/news/${id}`,
   event: (id: string) => `/events/${id}`,
   blog: (id: string) => `/blogs/${id}`,
+  /** CMS page by slug, e.g. `page("home")` → `/cms/pages/home`. */
+  page: (slug: string) => `/cms/pages/${slug}`,
 } as const;

@@ -11,7 +11,13 @@ import type { EventVM } from "@/lib/api/home";
  * sweeping teal hover fill, a cursor-following preview image, and a full-screen
  * case-study overlay on click.
  */
-export default function HomeReferences({ events }: { events: EventVM[] }) {
+interface HomeReferencesProps {
+  events: EventVM[];
+  heading: string;
+  description: string;
+}
+
+export default function HomeReferences({ events, heading, description }: HomeReferencesProps) {
   const [active, setActive] = useState<EventVM | null>(null);
   const [showCursor, setShowCursor] = useState(false);
 
@@ -108,13 +114,10 @@ export default function HomeReferences({ events }: { events: EventVM[] }) {
             className="m-0 font-display uppercase leading-[0.98] text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,72px)", textWrap: "balance" }}
           >
-            Built for India&apos;s
-            <br />
-            biggest stages.
+            {heading}
           </h2>
           <p className="mt-[22px] max-w-[480px] text-base leading-[1.8] text-[#181A20]/[0.62]">
-            From the National Games to World Cups — three decades of surfaces,
-            seating and equipment trusted at the events that matter most.
+            {description}
           </p>
         </div>
         <div className="flex-none text-right">

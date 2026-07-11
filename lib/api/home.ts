@@ -7,15 +7,17 @@
  * lives in one place. Every fetch degrades to an empty result on failure so the
  * server-rendered page always responds.
  */
-import { safeList } from "./http";
-import { API_ENDPOINTS } from "@/utils/apis";
+import { safeGet, safeList } from "./http";
+import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { HOME_LIMITS } from "@/utils/constants";
 import type {
   ApiCategory,
   ApiEvent,
+  ApiField,
   ApiGlobalReach,
   ApiMilestone,
   ApiNews,
+  ApiPage,
   ApiProduct,
   ApiTestimonial,
 } from "./types";
@@ -96,6 +98,114 @@ export interface NewsCardVM {
   image: string | null;
 }
 
+export interface HomeStatVM {
+  n: number;
+  suffix: string;
+  label: string;
+}
+
+export interface HomePageContent {
+  seo: {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    ogImage: string | null;
+  };
+  hero: {
+    description: string;
+    button1Label: string;
+    button1Link: string;
+    button2Label: string;
+    button2Link: string;
+  };
+  heroMeta1: { headline: string; description: string };
+  heroMeta2: { headline: string; description: string };
+  stats: HomeStatVM[];
+  about: {
+    headline: string;
+    paragraph1: string;
+    paragraph2: string;
+    buttonLabel: string;
+    buttonLink: string;
+    image1: string;
+    image2: string;
+  };
+  showreel: { youtubeId: string };
+  products: { headline: string; paragraph: string };
+  timeline: { headline: string };
+  references: { headline: string; description: string };
+  globe: { headline: string; description: string };
+  gallery: { headline: string; paragraph: string };
+}
+
+/** Fallback copy used whenever the CMS page/section/field is missing. */
+const HOME_CONTENT_DEFAULTS: HomePageContent = {
+  seo: {
+    title: "Freewill · Sports Infrastructure Since 1990",
+    description:
+      "Taraflex® vinyl sports flooring — competition surfaces specified by FIBA, FIVB and BWF. The ground India plays on.",
+    ogTitle: "Freewill · Sports Infrastructure Since 1990",
+    ogDescription:
+      "Taraflex® vinyl sports flooring — competition surfaces specified by FIBA, FIVB and BWF. The ground India plays on.",
+    ogImage: null,
+  },
+  hero: {
+    description:
+      "World-class flooring, seating and equipment — behind every National Games since 1992. The ground India plays on.",
+    button1Label: "EXPLORE PRODUCTS",
+    button1Link: "/products",
+    button2Label: "TALK TO US",
+    button2Link: "/#fw-contact",
+  },
+  heroMeta1: {
+    headline: "100,000+ seats installed.",
+    description: "Every National Games since 1992 has been played on ground Freewill built.",
+  },
+  heroMeta2: {
+    headline: "From court to podium.",
+    description: "Surfaces, seating and equipment certified by FIBA, FIVB and FIG.",
+  },
+  stats: [
+    { n: 33, suffix: "+", label: "Years building India's sports infrastructure" },
+    { n: 100, suffix: "K+", label: "Stadium seats manufactured & installed" },
+    { n: 28, suffix: "", label: "National & international games served" },
+    { n: 12, suffix: "", label: "Exclusive global brand partnerships" },
+  ],
+  about: {
+    headline: "World-class grounds, built in India.",
+    paragraph1:
+      "For 33 years, Freewill has built the ground India plays on — sports flooring, stadium seating and competition equipment for the country's biggest stages, from the National Games to the Hockey World Cup.",
+    paragraph2:
+      "As the exclusive Indian partner of Gerflor, Connor Sports, Sport Court and Spieth Gymnastics, we bring Olympic-grade systems to every court, hall and arena we touch.",
+    buttonLabel: "MORE ABOUT US",
+    buttonLink: "/about",
+    image1: "/assets/home-about-arena.png",
+    image2: "/assets/home-about-install.png",
+  },
+  showreel: { youtubeId: "StguKQPzkEs" },
+  products: {
+    headline: "Every surface. Every category.",
+    paragraph:
+      "From Olympic-grade flooring to stadium seating and field equipment — one partner for the entire arena.",
+  },
+  timeline: { headline: "Three decades on the ground." },
+  references: {
+    headline: "Built for India's biggest stages.",
+    description:
+      "From the National Games to World Cups — three decades of surfaces, seating and equipment trusted at the events that matter most.",
+  },
+  globe: {
+    headline: "Built here. Sourced worldwide.",
+    description:
+      "From our base in Pune, Freewill delivers and installs across the subcontinent and beyond — partnering with the world's leading manufacturers to bring Olympic-grade systems to every arena.",
+  },
+  gallery: {
+    headline: "The gallery.",
+    paragraph: "Courts, halls and arenas across India — captured the day they opened to play.",
+  },
+};
+
 /* ------------------------------------------------------------------ *
  * Helpers
  * ------------------------------------------------------------------ */
@@ -109,6 +219,111 @@ function formatDate(iso: string): string {
   return d
     .toLocaleDateString("en-GB", { month: "short", year: "numeric" })
     .toUpperCase();
+}
+
+/** Reads a field's raw value by key from a section, or `undefined` if absent/empty. */
+function fieldValue(fields: ApiField[] | undefined, key: string): string | undefined {
+  const value = fields?.find((f) => f.key === key)?.value;
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+/** Splits a count-box value like `"100K+"` into its animated number and trailing suffix. */
+function parseCount(value: string | undefined, fallback: HomeStatVM): Pick<HomeStatVM, "n" | "suffix"> {
+  const match = value?.match(/^(\d+)(.*)$/);
+  if (!match) return { n: fallback.n, suffix: fallback.suffix };
+  return { n: Number(match[1]), suffix: match[2] };
+}
+
+/** Pulls the `v=` video id out of a YouTube URL, or `undefined` if it doesn't parse. */
+function extractYouTubeId(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  try {
+    return new URL(url).searchParams.get("v") ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Home CMS page (`slug: "home"`) → every static section's copy, images and SEO
+ * metadata. Every field falls back independently to {@link HOME_CONTENT_DEFAULTS}
+ * so a missing section/field (or a down API) never blanks the page.
+ */
+export async function getHomePageContent(): Promise<HomePageContent> {
+  const page = await safeGet<ApiPage | null>(API_ROUTES.page("home"), null);
+  const section = (key: string) => page?.sections?.find((s) => s.key === key)?.fields;
+  const hero = section("hero_section_card");
+  const heroMeta1 = section("hero_meta_card_1");
+  const heroMeta2 = section("hero_meta_card_2");
+  const counts = section("counts_section");
+  const about = section("about_section");
+  const video = section("video_section");
+  const products = section("category_section");
+  const timeline = section("milestone_section");
+  const references = section("events_section");
+  const globe = section("global_reach_section");
+  const gallery = section("gallery_section");
+  const d = HOME_CONTENT_DEFAULTS;
+
+  return {
+    seo: {
+      title: page?.seoTitle || d.seo.title,
+      description: page?.seoDescription || d.seo.description,
+      ogTitle: page?.ogTitle || d.seo.ogTitle,
+      ogDescription: page?.ogDescription || d.seo.ogDescription,
+      ogImage: page?.ogImage || d.seo.ogImage,
+    },
+    hero: {
+      description: fieldValue(hero, "description") ?? d.hero.description,
+      button1Label: fieldValue(hero, "button_1_label")?.toUpperCase() ?? d.hero.button1Label,
+      button1Link: fieldValue(hero, "button_1_link") ?? d.hero.button1Link,
+      button2Label: fieldValue(hero, "button_2_label")?.toUpperCase() ?? d.hero.button2Label,
+      button2Link: fieldValue(hero, "button_2_link") ?? d.hero.button2Link,
+    },
+    heroMeta1: {
+      headline: fieldValue(heroMeta1, "headline") ?? d.heroMeta1.headline,
+      description: fieldValue(heroMeta1, "description") ?? d.heroMeta1.description,
+    },
+    heroMeta2: {
+      headline: fieldValue(heroMeta2, "headline") ?? d.heroMeta2.headline,
+      description: fieldValue(heroMeta2, "description") ?? d.heroMeta2.description,
+    },
+    stats: d.stats.map((fallback, i) => ({
+      ...parseCount(fieldValue(counts, `count_${i + 1}_number`), fallback),
+      label: fieldValue(counts, `count_${i + 1}_description`) ?? fallback.label,
+    })),
+    about: {
+      headline: fieldValue(about, "headline") ?? d.about.headline,
+      paragraph1: fieldValue(about, "paragraph_1") ?? d.about.paragraph1,
+      paragraph2: fieldValue(about, "paragraph_2") ?? d.about.paragraph2,
+      buttonLabel: fieldValue(about, "button_label")?.toUpperCase() ?? d.about.buttonLabel,
+      buttonLink: fieldValue(about, "button_link") ?? d.about.buttonLink,
+      image1: fieldValue(about, "image_1") ?? d.about.image1,
+      image2: fieldValue(about, "image_2") ?? d.about.image2,
+    },
+    showreel: {
+      youtubeId: extractYouTubeId(fieldValue(video, "youtube_url")) ?? d.showreel.youtubeId,
+    },
+    products: {
+      headline: fieldValue(products, "headline") ?? d.products.headline,
+      paragraph: fieldValue(products, "paragraph") ?? d.products.paragraph,
+    },
+    timeline: {
+      headline: fieldValue(timeline, "headline") ?? d.timeline.headline,
+    },
+    references: {
+      headline: fieldValue(references, "headline") ?? d.references.headline,
+      description: fieldValue(references, "description") ?? d.references.description,
+    },
+    globe: {
+      headline: fieldValue(globe, "headline") ?? d.globe.headline,
+      description: fieldValue(globe, "description") ?? d.globe.description,
+    },
+    gallery: {
+      headline: fieldValue(gallery, "headline") ?? d.gallery.headline,
+      paragraph: fieldValue(gallery, "paragraph") ?? d.gallery.paragraph,
+    },
+  };
 }
 
 /* ------------------------------------------------------------------ *

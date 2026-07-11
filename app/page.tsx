@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
@@ -23,7 +24,22 @@ import {
   getGalleryImages,
   getTestimonials,
   getNews,
+  getHomePageContent,
 } from "@/lib/api/home";
+
+/** SEO/OG metadata for `/` sourced from the CMS "home" page, server-rendered into the `<head>`. */
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getHomePageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
 
 /**
  * Freewill Home — an async Server Component. Every data-driven section is
@@ -32,7 +48,7 @@ import {
  * empty result independently, so one slow/failing endpoint can't break the page.
  */
 export default async function HomePage() {
-  const [categories, milestones, events, regions, gallery, testimonials, news] =
+  const [categories, milestones, events, regions, gallery, testimonials, news, content] =
     await Promise.all([
       getCategories(),
       getMilestones(),
@@ -41,6 +57,7 @@ export default async function HomePage() {
       getGalleryImages(),
       getTestimonials(),
       getNews(),
+      getHomePageContent(),
     ]);
 
   return (
@@ -48,15 +65,31 @@ export default async function HomePage() {
       <HomeSplash />
       <SiteHeader />
       <main>
-        <HomeHero />
-        <HomeStats />
-        <HomeAbout />
-        <HomeShowreel />
-        <HomeProducts categories={categories} />
-        <HomeTimeline milestones={milestones} />
-        <HomeReferences events={events} />
-        <HomeGlobe regions={regions} />
-        <HomeGallery images={gallery} />
+        <HomeHero content={content.hero} meta1={content.heroMeta1} meta2={content.heroMeta2} />
+        <HomeStats stats={content.stats} />
+        <HomeAbout content={content.about} />
+        <HomeShowreel youtubeId={content.showreel.youtubeId} />
+        <HomeProducts
+          categories={categories}
+          heading={content.products.headline}
+          paragraph={content.products.paragraph}
+        />
+        <HomeTimeline milestones={milestones} heading={content.timeline.headline} />
+        <HomeReferences
+          events={events}
+          heading={content.references.headline}
+          description={content.references.description}
+        />
+        <HomeGlobe
+          regions={regions}
+          heading={content.globe.headline}
+          description={content.globe.description}
+        />
+        <HomeGallery
+          images={gallery}
+          heading={content.gallery.headline}
+          paragraph={content.gallery.paragraph}
+        />
         <HomeTestimonials testimonials={testimonials} />
         <HomeNews news={news} />
         <HomeContact />

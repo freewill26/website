@@ -12,7 +12,12 @@ import { ArrowRightIcon } from "@/components/ui/icons";
  * scroll-scrubbed horizontal timeline). The outer height is sized to the track
  * so 1px of vertical scroll maps to 1px of horizontal travel.
  */
-export default function HomeTimeline({ milestones }: { milestones: MilestoneVM[] }) {
+interface HomeTimelineProps {
+  milestones: MilestoneVM[];
+  heading: string;
+}
+
+export default function HomeTimeline({ milestones, heading }: HomeTimelineProps) {
   const outerRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progRef = useRef<HTMLDivElement>(null);
@@ -72,7 +77,7 @@ export default function HomeTimeline({ milestones }: { milestones: MilestoneVM[]
               className="m-0 font-display uppercase leading-none text-[#F6F4EC]"
               style={{ fontSize: "clamp(32px,3.8vw,58px)" }}
             >
-              Three decades on the ground.
+              {heading}
             </h2>
           </div>
           <div className="whitespace-nowrap pb-2 text-[11px] font-bold tracking-[0.3em] text-[#F6F4EC]/50">

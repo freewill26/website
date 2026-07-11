@@ -1,8 +1,6 @@
-const YT_ID = "StguKQPzkEs";
-
 /** Full-bleed YouTube showreel, autoplaying muted. */
-export default function HomeShowreel() {
-  const src = `https://www.youtube.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_ID}&controls=0&rel=0&modestbranding=1&playsinline=1&disablekb=1`;
+export default function HomeShowreel({ youtubeId }: { youtubeId: string }) {
+  const src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&rel=0&modestbranding=1&playsinline=1&disablekb=1`;
 
   return (
     <section

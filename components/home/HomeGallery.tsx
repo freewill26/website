@@ -7,8 +7,14 @@ import { FwReveal } from "@/components/site/FwReveal";
 import type { GalleryImageVM } from "@/lib/api/home";
 import { ArrowRightIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 
+interface HomeGalleryProps {
+  images: GalleryImageVM[];
+  heading: string;
+  paragraph: string;
+}
+
 /** Products gallery — a grid of image tiles (7) with a full-screen lightbox. */
-export default function HomeGallery({ images }: { images: GalleryImageVM[] }) {
+export default function HomeGallery({ images, heading, paragraph }: HomeGalleryProps) {
   const photos = images.map((g) => ({ img: g.img, label: g.label }));
   const [viewer, setViewer] = useState(-1);
   const open = viewer >= 0 && viewer < photos.length;
@@ -27,12 +33,11 @@ export default function HomeGallery({ images }: { images: GalleryImageVM[] }) {
             className="m-0 font-display uppercase leading-none text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,72px)" }}
           >
-            The gallery.
+            {heading}
           </h2>
         </div>
         <p className="m-0 max-w-[360px] text-[15px] leading-[1.8] text-[#181A20]/60">
-          Courts, halls and arenas across India — captured the day they opened
-          to play.
+          {paragraph}
         </p>
       </FwReveal>
 

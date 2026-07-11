@@ -2,8 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 
+interface HomeAboutContent {
+  headline: string;
+  paragraph1: string;
+  paragraph2: string;
+  buttonLabel: string;
+  buttonLink: string;
+  image1: string;
+  image2: string;
+}
+
 /** "About Freewill" split: copy on the left, layered photo collage on the right. */
-export default function HomeAbout() {
+export default function HomeAbout({ content }: { content: HomeAboutContent }) {
   return (
     <section
       id="fw-about"
@@ -22,30 +32,26 @@ export default function HomeAbout() {
             className="m-0 mb-7 font-display uppercase leading-none text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.4vw,68px)" }}
           >
-            World-class grounds, built in India.
+            {content.headline}
           </h2>
           <p className="m-0 mb-[18px] max-w-[520px] text-base leading-[1.8] text-[#181A20]/[0.68]">
-            For 33 years, Freewill has built the ground India plays on — sports
-            flooring, stadium seating and competition equipment for the country&apos;s
-            biggest stages, from the National Games to the Hockey World Cup.
+            {content.paragraph1}
           </p>
           <p className="m-0 mb-9 max-w-[520px] text-base leading-[1.8] text-[#181A20]/[0.68]">
-            As the exclusive Indian partner of Gerflor, Connor Sports, Sport Court
-            and Spieth Gymnastics, we bring Olympic-grade systems to every court,
-            hall and arena we touch.
+            {content.paragraph2}
           </p>
           <Link
-            href="/about"
+            href={content.buttonLink}
             className="inline-block rounded-full bg-[#181A20] px-8 py-[18px] text-[13px] font-bold tracking-[0.1em] text-white no-underline transition-colors hover:bg-brand"
           >
-            MORE ABOUT US
+            {content.buttonLabel}
           </Link>
         </FwReveal>
 
         <FwReveal className="relative min-h-[440px] lg:min-h-[560px]">
           <div className="absolute right-0 top-0 h-[88%] w-[78%] overflow-hidden rounded-[6px]">
             <Image
-              src="/assets/home-about-arena.png"
+              src={content.image1}
               alt="Flagship arena"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -61,7 +67,7 @@ export default function HomeAbout() {
             }}
           >
             <Image
-              src="/assets/home-about-install.png"
+              src={content.image2}
               alt="Install detail"
               fill
               sizes="(max-width: 1024px) 50vw, 25vw"

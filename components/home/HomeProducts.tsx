@@ -20,12 +20,17 @@ interface HomeProductsProps {
   categories: CategoryTile[];
   /** Total number of categories in the catalogue (for the CTA badge). */
   totalCategories?: number;
+  /** Section heading + intro, sourced from the CMS "category_section" section. */
+  heading: string;
+  paragraph: string;
 }
 
 /** "What we build" bento grid — product categories, plus a catalogue CTA. */
 export default function HomeProducts({
   categories,
   totalCategories,
+  heading,
+  paragraph,
 }: HomeProductsProps) {
   const tiles = categories.slice(0, 5);
   const catalogueCount = totalCategories ?? categories.length;
@@ -48,14 +53,11 @@ export default function HomeProducts({
             className="m-0 font-display uppercase leading-[0.98] text-[#181A20]"
             style={{ fontSize: "clamp(40px,5vw,84px)" }}
           >
-            Every surface.
-            <br />
-            Every category.
+            {heading}
           </h2>
         </div>
         <p className="m-0 max-w-[380px] text-[15px] leading-[1.8] text-[#181A20]/60">
-          From Olympic-grade flooring to stadium seating and field equipment —
-          one partner for the entire arena.
+          {paragraph}
         </p>
       </FwReveal>
 

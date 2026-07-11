@@ -83,3 +83,34 @@ export interface ApiNews {
   description: string;
   isActive: boolean;
 }
+
+/** CMS `Field.type`; `value` shape depends on it (plain string, or `{ url, alt }` for images). */
+export interface ApiField {
+  id: string;
+  key: string;
+  label: string;
+  type: string;
+  value: unknown;
+  sortOrder: number;
+}
+
+export interface ApiSection {
+  id: string;
+  key: string;
+  name: string;
+  sortOrder: number;
+  fields: ApiField[];
+}
+
+/** `GET /cms/pages/:slug` — a CMS page with its ordered sections and fields. */
+export interface ApiPage {
+  id: string;
+  slug: string;
+  title: string;
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  sections: ApiSection[];
+}
