@@ -17,7 +17,7 @@ export default function ContactHero() {
       <FwReveal
         as="h1"
         className="m-0 max-w-[1100px] font-display uppercase leading-[0.92] text-[#181A20]"
-        style={{ fontSize: "clamp(48px,7.4vw,140px)", textWrap: "balance" }}
+        style={{ fontSize: "clamp(34px,7.4vw,140px)", textWrap: "balance" }}
       >
         Let&apos;s build your arena.
       </FwReveal>

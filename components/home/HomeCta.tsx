@@ -15,7 +15,7 @@ export default function HomeCta() {
         </div>
         <h2
           className="m-0 mb-10 font-display uppercase leading-[0.94] text-[#071027]"
-          style={{ fontSize: "clamp(48px,8.4vw,150px)", textWrap: "balance" }}
+          style={{ fontSize: "clamp(36px,8.4vw,150px)", textWrap: "balance" }}
         >
           Let&apos;s build your arena.
         </h2>

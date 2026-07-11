@@ -83,10 +83,10 @@ export default function ProductInPlay({ family }: { family?: ProductFamily }) {
 
       {/* Grid 2: wide image + three images */}
       <div
-        className="grid grid-cols-3 gap-4"
+        className="grid grid-cols-2 gap-4 sm:grid-cols-3"
         style={{ gridAutoRows: "clamp(190px,23vw,320px)" }}
       >
-        <div className="relative col-span-3 overflow-hidden rounded-[14px]">
+        <div className="relative col-span-2 overflow-hidden rounded-[14px] sm:col-span-3">
           <Image
             src={heroImg}
             alt="Wide arena"

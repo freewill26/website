@@ -17,7 +17,7 @@ export default function BlogHero() {
       <FwReveal
         as="h1"
         className="m-0 max-w-[1100px] font-display uppercase leading-[0.92] text-[#181A20]"
-        style={{ fontSize: "clamp(52px,8vw,150px)", textWrap: "balance" }}
+        style={{ fontSize: "clamp(38px,8vw,150px)", textWrap: "balance" }}
       >
         Field notes.
       </FwReveal>

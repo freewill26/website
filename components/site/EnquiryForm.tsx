@@ -81,7 +81,7 @@ export default function EnquiryForm({
       className="flex flex-col gap-5 rounded-[18px] p-[clamp(28px,3vw,44px)]"
       style={{ background: cardBg, border: `1px solid ${cardBorder}` }}
     >
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>FULL NAME</span>
           <input required type="text" placeholder="Your name" className={fieldCls} style={fieldStyle} />
@@ -91,7 +91,7 @@ export default function EnquiryForm({
           <input required type="tel" placeholder="+91 …" className={fieldCls} style={fieldStyle} />
         </label>
       </div>
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>EMAIL</span>
           <input required type="email" placeholder="you@company.com" className={fieldCls} style={fieldStyle} />

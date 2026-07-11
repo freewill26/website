@@ -50,7 +50,7 @@ export default function ProductFamilyHero({ family }: { family: ProductFamily })
         <MaskedHeading
           as="h1"
           className="m-0 font-display uppercase leading-[0.86] text-[#F6F4EC]"
-          style={{ fontSize: "clamp(72px,15vw,260px)" }}
+          style={{ fontSize: "clamp(46px,15vw,260px)" }}
           lines={[
             <>
               {family.nameLead}

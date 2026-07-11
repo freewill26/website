@@ -28,7 +28,7 @@ export default function AboutContact() {
           </div>
           <h2
             className="m-0 mb-[26px] font-display uppercase leading-[0.94]"
-            style={{ fontSize: "clamp(44px,6vw,118px)", textWrap: "balance" }}
+            style={{ fontSize: "clamp(34px,6vw,118px)", textWrap: "balance" }}
           >
             Plan your next sports venue.
           </h2>

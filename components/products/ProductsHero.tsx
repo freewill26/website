@@ -35,7 +35,7 @@ export default function ProductsHero() {
         <FwReveal
           as="h1"
           className="m-0 max-w-[1100px] font-display uppercase leading-[0.92] text-[#F6F4EC]"
-          style={{ fontSize: "clamp(54px,8.5vw,168px)", textWrap: "balance" }}
+          style={{ fontSize: "clamp(34px,8.5vw,168px)", textWrap: "balance" }}
         >
           Everything the game is played on.
         </FwReveal>

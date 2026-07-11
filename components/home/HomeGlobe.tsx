@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
 import { FwReveal } from "@/components/site/FwReveal";
 import { REGIONS } from "@/lib/homeContent";
 import type { GlobeMarker } from "@/components/ui/3d-globe";
@@ -42,6 +43,7 @@ const MARKERS: GlobeMarker[] = [
 
 /** "Built here, sourced worldwide" — an interactive 3D globe of Freewill's reach. */
 export default function HomeGlobe() {
+  const [active, setActive] = useState<string | null>(null);
   return (
     <section
       id="fw-globe"
@@ -95,13 +97,30 @@ export default function HomeGlobe() {
               className="h-full w-full"
               markers={MARKERS}
               config={{
-                atmosphereColor: "#5FD0E0",
-                atmosphereIntensity: 18,
+                atmosphereColor: "#4da6ff",
+                atmosphereIntensity: 20,
                 atmosphereBlur: 3,
                 bumpScale: 5,
-                autoRotateSpeed: 0.35,
+                autoRotateSpeed: 0.3,
               }}
+              onMarkerHover={(marker) => setActive(marker?.label ?? null)}
+              onMarkerClick={(marker) => setActive(marker.label ?? null)}
             />
+            {/* Active-location readout (hover / tap a marker) */}
+            <div
+              className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full px-4 py-2 text-center transition-opacity duration-300"
+              style={{
+                background: "rgba(11,16,32,0.72)",
+                border: "1px solid rgba(94,147,255,0.4)",
+                backdropFilter: "blur(8px)",
+                opacity: active ? 1 : 0,
+              }}
+            >
+              <span className="flex items-center gap-2 font-mono text-[12px] tracking-[0.1em] text-[#9FC0FF]">
+                <span className="block h-2 w-2 rounded-full" style={{ background: "#5E93FF" }} />
+                {active ?? ""}
+              </span>
+            </div>
           </div>
         </FwReveal>
       </div>

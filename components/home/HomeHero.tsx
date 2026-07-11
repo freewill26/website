@@ -124,7 +124,7 @@ export default function HomeHero() {
         <div ref={contentRef} id="fw-hero-content" className="pointer-events-none absolute inset-0 z-20">
           <div
             data-hero-fade
-            className="absolute right-[6vw] top-[120px] max-w-[440px] rounded-[18px] border p-7"
+            className="absolute left-[6vw] right-[6vw] top-[112px] max-w-[440px] rounded-[18px] border p-6 sm:left-auto sm:top-[120px] sm:p-7"
             style={{
               background: "rgba(250,246,236,0.82)",
               backdropFilter: "blur(14px)",
