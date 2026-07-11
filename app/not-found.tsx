@@ -1,24 +1,27 @@
 import Link from "next/link";
+import ErrorScene from "@/components/site/ErrorScene";
 import { ROUTES } from "@/lib/navigation";
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-screen flex-col items-center justify-center gap-6 px-[6vw] text-center">
-      <span className="font-mono text-xs tracking-[0.22em] text-brand-light">
-        404 · NOT FOUND
-      </span>
-      <h1 className="m-0 font-display text-[clamp(48px,10vw,140px)] uppercase leading-[0.9] text-surface">
-        Off the court
-      </h1>
-      <p className="max-w-md text-mist/60">
-        The page you’re looking for doesn’t exist or has moved.
-      </p>
+    <ErrorScene
+      code="404"
+      eyebrow="Out of bounds"
+      title="This play went off the court."
+      message="The page you're looking for was moved, retired, or never lined up. Let's get you back onto the floor."
+    >
+      <Link
+        href={ROUTES.home}
+        className="rounded-full bg-[#181A20] px-8 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-white no-underline transition-colors hover:bg-[#00687F]"
+      >
+        Back to home
+      </Link>
       <Link
         href={ROUTES.products}
-        className="rounded-full border border-brand-accent/45 px-7 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-cream transition-colors hover:border-brand-accent hover:bg-brand-accent/10"
+        className="rounded-full border border-[#181A20]/25 px-8 py-4 text-[13px] font-bold uppercase tracking-[0.1em] text-[#181A20] no-underline transition-colors hover:border-[#181A20] hover:bg-[#181A20]/[0.04]"
       >
-        Browse Products →
+        Browse products →
       </Link>
-    </section>
+    </ErrorScene>
   );
 }
