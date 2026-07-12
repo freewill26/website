@@ -219,7 +219,7 @@ export default function SiteHeader({ solid = false }: SiteHeaderProps) {
             }}
           >
             <div className="grid grid-cols-3 gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
-              {PRODUCT_MENU.map((pg) => (
+              {PRODUCT_MENU.slice(0, 5).map((pg) => (
                 <Link
                   key={pg.name}
                   href={pg.href}

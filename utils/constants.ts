@@ -28,7 +28,8 @@ export const HOME_LIMITS = {
   categories: 5,
   milestones: 50,
   events: 50,
-  regions: 50,
+  /** Countries listed beside the "Global Reach" globe. */
+  regions: 3,
   /** Product gallery images shown in the gallery grid. */
   galleryImages: 7,
   /** Products scanned to collect enough gallery images. */
