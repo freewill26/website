@@ -51,3 +51,13 @@ export const ABOUT_LIMITS = {
   /** Partner organisations pulled for the brand marquee. */
   brands: 40,
 } as const;
+
+/**
+ * How many records the Products index / catalogue autocomplete request.
+ * Generous limits since every category and product feeds the "surface /
+ * product" enquiry-form autocomplete, not just what's visible on screen.
+ */
+export const PRODUCTS_LIMITS = {
+  categories: 50,
+  products: 300,
+} as const;

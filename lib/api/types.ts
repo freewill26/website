@@ -34,6 +34,21 @@ export interface ApiProduct {
   categoryId: string | null;
 }
 
+/** `GET /products/:id` — the full record, for the product detail page. */
+export interface ApiProductDetail extends ApiProduct {
+  broadDescription: string;
+  tag: string | null;
+  aboutTitle: string | null;
+  aboutDescription: string | null;
+  aboutImage: string | null;
+  blueprintHtml: string | null;
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+}
+
 export interface ApiMilestone {
   id: string;
   imageUrl: string;

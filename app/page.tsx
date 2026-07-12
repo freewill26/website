@@ -28,6 +28,7 @@ import {
   getNews,
   getHomePageContent,
 } from "@/lib/api/home";
+import { getCatalogOptions } from "@/lib/api/products";
 
 /** SEO/OG metadata for `/` sourced from the CMS "home" page, server-rendered into the `<head>`. */
 export async function generateMetadata(): Promise<Metadata> {
@@ -50,18 +51,29 @@ export async function generateMetadata(): Promise<Metadata> {
  * empty result independently, so one slow/failing endpoint can't break the page.
  */
 export default async function HomePage() {
-  const [brands, categories, milestones, events, regions, gallery, testimonials, news, content] =
-    await Promise.all([
-      getBrands(),
-      getCategories(),
-      getMilestones(),
-      getEvents(),
-      getRegions(),
-      getGalleryImages(),
-      getTestimonials(),
-      getNews(),
-      getHomePageContent(),
-    ]);
+  const [
+    brands,
+    categories,
+    milestones,
+    events,
+    regions,
+    gallery,
+    testimonials,
+    news,
+    content,
+    catalogOptions,
+  ] = await Promise.all([
+    getBrands(),
+    getCategories(),
+    getMilestones(),
+    getEvents(),
+    getRegions(),
+    getGalleryImages(),
+    getTestimonials(),
+    getNews(),
+    getHomePageContent(),
+    getCatalogOptions(),
+  ]);
 
   return (
     <div className="overflow-x-clip bg-cream text-[#181A20]">
@@ -100,7 +112,7 @@ export default async function HomePage() {
         />
         <HomeTestimonials testimonials={testimonials} />
         <HomeNews news={news} />
-        <HomeContact />
+        <HomeContact options={catalogOptions} />
         <HomeCta />
       </main>
       <SiteFooter />

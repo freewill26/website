@@ -1,16 +1,8 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
 
-const OPTIONS = [
-  "Indoor Surfaces",
-  "Outdoor Surfaces",
-  "Seating & Structures",
-  "Equipment & Pickleball",
-  "Not sure — need advice",
-];
-
 /** Dark "Get in touch" enquiry block closing the Products index. */
-export default function ProductsContact() {
+export default function ProductsContact({ options }: { options: string[] }) {
   return (
     <section
       id="fw-contact"
@@ -57,7 +49,7 @@ export default function ProductsContact() {
         <FwReveal>
           <EnquiryForm
             tone="dark"
-            options={OPTIONS}
+            options={options}
             selectLabel="SYSTEM OF INTEREST"
             cardBg="rgba(255,255,255,0.05)"
             fieldBg="rgba(255,255,255,0.06)"

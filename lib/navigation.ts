@@ -41,3 +41,8 @@ export function familyHref(family: string = DEFAULT_FAMILY): string {
 export function productTypeHref(code: string, family: string = DEFAULT_FAMILY): string {
   return `/products/${family}/${code}`;
 }
+
+/** Build the route for a real, DB-backed product's detail page. */
+export function productHref(id: string): string {
+  return `/products/item/${id}`;
+}

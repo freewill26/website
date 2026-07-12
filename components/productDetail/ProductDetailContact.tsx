@@ -1,12 +1,18 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
 
-/** "Plan your next sports venue" enquiry block closing the About page. */
-export default function AboutContact({ options }: { options: string[] }) {
+interface ProductDetailContactProps {
+  /** The current product's title — prefills the "surface / product" field. */
+  productTitle: string;
+  options: string[];
+}
+
+/** Cream "Get in touch" enquiry block closing a product detail page, pre-filled with the product being viewed. */
+export default function ProductDetailContact({ productTitle, options }: ProductDetailContactProps) {
   return (
     <section
       id="fw-contact"
-      className="box-border bg-cream px-[6vw] text-[#111820]"
+      className="box-border bg-cream px-[6vw] text-[#181A20]"
       style={{ paddingBlock: "clamp(72px,9vw,150px)", scrollMarginTop: "104px" }}
     >
       <div className="grid items-center gap-[clamp(40px,6vw,90px)] lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
@@ -19,14 +25,16 @@ export default function AboutContact({ options }: { options: string[] }) {
           </div>
           <h2
             className="m-0 mb-[26px] font-display uppercase leading-[0.94]"
-            style={{ fontSize: "clamp(34px,6vw,118px)", textWrap: "balance" }}
+            style={{ fontSize: "clamp(44px,6vw,112px)", textWrap: "balance" }}
           >
-            Plan your next sports venue.
+            Spec it for
+            <br />
+            your venue.
           </h2>
-          <p className="m-0 mb-9 max-w-[440px] text-base leading-[1.8] text-[#181A20]/[0.66]">
-            Tell us the sport, the area and your timeline. We&apos;ll recommend
-            the right surface and return a no-obligation estimate within one
-            working day.
+          <p className="m-0 mb-9 max-w-[460px] text-base leading-[1.8] text-[#181A20]/[0.66]">
+            Send us your venue, sport and timeline. Our team will recommend the
+            right build and return a no-obligation estimate within one working
+            day.
           </p>
           <div className="flex flex-wrap gap-10">
             <div>
@@ -50,6 +58,7 @@ export default function AboutContact({ options }: { options: string[] }) {
             selectLabel="SURFACE / PRODUCT"
             cardBg="#FFFFFF"
             fieldBg="#F6F1E6"
+            defaultValue={productTitle}
           />
         </FwReveal>
       </div>

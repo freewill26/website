@@ -14,6 +14,7 @@ import AboutBrands from "@/components/about/AboutBrands";
 import AboutContact from "@/components/about/AboutContact";
 import { getAboutPageContent, getTeam, getAboutBrands } from "@/lib/api/about";
 import type { AboutStoryVM } from "@/lib/api/about";
+import { getCatalogOptions } from "@/lib/api/products";
 
 /** SEO/OG metadata for `/about` sourced from the CMS "about" page. */
 export async function generateMetadata(): Promise<Metadata> {
@@ -41,10 +42,11 @@ function storyLines(story: AboutStoryVM) {
  * defaults independently, so one slow/failing endpoint can't break the page.
  */
 export default async function AboutPage() {
-  const [content, team, brands] = await Promise.all([
+  const [content, team, brands, catalogOptions] = await Promise.all([
     getAboutPageContent(),
     getTeam(),
     getAboutBrands(),
+    getCatalogOptions(),
   ]);
   // brands.organisations → "Trusted by…" band; brands.brands → the ✦ ribbon.
 
@@ -103,7 +105,7 @@ export default async function AboutPage() {
         <AboutTeam founders={team.founders} people={team.people} />
         {/* <AboutAwards /> */}
         <AboutBrands brands={brands.organisations} />
-        <AboutContact />
+        <AboutContact options={catalogOptions} />
       </main>
       <SiteFooter />
       <FloatingEstimate />

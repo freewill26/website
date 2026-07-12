@@ -1,22 +1,24 @@
 import Link from "next/link";
-import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
+import type { ProductsPageContent } from "@/lib/api/products";
+
+interface ProductsHeroProps {
+  hero: ProductsPageContent["hero"];
+}
 
 /** Products index hero — dark arena backdrop with the page headline + CTAs. */
-export default function ProductsHero() {
+export default function ProductsHero({ hero }: ProductsHeroProps) {
   return (
     <section
       id="top"
       className="relative h-[92vh] min-h-[600px] overflow-hidden"
       style={{ background: "#0F1428", scrollMarginTop: "104px" }}
     >
-      <Image
-        src="/assets/splash-stadium.jpg"
-        alt="Hero arena"
-        fill
-        priority
-        sizes="100vw"
-        className="absolute inset-0 object-cover object-center opacity-40"
+      <img
+        src={hero.backgroundImage}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
       />
       <div
         className="absolute inset-0"
@@ -29,7 +31,7 @@ export default function ProductsHero() {
         <FwReveal className="mb-6 flex items-center gap-3">
           <span className="block h-0.5 w-7" style={{ background: "#5E93FF" }} />
           <span className="text-xs font-bold tracking-[0.3em] text-[#9FC0FF]">
-            PRODUCTS &amp; SYSTEMS
+            {hero.title.toUpperCase()}
           </span>
         </FwReveal>
         <FwReveal
@@ -37,16 +39,14 @@ export default function ProductsHero() {
           className="m-0 max-w-[1100px] font-display uppercase leading-[0.92] text-[#F6F4EC]"
           style={{ fontSize: "clamp(34px,8.5vw,168px)", textWrap: "balance" }}
         >
-          Everything the game is played on.
+          {hero.headline}
         </FwReveal>
         <FwReveal
           as="p"
           className="m-0 mt-7 max-w-[620px] leading-[1.7] text-[#F6F4EC]/[0.82]"
           style={{ fontSize: "clamp(16px,1.5vw,20px)" }}
         >
-          From Olympic vinyl and floating maple to all-weather turf, telescopic
-          seating and competition equipment — one partner for the complete
-          arena, indoor to outdoor.
+          {hero.description}
         </FwReveal>
         <FwReveal className="mt-9 flex flex-wrap gap-3.5">
           <Link

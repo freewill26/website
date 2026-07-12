@@ -4,6 +4,7 @@ import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import ContactHero from "@/components/contact/ContactHero";
 import ContactBody from "@/components/contact/ContactBody";
+import { getCatalogOptions } from "@/lib/api/products";
 
 export const metadata: Metadata = {
   title: "Contact Us · Freewill",
@@ -12,13 +13,15 @@ export const metadata: Metadata = {
 };
 
 /** Freewill Contact Us screen. */
-export default function ContactPage() {
+export default async function ContactPage() {
+  const catalogOptions = await getCatalogOptions();
+
   return (
     <div className="overflow-x-clip bg-cream text-[#181A20]">
       <SiteHeader solid />
       <main>
         <ContactHero />
-        <ContactBody />
+        <ContactBody options={catalogOptions} />
       </main>
       <SiteFooter />
       <FloatingEstimate />

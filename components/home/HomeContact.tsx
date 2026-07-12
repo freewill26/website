@@ -1,17 +1,8 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
 
-const OPTIONS = [
-  "Sports Flooring",
-  "Stadium Seating",
-  "Gymnastics Equipment",
-  "Artificial Turf",
-  "Pickleball Court",
-  "Other / Consultation",
-];
-
 /** "Get in touch" — contact details beside the enquiry form. */
-export default function HomeContact() {
+export default function HomeContact({ options }: { options: string[] }) {
   return (
     <section
       id="fw-contact"
@@ -49,7 +40,7 @@ export default function HomeContact() {
 
         <FwReveal>
           <EnquiryForm
-            options={OPTIONS}
+            options={options}
             selectLabel="PROJECT TYPE"
             cardBg="#F6F1E6"
             fieldBg="#FFFFFF"

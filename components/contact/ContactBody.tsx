@@ -2,16 +2,6 @@ import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
 import ImageSlot from "@/components/site/ImageSlot";
 
-const OPTIONS = [
-  "Sports Flooring",
-  "Stadium Seating",
-  "Gymnastics Equipment",
-  "Artificial Turf",
-  "Pickleball Court",
-  "Athletics Track",
-  "Other / Consultation",
-];
-
 const CHANNELS = [
   { label: "OFFICE", value: "6, Premier Plaza-II, Mumbai–Pune Highway, Chinchwad, Pune 411019", href: "https://maps.google.com/?q=Premier+Plaza+II+Chinchwad+Pune" },
   { label: "EMAIL", value: "info@freewill.co.in", href: "mailto:info@freewill.co.in" },
@@ -26,7 +16,7 @@ const HOURS = [
 ];
 
 /** Contact body — enquiry form beside the contact channels, hours and map. */
-export default function ContactBody() {
+export default function ContactBody({ options }: { options: string[] }) {
   return (
     <>
       <section
@@ -79,7 +69,7 @@ export default function ContactBody() {
           {/* Form */}
           <FwReveal>
             <EnquiryForm
-              options={OPTIONS}
+              options={options}
               selectLabel="PROJECT TYPE"
               cardBg="#F6F1E6"
               fieldBg="#FFFFFF"
