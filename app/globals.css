@@ -71,6 +71,19 @@
 @keyframes fw-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes fw-ping { 0% { transform: scale(0.6); opacity: 0.9; } 80%,100% { transform: scale(2.6); opacity: 0; } }
 
+/* CMS-authored hero headline: `<strong>` renders in the brand shimmer gradient
+   (ports the wordmark treatment previously hardcoded in AboutHero). */
+.fw-hero-headline strong {
+  font-weight: inherit;
+  display: inline-block;
+  background: linear-gradient(90deg,#5FD0E0 0%,#00687F 22%,#C3F53C 50%,#1FA95B 72%,#5FD0E0 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fw-shimmer 3s linear infinite;
+}
+
 .fw-anim-ribbon   { animation: fw-ribbon 26s linear infinite; }
 .fw-anim-shimmer  { animation: fw-shimmer 3s linear infinite; }
 .fw-anim-pill     { animation: fw-shimmer 3s linear infinite, fw-glow 2.4s ease-in-out infinite; }

@@ -1,8 +1,7 @@
-const MARQUEE_TEXT =
-  "Sports Surfaces ✦ Stadium Seating ✦ Athletics Tracks ✦ Taraflex® ✦ Synthetic Grass ✦ Climbing Walls ✦ Scoreboards ✦ ";
-
-/** Oversized teal marquee separating the manifesto from the stats band. */
-export default function AboutMarquee() {
+/** Oversized teal marquee of the product brands we carry. */
+export default function AboutMarquee({ items }: { items: string[] }) {
+  // `✦`-separated ribbon; trailing separator keeps the loop seamless.
+  const text = items.length ? items.join(" ✦ ") + " ✦ " : "";
   return (
     <div
       className="overflow-hidden bg-brand py-5"
@@ -15,7 +14,7 @@ export default function AboutMarquee() {
             className="pr-[42px] font-display uppercase tracking-[0.02em] text-cream"
             style={{ fontSize: "clamp(26px,3.6vw,52px)" }}
           >
-            {MARQUEE_TEXT}
+            {text}
           </span>
         ))}
       </div>

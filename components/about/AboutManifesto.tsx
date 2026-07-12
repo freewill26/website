@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { MANIFESTO_WORDS } from "@/lib/aboutContent";
+import type { ManifestoWordVM } from "@/lib/api/about";
 
 /**
  * "Who we are" manifesto — words light up one by one as the tall section
  * scrolls past a pinned viewport (ports the design's scroll word-highlight).
+ *
+ * Words (with their CMS-authored colours) are rendered as React spans that
+ * start dimmed to 0.12 opacity; their opacity is driven from scroll progress.
  */
-export default function AboutManifesto() {
+export default function AboutManifesto({ words }: { words: ManifestoWordVM[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
@@ -44,7 +47,7 @@ export default function AboutManifesto() {
       window.removeEventListener("resize", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [words]);
 
   return (
     <section
@@ -64,7 +67,7 @@ export default function AboutManifesto() {
           className="m-0 max-w-[18ch] font-display uppercase leading-[1.12]"
           style={{ fontSize: "clamp(30px,5.4vw,82px)" }}
         >
-          {MANIFESTO_WORDS.map((w, i) => (
+          {words.map((w, i) => (
             <span
               key={i}
               ref={(el) => {

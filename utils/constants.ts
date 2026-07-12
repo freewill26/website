@@ -40,3 +40,14 @@ export const HOME_LIMITS = {
   /** Latest-news cards. */
   news: 3,
 } as const;
+
+/**
+ * How many records each About-page section requests. Team is split into
+ * founders / wider team client-side, so one generous fetch covers both.
+ */
+export const ABOUT_LIMITS = {
+  /** Team members pulled for the founders + "our people" grids. */
+  team: 50,
+  /** Partner organisations pulled for the brand marquee. */
+  brands: 40,
+} as const;

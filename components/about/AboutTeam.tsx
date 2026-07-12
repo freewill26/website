@@ -1,11 +1,11 @@
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import ParallaxMedia from "@/components/site/ParallaxMedia";
-import { LinkedInIcon, XTwitterIcon, FacebookIcon } from "@/components/ui/icons";
-import { FOUNDERS, EMPLOYEES } from "@/lib/aboutContent";
+import { LinkedInIcon, XTwitterIcon } from "@/components/ui/icons";
+import type { AboutTeamVM } from "@/lib/api/about";
 
 /** Founders (large cards) and the wider team (compact cards). */
-export default function AboutTeam() {
+export default function AboutTeam({ founders, people }: AboutTeamVM) {
   return (
     <section
       id="fw-team"
@@ -27,7 +27,7 @@ export default function AboutTeam() {
       </FwReveal>
 
       <div className="mb-[clamp(56px,7vw,96px)] flex flex-col gap-[clamp(48px,6vw,88px)]">
-        {FOUNDERS.map((f, i) => (
+        {founders.map((f, i) => (
           <FwReveal key={f.name}>
             <div
               className={`flex flex-col items-stretch gap-8 lg:gap-14 ${
@@ -63,11 +63,11 @@ export default function AboutTeam() {
                 >
                   {f.bio}
                 </p>
-                {f.social && (
+                {(f.linkedin || f.twitter) && (
                   <div className="flex items-center gap-3">
-                    {f.social.linkedin && (
+                    {f.linkedin && (
                       <a
-                        href={f.social.linkedin}
+                        href={f.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${f.name} on LinkedIn`}
@@ -76,26 +76,15 @@ export default function AboutTeam() {
                         <LinkedInIcon size={16} color="181A20" />
                       </a>
                     )}
-                    {f.social.twitter && (
+                    {f.twitter && (
                       <a
-                        href={f.social.twitter}
+                        href={f.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${f.name} on X`}
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181A20]/[0.06] transition-colors hover:bg-brand/10"
                       >
                         <XTwitterIcon size={16} color="181A20" />
-                      </a>
-                    )}
-                    {f.social.facebook && (
-                      <a
-                        href={f.social.facebook}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${f.name} on Facebook`}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181A20]/[0.06] transition-colors hover:bg-brand/10"
-                      >
-                        <FacebookIcon size={16} color="181A20" />
                       </a>
                     )}
                   </div>
@@ -129,7 +118,7 @@ export default function AboutTeam() {
       </FwReveal>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {EMPLOYEES.map((e) => (
+        {people.map((e) => (
           <FwReveal key={e.name}>
             <div
               className="overflow-hidden rounded-xl bg-white"
@@ -137,7 +126,7 @@ export default function AboutTeam() {
             >
               <div className="relative aspect-square overflow-hidden" style={{ background: "#DCD3BE" }}>
                 <ParallaxMedia scale={1.18}>
-                  <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image} />
+                  <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image ?? undefined} />
                 </ParallaxMedia>
               </div>
               <div className="px-[18px] pb-5 pt-4">

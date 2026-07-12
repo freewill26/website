@@ -1,9 +1,8 @@
 import { FwReveal } from "@/components/site/FwReveal";
-import { BRAND_PARTNERS } from "@/lib/aboutContent";
 
 /** Looping marquee of trusted organisations on the teal band. */
-export default function AboutBrands() {
-  const row = [...BRAND_PARTNERS, ...BRAND_PARTNERS];
+export default function AboutBrands({ brands }: { brands: string[] }) {
+  const row = [...brands, ...brands];
   return (
     <section
       id="fw-brands"

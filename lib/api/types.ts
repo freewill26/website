@@ -75,6 +75,21 @@ export interface ApiBrand {
   order: number;
 }
 
+/** `GET /team-members` — founders and wider team, split client-side by `type`. */
+export interface ApiTeamMember {
+  id: string;
+  name: string;
+  occupation: string;
+  description: string | null;
+  testimonial: string | null;
+  image: string;
+  imageAlt: string;
+  linkedinLink: string | null;
+  twitterLink: string | null;
+  type: "FOUNDER" | "TEAM_MEMBER";
+  order: number;
+}
+
 export interface ApiTestimonial {
   id: string;
   testimonial: string;

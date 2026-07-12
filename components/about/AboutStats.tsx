@@ -1,9 +1,9 @@
 import Counter from "@/components/site/Counter";
 import { FwReveal } from "@/components/site/FwReveal";
-import { ABOUT_STATS } from "@/lib/aboutContent";
+import type { AboutStatVM } from "@/lib/api/about";
 
 /** Four founding-era metrics on the dark band. */
-export default function AboutStats() {
+export default function AboutStats({ stats }: { stats: AboutStatVM[] }) {
   return (
     <section
       id="fw-stats"
@@ -11,7 +11,7 @@ export default function AboutStats() {
       style={{ background: "#0A0E1C", paddingBlock: "clamp(72px,9vw,140px)" }}
     >
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-[clamp(32px,4vw,56px)]">
-        {ABOUT_STATS.map((s) => (
+        {stats.map((s) => (
           <FwReveal key={s.label}>
             <div
               className="flex items-start font-display leading-[0.9] text-[#F6F4EC]"

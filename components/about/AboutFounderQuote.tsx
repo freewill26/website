@@ -1,7 +1,14 @@
-import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
+import { FwReveal } from "@/components/site/FwReveal";
+
+interface AboutFounderQuoteProps {
+  /** Rich-text HTML for the quote; coloured words come straight from the CMS. */
+  html: string;
+  author: string;
+  occupation: string;
+}
 
 /** Founder pull-quote on the deep-navy band. */
-export default function AboutFounderQuote() {
+export default function AboutFounderQuote({ html, author, occupation }: AboutFounderQuoteProps) {
   return (
     <section
       id="fw-quote"
@@ -16,29 +23,23 @@ export default function AboutFounderQuote() {
         >
           &ldquo;
         </FwReveal>
-        <MaskedHeading
-          as="blockquote"
-          className="m-0 font-display uppercase leading-[1.18] text-[#F6F4EC]"
-          style={{ fontSize: "clamp(28px,3.6vw,58px)" }}
-          lines={[
-            "Growth means nothing if it",
-            "doesn't raise the standard",
-            <span>
-              for the <span style={{ color: "#5FD0E0" }}>athletes</span>
-            </span>,
-            "who play on what we build.",
-          ]}
-        />
+        <FwReveal as="div">
+          <blockquote
+            className="m-0 font-display uppercase leading-[1.18] text-[#F6F4EC]"
+            style={{ fontSize: "clamp(28px,3.6vw,58px)" }}
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        </FwReveal>
         <FwReveal
           className="mt-[42px] flex items-center gap-4 pl-5"
           style={{ borderLeft: "2px solid #5FD0E0" }}
         >
           <div>
             <div className="font-display text-[22px] text-[#F6F4EC]">
-              Rajesh Kharabanda
+              {author}
             </div>
-            <div className="mt-1 text-[11px] font-bold tracking-[0.18em] text-[#9FE4EF]">
-              CHAIRMAN, FREEWILL GROUP
+            <div className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#9FE4EF]">
+              {occupation}
             </div>
           </div>
         </FwReveal>

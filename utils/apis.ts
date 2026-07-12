@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
   milestones: "/milestones",
   globalReach: "/global-reach",
   socialLinks: "/social-links",
+  teamMembers: "/team-members",
 } as const;
 
 /** Builders for single-resource / nested endpoints that take a parameter. */
