@@ -251,6 +251,21 @@ function fieldValue(fields: ApiField[] | undefined, key: string): string | undef
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
 
+/**
+ * Reads an image field's URL by key. Image fields carry `{ url, alt }` (not a
+ * plain string), so {@link fieldValue} can't read them; this unwraps the object
+ * and also tolerates a bare string URL. Returns `undefined` if absent/empty.
+ */
+function imageFieldValue(fields: ApiField[] | undefined, key: string): string | undefined {
+  const value = fields?.find((f) => f.key === key)?.value;
+  if (typeof value === "string") return value.length > 0 ? value : undefined;
+  if (value && typeof value === "object") {
+    const url = (value as { url?: unknown }).url;
+    return typeof url === "string" && url.length > 0 ? url : undefined;
+  }
+  return undefined;
+}
+
 /** Splits a count-box value like `"100K+"` into its animated number and trailing suffix. */
 function parseCount(value: string | undefined, fallback: HomeStatVM): Pick<HomeStatVM, "n" | "suffix"> {
   const match = value?.match(/^(\d+)(.*)$/);
@@ -324,8 +339,8 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       paragraph2: fieldValue(about, "paragraph_2") ?? d.about.paragraph2,
       buttonLabel: fieldValue(about, "button_label")?.toUpperCase() ?? d.about.buttonLabel,
       buttonLink: fieldValue(about, "button_link") ?? d.about.buttonLink,
-      image1: fieldValue(about, "image_1") ?? d.about.image1,
-      image2: fieldValue(about, "image_2") ?? d.about.image2,
+      image1: imageFieldValue(about, "image_1") ?? d.about.image1,
+      image2: imageFieldValue(about, "image_2") ?? d.about.image2,
     },
     showreel: {
       youtubeId: extractYouTubeId(fieldValue(video, "youtube_url")) ?? d.showreel.youtubeId,
