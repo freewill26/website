@@ -35,6 +35,8 @@ export const HOME_LIMITS = {
   /** Products scanned to collect enough gallery images. */
   galleryProducts: 20,
   testimonials: 20,
+  /** Partner logos pulled for the brand marquee (both categories combined). */
+  brands: 40,
   /** Latest-news cards. */
   news: 3,
 } as const;

@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
   news: "/news",
   events: "/events",
   testimonials: "/testimonials",
+  brands: "/brands",
   milestones: "/milestones",
   globalReach: "/global-reach",
   socialLinks: "/social-links",

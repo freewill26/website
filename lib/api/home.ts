@@ -11,6 +11,7 @@ import { safeGet, safeList } from "./http";
 import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { HOME_LIMITS } from "@/utils/constants";
 import type {
+  ApiBrand,
   ApiCategory,
   ApiEvent,
   ApiField,
@@ -81,6 +82,20 @@ export interface GalleryImageVM {
   label: string;
 }
 
+export interface BrandVM {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  imageAlt: string;
+}
+
+/** The two marquee rows: partners we collaborate with / brands we represent. */
+export interface HomeBrandsVM {
+  organisations: BrandVM[];
+  brands: BrandVM[];
+}
+
 export interface TestimonialVM {
   id: string;
   quote: string;
@@ -118,6 +133,8 @@ export interface HomePageContent {
     button1Link: string;
     button2Label: string;
     button2Link: string;
+    /** URL of the scroll-scrubbed background video. */
+    backgroundVideo: string;
   };
   heroMeta1: { headline: string; description: string };
   heroMeta2: { headline: string; description: string };
@@ -132,6 +149,7 @@ export interface HomePageContent {
     image2: string;
   };
   showreel: { youtubeId: string };
+  brands: { headline: string; description: string };
   products: { headline: string; paragraph: string };
   timeline: { headline: string };
   references: { headline: string; description: string };
@@ -157,6 +175,7 @@ const HOME_CONTENT_DEFAULTS: HomePageContent = {
     button1Link: "/products",
     button2Label: "TALK TO US",
     button2Link: "/#fw-contact",
+    backgroundVideo: "/assets/lulu.mp4",
   },
   heroMeta1: {
     headline: "100,000+ seats installed.",
@@ -184,6 +203,11 @@ const HOME_CONTENT_DEFAULTS: HomePageContent = {
     image2: "/assets/home-about-install.png",
   },
   showreel: { youtubeId: "StguKQPzkEs" },
+  brands: {
+    headline: "The company we keep.",
+    description:
+      "The federations and institutions we build for, and the world-class product brands we bring to India — one network behind every arena.",
+  },
   products: {
     headline: "Every surface. Every category.",
     paragraph:
@@ -258,6 +282,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const counts = section("counts_section");
   const about = section("about_section");
   const video = section("video_section");
+  const brands = section("brand_section");
   const products = section("category_section");
   const timeline = section("milestone_section");
   const references = section("events_section");
@@ -279,6 +304,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       button1Link: fieldValue(hero, "button_1_link") ?? d.hero.button1Link,
       button2Label: fieldValue(hero, "button_2_label")?.toUpperCase() ?? d.hero.button2Label,
       button2Link: fieldValue(hero, "button_2_link") ?? d.hero.button2Link,
+      backgroundVideo: fieldValue(hero, "background_video") ?? d.hero.backgroundVideo,
     },
     heroMeta1: {
       headline: fieldValue(heroMeta1, "headline") ?? d.heroMeta1.headline,
@@ -303,6 +329,10 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     },
     showreel: {
       youtubeId: extractYouTubeId(fieldValue(video, "youtube_url")) ?? d.showreel.youtubeId,
+    },
+    brands: {
+      headline: fieldValue(brands, "headline") ?? d.brands.headline,
+      description: fieldValue(brands, "description") ?? d.brands.description,
     },
     products: {
       headline: fieldValue(products, "headline") ?? d.products.headline,
@@ -423,6 +453,78 @@ export async function getGalleryImages(
     }
   }
   return tiles;
+}
+
+/** Builds fallback {@link BrandVM}s from bare title/description pairs. */
+function defaultBrands(entries: Array<[title: string, description: string]>): BrandVM[] {
+  return entries.map(([title, description], i) => ({
+    id: `default-${title.toLowerCase().replace(/\s+/g, "-")}-${i}`,
+    title,
+    description,
+    image: null,
+    imageAlt: title,
+  }));
+}
+
+/**
+ * Curated fallback for the brand marquee, used only when the API returns
+ * nothing (endpoint down or table empty) — the same degrade-to-defaults
+ * contract as {@link HOME_CONTENT_DEFAULTS}. Entries have no image, so the
+ * component renders each as an Anton wordmark and no assets are required.
+ */
+const HOME_BRAND_DEFAULTS: HomeBrandsVM = {
+  organisations: defaultBrands([
+    [
+      "Sports Authority of India",
+      "Partnering on national training centres and competition venues across the country.",
+    ],
+    [
+      "FIBA",
+      "Court systems meeting FIBA competition standards for national and international basketball.",
+    ],
+    ["FIVB", "Volleyball surfaces certified for FIVB world-level competition."],
+    ["BWF", "Badminton World Federation–approved courts for tournament play."],
+    ["FIG", "Gymnastics apparatus and landing systems aligned with FIG competition norms."],
+    ["Khelo India", "Equipping Khelo India venues with competition-grade surfaces and seating."],
+  ]),
+  brands: defaultBrands([
+    ["Gerflor", "Exclusive Indian partner of the world leader in vinyl sports flooring."],
+    [
+      "Taraflex",
+      "The most specified indoor sports surface on earth — played at every Olympics since 1976.",
+    ],
+    [
+      "Connor Sports",
+      "Championship hardwood maple courts, from the NCAA Final Four to Indian arenas.",
+    ],
+    ["Sport Court", "Modular outdoor and multi-sport surfaces engineered for all-weather play."],
+    ["Spieth Gymnastics", "Olympic-grade gymnastics apparatus, mats and landing systems."],
+  ]),
+};
+
+/**
+ * Brands → the dual marquee (CMS-managed via the service app's `/brands`).
+ * One fetch covers both rows; records split by `category` and keep the API's
+ * `order`. Falls back to {@link HOME_BRAND_DEFAULTS} when nothing comes back.
+ */
+export async function getBrands(): Promise<HomeBrandsVM> {
+  const records = await safeList<ApiBrand>(API_ENDPOINTS.brands, {
+    searchParams: { limit: HOME_LIMITS.brands },
+  });
+  if (records.length === 0) return HOME_BRAND_DEFAULTS;
+
+  const toVM = (b: ApiBrand): BrandVM => ({
+    id: b.id,
+    title: b.title,
+    description: b.description,
+    image: b.image,
+    imageAlt: b.imageAlt ?? b.title,
+  });
+
+  return {
+    organisations: records.filter((b) => b.category === "ORGANISATION").map(toVM),
+    brands: records.filter((b) => b.category === "BRAND").map(toVM),
+  };
 }
 
 /** Testimonials → carousel (already ordered by the API). */

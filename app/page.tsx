@@ -6,6 +6,7 @@ import HomeSplash from "@/components/home/HomeSplash";
 import HomeHero from "@/components/home/HomeHero";
 import HomeStats from "@/components/home/HomeStats";
 import HomeAbout from "@/components/home/HomeAbout";
+import HomeBrands from "@/components/home/HomeBrands";
 import HomeShowreel from "@/components/home/HomeShowreel";
 import HomeProducts from "@/components/home/HomeProducts";
 import HomeTimeline from "@/components/home/HomeTimeline";
@@ -17,6 +18,7 @@ import HomeNews from "@/components/home/HomeNews";
 import HomeContact from "@/components/home/HomeContact";
 import HomeCta from "@/components/home/HomeCta";
 import {
+  getBrands,
   getCategories,
   getMilestones,
   getEvents,
@@ -48,8 +50,9 @@ export async function generateMetadata(): Promise<Metadata> {
  * empty result independently, so one slow/failing endpoint can't break the page.
  */
 export default async function HomePage() {
-  const [categories, milestones, events, regions, gallery, testimonials, news, content] =
+  const [brands, categories, milestones, events, regions, gallery, testimonials, news, content] =
     await Promise.all([
+      getBrands(),
       getCategories(),
       getMilestones(),
       getEvents(),
@@ -68,6 +71,11 @@ export default async function HomePage() {
         <HomeHero content={content.hero} meta1={content.heroMeta1} meta2={content.heroMeta2} />
         <HomeStats stats={content.stats} />
         <HomeAbout content={content.about} />
+        <HomeBrands
+          brands={brands}
+          heading={content.brands.headline}
+          description={content.brands.description}
+        />
         <HomeShowreel youtubeId={content.showreel.youtubeId} />
         <HomeProducts
           categories={categories}

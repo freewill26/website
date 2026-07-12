@@ -64,6 +64,17 @@ export interface ApiGlobalReach {
   description: string;
 }
 
+/** `GET /brands` — partner organisations and product brands for the marquee. */
+export interface ApiBrand {
+  id: string;
+  title: string;
+  description: string;
+  image: string | null;
+  imageAlt: string | null;
+  category: "ORGANISATION" | "BRAND";
+  order: number;
+}
+
 export interface ApiTestimonial {
   id: string;
   testimonial: string;
