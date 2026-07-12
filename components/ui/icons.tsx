@@ -137,6 +137,26 @@ export function ArrowLeftIcon({ size = 20, color = "FFFFFF", className = "" }: I
   );
 }
 
+export function SearchIcon({ size = 18, color = "181A20", className = "" }: IconProps) {
+  return (
+    <Svg size={size} className={className} stroke={hex(color)}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.2-3.2" />
+    </Svg>
+  );
+}
+
+export function SlidersIcon({ size = 18, color = "181A20", className = "" }: IconProps) {
+  return (
+    <Svg size={size} className={className} stroke={hex(color)}>
+      <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h10M18 18h2" />
+      <circle cx="16" cy="6" r="2" />
+      <circle cx="8" cy="12" r="2" />
+      <circle cx="16" cy="18" r="2" />
+    </Svg>
+  );
+}
+
 export function PlayIcon({ size = 22, color = "00687F", className = "" }: IconProps) {
   return (
     <Svg size={size} className={className} fill={hex(color)} strokeWidth={0}>
