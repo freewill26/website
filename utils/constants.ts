@@ -61,3 +61,23 @@ export const PRODUCTS_LIMITS = {
   categories: 50,
   products: 300,
 } as const;
+
+/**
+ * Gallery feed pagination. The full catalogue (categories + products) is
+ * fetched once — cheap thanks to ISR caching — flattened into one ordered
+ * image list, then sliced `imagesPerPage` at a time so every infinite-scroll
+ * batch is exactly that many images, regardless of how images are distributed
+ * across products.
+ */
+export const GALLERY_LIMITS = {
+  /** Category images shown once, ahead of the product feed. */
+  categories: 50,
+  /** Products scanned to build the full flattened image list. */
+  products: 300,
+  /** Images returned per infinite-scroll page. */
+  imagesPerPage: 10,
+  /** Chips shown in the collapsed filter row, incl. "All" and "Load More". */
+  chipRow: 10,
+  /** Max results shown in the inline searchbar dropdown. */
+  searchResults: 8,
+} as const;
