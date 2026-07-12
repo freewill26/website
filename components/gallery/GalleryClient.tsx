@@ -8,9 +8,9 @@ import {
   GALLERY_CATEGORIES,
   countFor,
   dotFor,
-  type GalleryItem,
 } from "@/lib/galleryContent";
-import { PlayIcon, CloseIcon, ChevronLeftIcon, ChevronRightIcon, GalleryIcon } from "@/components/ui/icons";
+import { PlayIcon, GalleryIcon } from "@/components/ui/icons";
+import PhotoLightbox from "@/components/ui/PhotoLightbox";
 
 const SKELETON_HEIGHTS = [320, 420, 300, 380, 340, 300, 410, 320, 360];
 
@@ -43,28 +43,7 @@ export default function GalleryClient() {
     if (loadTimer.current) clearTimeout(loadTimer.current);
   }, []);
 
-  // Lightbox: lock scroll + keyboard navigation.
   const open = viewer >= 0 && viewer < items.length;
-  useEffect(() => {
-    document.documentElement.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.documentElement.style.overflow = "";
-    };
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-    const len = items.length;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setViewer(-1);
-      else if (e.key === "ArrowRight") setViewer((v) => (v + 1) % len);
-      else if (e.key === "ArrowLeft") setViewer((v) => (v - 1 + len) % len);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, items.length]);
-
-  const current: GalleryItem | undefined = open ? items[viewer] : undefined;
 
   return (
     <>
@@ -121,13 +100,13 @@ export default function GalleryClient() {
                 LOADING {filter.toUpperCase()}…
               </span>
             </div>
-            <div className="[column-count:1] [column-gap:16px] sm:[column-count:2] lg:[column-count:3]">
+            <div className="grid grid-cols-3 gap-1 sm:block sm:[column-count:2] sm:[column-gap:16px] lg:[column-count:3]">
               {SKELETON_HEIGHTS.map((h, i) => (
                 <div
                   key={i}
-                  className="mb-4 w-full rounded-2xl [break-inside:avoid]"
+                  className="aspect-square w-full rounded-lg [break-inside:avoid] sm:mb-4 sm:aspect-auto sm:h-[var(--h)] sm:rounded-2xl"
                   style={{
-                    height: h,
+                    ["--h" as string]: `${h}px`,
                     background:
                       "linear-gradient(100deg, #E4DAC4 30%, #EFE7D4 50%, #E4DAC4 70%)",
                     backgroundSize: "720px 100%",
@@ -142,14 +121,14 @@ export default function GalleryClient() {
         ) : (
           <div
             key={filter}
-            className="[column-count:1] [column-gap:16px] sm:[column-count:2] lg:[column-count:3]"
+            className="grid grid-cols-3 gap-1 sm:block sm:[column-count:2] sm:[column-gap:16px] lg:[column-count:3]"
           >
             {items.map((g, i) => (
               <button
                 key={g.id}
                 type="button"
                 onClick={() => setViewer(i)}
-                className="mb-4 block w-full overflow-hidden rounded-2xl border-0 p-0 text-left [break-inside:avoid]"
+                className="block w-full overflow-hidden rounded-lg border-0 p-0 text-left transition-transform duration-200 [break-inside:avoid] active:scale-[0.97] sm:mb-4 sm:rounded-2xl"
                 style={{
                   background: "#DCD3BE",
                   boxShadow: "0 2px 12px rgba(24,26,32,0.08)",
@@ -157,7 +136,10 @@ export default function GalleryClient() {
                   animationDelay: `${i * 0.05}s`,
                 }}
               >
-                <div className="relative w-full overflow-hidden" style={{ height: g.height }}>
+                <div
+                  className="relative aspect-square w-full overflow-hidden sm:aspect-auto sm:h-[var(--h)]"
+                  style={{ ["--h" as string]: `${g.height}px` }}
+                >
                   {g.image ? (
                     <Image
                       src={g.image}
@@ -170,7 +152,7 @@ export default function GalleryClient() {
                     <ImageSlot label={g.title} className="absolute inset-0 h-full w-full" />
                   )}
                   <div
-                    className="pointer-events-none absolute inset-0"
+                    className="pointer-events-none absolute inset-0 hidden sm:block"
                     style={{
                       background:
                         "linear-gradient(0deg,rgba(10,14,28,0.72) 0%,rgba(10,14,28,0.06) 46%,rgba(10,14,28,0) 70%)",
@@ -178,7 +160,7 @@ export default function GalleryClient() {
                   />
 
                   <div
-                    className="absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full px-3.5 py-[7px] backdrop-blur-sm"
+                    className="absolute left-3.5 top-3.5 hidden items-center gap-2 rounded-full px-3.5 py-[7px] backdrop-blur-sm sm:inline-flex"
                     style={{ background: "rgba(10,14,28,0.42)" }}
                   >
                     <span className="block h-1.5 w-1.5 rounded-full" style={{ background: dotFor(g.category) }} />
@@ -190,13 +172,13 @@ export default function GalleryClient() {
                   {g.type === "video" && (
                     <>
                       <div
-                        className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+                        className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full sm:h-16 sm:w-16"
                         style={{ background: "rgba(255,255,255,0.92)", boxShadow: "0 10px 30px rgba(0,0,0,0.32)" }}
                       >
                         <PlayIcon size={22} />
                       </div>
                       <div
-                        className="absolute right-3.5 top-3.5 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5"
+                        className="absolute right-3.5 top-3.5 hidden items-center gap-1.5 rounded-full px-3 py-1.5 sm:inline-flex"
                         style={{ background: "rgba(0,104,127,0.92)" }}
                       >
                         <span className="inline-flex items-center gap-1.5 font-mono text-[9.5px] tracking-[0.1em] text-white">
@@ -206,7 +188,7 @@ export default function GalleryClient() {
                     </>
                   )}
 
-                  <div className="absolute inset-x-4 bottom-3.5">
+                  <div className="absolute inset-x-4 bottom-3.5 hidden sm:block">
                     <div
                       className="font-display uppercase leading-[1.1] text-white"
                       style={{ fontSize: "clamp(15px,1.3vw,19px)" }}
@@ -224,14 +206,19 @@ export default function GalleryClient() {
         )}
       </section>
 
-      {current && (
-        <Lightbox
-          item={current}
-          index={viewer}
-          total={items.length}
+      {open && (
+        <PhotoLightbox
+          slides={items.map((g) => ({
+            id: String(g.id),
+            type: g.type,
+            src: g.type === "video" ? g.videoSrc ?? null : g.image ?? null,
+            title: g.title,
+            subtitle: g.location,
+            badge: g.category,
+            badgeColor: dotFor(g.category),
+          }))}
+          initialIndex={viewer}
           onClose={() => setViewer(-1)}
-          onPrev={() => setViewer((v) => (v - 1 + items.length) % items.length)}
-          onNext={() => setViewer((v) => (v + 1) % items.length)}
         />
       )}
     </>
@@ -261,123 +248,6 @@ function EmptyState({ onReset }: { onReset: () => void }) {
       >
         View all media
       </button>
-    </div>
-  );
-}
-
-function Lightbox({
-  item,
-  index,
-  total,
-  onClose,
-  onPrev,
-  onNext,
-}: {
-  item: GalleryItem;
-  index: number;
-  total: number;
-  onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-}) {
-  return (
-    <div
-      className="fixed inset-0 z-[1000] flex flex-col"
-      style={{ background: "rgba(8,11,22,0.94)", backdropFilter: "blur(6px)", animation: "fade 0.3s ease both" }}
-    >
-      {/* top bar */}
-      <div className="flex flex-none items-center justify-between px-[clamp(20px,4vw,44px)] py-[clamp(18px,2.4vw,28px)]">
-        <div className="flex items-center gap-3.5">
-          <span className="block h-2 w-2 rounded-full" style={{ background: dotFor(item.category) }} />
-          <span className="font-mono text-[11px] tracking-[0.14em] text-white/[0.62]">
-            {item.category}
-          </span>
-          <span className="font-mono text-[11px] tracking-[0.14em] text-white/[0.36]">
-            {index + 1} / {total}
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="flex h-[46px] w-[46px] items-center justify-center rounded-full transition-colors hover:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.18)" }}
-        >
-          <CloseIcon size={18} />
-        </button>
-      </div>
-
-      {/* stage */}
-      <div className="flex min-h-0 flex-1 items-center justify-center gap-[clamp(10px,2vw,28px)] px-[clamp(14px,3vw,40px)]">
-        <button
-          type="button"
-          onClick={onPrev}
-          aria-label="Previous"
-          className="flex h-[clamp(44px,5vw,58px)] w-[clamp(44px,5vw,58px)] flex-none items-center justify-center rounded-full transition-colors hover:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.18)" }}
-        >
-          <ChevronLeftIcon size={20} />
-        </button>
-
-        <div className="flex h-full min-w-0 flex-1 items-center justify-center">
-          {item.type === "video" ? (
-            <video
-              key={item.id}
-              src={item.videoSrc}
-              controls
-              autoPlay
-              loop
-              playsInline
-              className="max-h-[78vh] max-w-full rounded-[14px] bg-black"
-              style={{ boxShadow: "0 40px 100px rgba(0,0,0,0.6)" }}
-            />
-          ) : (
-            <div
-              className="relative overflow-hidden rounded-[14px]"
-              style={{
-                width: "min(1100px,92vw)",
-                height: "min(78vh,720px)",
-                boxShadow: "0 40px 100px rgba(0,0,0,0.6)",
-              }}
-            >
-              {item.image ? (
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="92vw"
-                  className="absolute inset-0 object-cover object-center"
-                />
-              ) : (
-                <ImageSlot tone="light" label={item.title} className="absolute inset-0 h-full w-full" />
-              )}
-            </div>
-          )}
-        </div>
-
-        <button
-          type="button"
-          onClick={onNext}
-          aria-label="Next"
-          className="flex h-[clamp(44px,5vw,58px)] w-[clamp(44px,5vw,58px)] flex-none items-center justify-center rounded-full transition-colors hover:bg-white/20"
-          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.18)" }}
-        >
-          <ChevronRightIcon size={20} />
-        </button>
-      </div>
-
-      {/* caption */}
-      <div className="flex-none px-[6vw] pb-[clamp(24px,3vw,40px)] pt-[clamp(16px,2.4vw,30px)] text-center">
-        <div
-          className="font-display uppercase leading-none text-white"
-          style={{ fontSize: "clamp(20px,2.4vw,34px)" }}
-        >
-          {item.title}
-        </div>
-        <div className="mt-2 font-mono text-xs tracking-[0.08em] text-white/[0.56]">
-          {item.location}
-        </div>
-      </div>
     </div>
   );
 }
