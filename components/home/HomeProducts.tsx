@@ -35,6 +35,17 @@ export default function HomeProducts({
   const tiles = categories.slice(0, 5);
   const catalogueCount = totalCategories ?? categories.length;
 
+  // The CTA absorbs whatever is left of the bento's last row so the grid ends
+  // flush. Cells occupied per breakpoint: lg (4 cols) hero=2×2, wide=2×1;
+  // sm (2 cols) hero=2×1, everything else 1.
+  const lgCells = tiles.reduce(
+    (sum, _, i) => sum + (spanFor(i) === "hero" ? 4 : spanFor(i) === "wide" ? 2 : 1),
+    0,
+  );
+  const smCells = tiles.reduce((sum, _, i) => sum + (spanFor(i) === "hero" ? 2 : 1), 0);
+  const lgSpan = 4 - (lgCells % 4) || 4;
+  const smSpan = 2 - (smCells % 2) || 2;
+
   return (
     <section
       id="fw-products"
@@ -115,7 +126,10 @@ export default function HomeProducts({
           </FwReveal>
         ))}
 
-        <FwReveal className="col-span-1 sm:col-span-2 lg:col-span-2">
+        <FwReveal
+          className="col-span-1 sm:[grid-column:span_var(--sm)] lg:[grid-column:span_var(--lg)]"
+          style={{ ["--sm" as string]: smSpan, ["--lg" as string]: lgSpan }}
+        >
           <Link
             href="/products"
             className="group flex h-full flex-col justify-between rounded-xl bg-brand p-6 text-[#071027] no-underline transition-colors hover:bg-[#004E5F]"
