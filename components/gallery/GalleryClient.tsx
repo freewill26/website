@@ -1,222 +1,182 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import ImageSlot from "@/components/site/ImageSlot";
-import {
-  GALLERY_ITEMS,
-  GALLERY_CATEGORIES,
-  countFor,
-  dotFor,
-} from "@/lib/galleryContent";
-import { PlayIcon, GalleryIcon } from "@/components/ui/icons";
+import type { GalleryFeedItemVM, GalleryFeedPage, GalleryTaxonomyVM } from "@/lib/api/gallery";
 import PhotoLightbox from "@/components/ui/PhotoLightbox";
+import { GalleryIcon } from "@/components/ui/icons";
+import GalleryFilterBar from "./GalleryFilterBar";
+import GalleryBrowseSheet from "./GalleryBrowseSheet";
+import { ALL_SELECTION, selectionKey, selectionQuery, type GallerySelection } from "./gallerySelection";
 
-const SKELETON_HEIGHTS = [320, 420, 300, 380, 340, 300, 410, 320, 360];
+interface GalleryClientProps {
+  initialItems: GalleryFeedItemVM[];
+  initialHasMore: boolean;
+  taxonomy: GalleryTaxonomyVM;
+}
+
+const GALLERY_ANIM_BATCH = 12;
 
 /**
- * Filterable masonry gallery with a skeleton-loading transition on filter
- * change and a full-screen lightbox (keyboard + arrow navigation). Ports the
- * design's Gallery screen interactions.
+ * Instagram-feed-style gallery with a category/product filter. The square grid
+ * loads the next page automatically as the user nears the bottom
+ * (IntersectionObserver on a sentinel). The filter bar / browse sheet drive a
+ * `selection`; changing it refetches page 1 for that filter and the infinite
+ * scroll continues within the filtered set. Tapping a tile opens the shared
+ * {@link PhotoLightbox}.
  */
-export default function GalleryClient() {
-  const [filter, setFilter] = useState("All");
+export default function GalleryClient({ initialItems, initialHasMore, taxonomy }: GalleryClientProps) {
+  const [selection, setSelection] = useState<GallerySelection>(ALL_SELECTION);
+  const [browseOpen, setBrowseOpen] = useState(false);
+  const [items, setItems] = useState(initialItems);
+  const [hasMore, setHasMore] = useState(initialHasMore);
   const [loading, setLoading] = useState(false);
   const [viewer, setViewer] = useState(-1);
-  const loadTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nextPage = useRef(2);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const loadingRef = useRef(false);
+  const didMount = useRef(false);
 
-  const items =
-    filter === "All"
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter((i) => i.category === filter);
+  const selKey = selectionKey(selection);
 
-  const changeFilter = (cat: string) => {
-    if (cat === filter) return;
-    setViewer(-1);
-    setFilter(cat);
+  // Refetch page 1 whenever the filter changes. Skip the very first render —
+  // it already has the SSR'd "all" page 1.
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
+    let cancelled = false;
+    loadingRef.current = true;
     setLoading(true);
-    if (loadTimer.current) clearTimeout(loadTimer.current);
-    loadTimer.current = setTimeout(() => setLoading(false), 360);
-  };
+    setViewer(-1);
+    setItems([]);
+    fetch(`/api/gallery/feed?page=1${selectionQuery(selection)}`)
+      .then((r) => r.json() as Promise<GalleryFeedPage>)
+      .then((data) => {
+        if (cancelled) return;
+        setItems(data.items);
+        setHasMore(data.hasMore);
+        nextPage.current = 2;
+      })
+      .finally(() => {
+        if (!cancelled) {
+          loadingRef.current = false;
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selKey]);
 
-  useEffect(() => () => {
-    if (loadTimer.current) clearTimeout(loadTimer.current);
-  }, []);
+  const loadMore = useCallback(async () => {
+    if (loadingRef.current || !hasMore) return;
+    loadingRef.current = true;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/gallery/feed?page=${nextPage.current}${selectionQuery(selection)}`);
+      const data: GalleryFeedPage = await res.json();
+      nextPage.current += 1;
+      setHasMore(data.hasMore);
+      if (data.items.length > 0) setItems((prev) => [...prev, ...data.items]);
+    } finally {
+      loadingRef.current = false;
+      setLoading(false);
+    }
+  }, [hasMore, selection]);
+
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) loadMore();
+      },
+      { rootMargin: "600px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [loadMore]);
 
   const open = viewer >= 0 && viewer < items.length;
+  const showEmpty = !loading && items.length === 0;
 
   return (
     <>
-      {/* Filter chips */}
-      <div
-        className="sticky top-[104px] z-[120] box-border px-[6vw] py-[clamp(12px,1.6vw,18px)] backdrop-blur-md"
-        style={{
-          background: "rgba(241,234,216,0.85)",
-          borderTop: "1px solid rgba(24,26,32,0.08)",
-          borderBottom: "1px solid rgba(24,26,32,0.08)",
-        }}
-      >
-        <div className="flex items-center gap-2.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {GALLERY_CATEGORIES.map((cat) => {
-            const on = cat === filter;
-            return (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => changeFilter(cat)}
-                className="flex-none whitespace-nowrap rounded-full px-5 py-[11px] text-[12.5px] font-bold uppercase tracking-[0.06em] transition-colors"
-                style={{
-                  border: `1px solid ${on ? "#00687F" : "rgba(24,26,32,0.2)"}`,
-                  background: on ? "#00687F" : "transparent",
-                  color: on ? "#FFFFFF" : "rgba(24,26,32,0.72)",
-                }}
-              >
-                {cat}{" "}
-                <span className="font-mono text-[10px] opacity-55">{countFor(cat)}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <GalleryFilterBar
+        taxonomy={taxonomy}
+        selection={selection}
+        onSelect={setSelection}
+        onOpenBrowse={() => setBrowseOpen(true)}
+      />
 
-      {/* Grid / states */}
       <section
         id="fw-gallery"
         className="box-border bg-cream px-[6vw] pb-[clamp(56px,7vw,96px)] pt-[clamp(28px,3.4vw,52px)]"
         style={{ minHeight: "60vh" }}
       >
-        {loading ? (
-          <>
-            <div className="mb-6 flex items-center gap-3 text-[#181A20]/50">
+        {showEmpty ? (
+          <EmptyState filtered={selection.type !== "all"} />
+        ) : (
+          <div key={selKey} className="grid grid-cols-3 gap-1 sm:gap-3 md:grid-cols-4">
+            {items.map((g, i) => (
+              <button
+                key={g.id}
+                type="button"
+                onClick={() => setViewer(i)}
+                className="group relative aspect-square w-full overflow-hidden rounded-lg border-0 p-0 text-left transition-transform duration-200 active:scale-[0.97] sm:rounded-2xl md:active:scale-100"
+                style={{
+                  background: "#DCD3BE",
+                  boxShadow: "0 2px 12px rgba(24,26,32,0.08)",
+                  animation: "fw-card-in 0.5s ease both",
+                  animationDelay: `${(i % GALLERY_ANIM_BATCH) * 0.04}s`,
+                }}
+              >
+                <Image
+                  src={g.src}
+                  alt={g.title}
+                  fill
+                  sizes="(max-width: 768px) 33vw, 25vw"
+                  className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
+                <span className="pointer-events-none absolute inset-x-3 bottom-3 hidden text-[13px] font-semibold uppercase tracking-[0.04em] text-white opacity-0 drop-shadow transition-opacity duration-300 group-hover:opacity-100 sm:block">
+                  {g.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {(hasMore || loading) && !showEmpty && (
+          <div ref={sentinelRef} className="mt-8 flex justify-center">
+            {loading && (
               <span
-                className="block h-[18px] w-[18px] rounded-full"
+                className="block h-[22px] w-[22px] rounded-full"
                 style={{
                   border: "2px solid rgba(0,104,127,0.25)",
                   borderTopColor: "#00687F",
                   animation: "fw-spin-fast 0.8s linear infinite",
                 }}
               />
-              <span className="font-mono text-xs tracking-[0.1em]">
-                LOADING {filter.toUpperCase()}…
-              </span>
-            </div>
-            <div className="grid grid-cols-3 gap-1 sm:block sm:[column-count:2] sm:[column-gap:16px] lg:[column-count:3]">
-              {SKELETON_HEIGHTS.map((h, i) => (
-                <div
-                  key={i}
-                  className="aspect-square w-full rounded-lg [break-inside:avoid] sm:mb-4 sm:aspect-auto sm:h-[var(--h)] sm:rounded-2xl"
-                  style={{
-                    ["--h" as string]: `${h}px`,
-                    background:
-                      "linear-gradient(100deg, #E4DAC4 30%, #EFE7D4 50%, #E4DAC4 70%)",
-                    backgroundSize: "720px 100%",
-                    animation: "fw-skel 1.3s linear infinite",
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        ) : items.length === 0 ? (
-          <EmptyState onReset={() => changeFilter("All")} />
-        ) : (
-          <div
-            key={filter}
-            className="grid grid-cols-3 gap-1 sm:block sm:[column-count:2] sm:[column-gap:16px] lg:[column-count:3]"
-          >
-            {items.map((g, i) => (
-              <button
-                key={g.id}
-                type="button"
-                onClick={() => setViewer(i)}
-                className="block w-full overflow-hidden rounded-lg border-0 p-0 text-left transition-transform duration-200 [break-inside:avoid] active:scale-[0.97] sm:mb-4 sm:rounded-2xl"
-                style={{
-                  background: "#DCD3BE",
-                  boxShadow: "0 2px 12px rgba(24,26,32,0.08)",
-                  animation: "fw-card-in 0.6s ease both",
-                  animationDelay: `${i * 0.05}s`,
-                }}
-              >
-                <div
-                  className="relative aspect-square w-full overflow-hidden sm:aspect-auto sm:h-[var(--h)]"
-                  style={{ ["--h" as string]: `${g.height}px` }}
-                >
-                  {g.image ? (
-                    <Image
-                      src={g.image}
-                      alt={g.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="absolute inset-0 object-cover object-center transition-transform duration-500 hover:scale-105"
-                    />
-                  ) : (
-                    <ImageSlot label={g.title} className="absolute inset-0 h-full w-full" />
-                  )}
-                  <div
-                    className="pointer-events-none absolute inset-0 hidden sm:block"
-                    style={{
-                      background:
-                        "linear-gradient(0deg,rgba(10,14,28,0.72) 0%,rgba(10,14,28,0.06) 46%,rgba(10,14,28,0) 70%)",
-                    }}
-                  />
-
-                  <div
-                    className="absolute left-3.5 top-3.5 hidden items-center gap-2 rounded-full px-3.5 py-[7px] backdrop-blur-sm sm:inline-flex"
-                    style={{ background: "rgba(10,14,28,0.42)" }}
-                  >
-                    <span className="block h-1.5 w-1.5 rounded-full" style={{ background: dotFor(g.category) }} />
-                    <span className="font-mono text-[9.5px] tracking-[0.12em] text-white/90">
-                      {g.category}
-                    </span>
-                  </div>
-
-                  {g.type === "video" && (
-                    <>
-                      <div
-                        className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full sm:h-16 sm:w-16"
-                        style={{ background: "rgba(255,255,255,0.92)", boxShadow: "0 10px 30px rgba(0,0,0,0.32)" }}
-                      >
-                        <PlayIcon size={22} />
-                      </div>
-                      <div
-                        className="absolute right-3.5 top-3.5 hidden items-center gap-1.5 rounded-full px-3 py-1.5 sm:inline-flex"
-                        style={{ background: "rgba(0,104,127,0.92)" }}
-                      >
-                        <span className="inline-flex items-center gap-1.5 font-mono text-[9.5px] tracking-[0.1em] text-white">
-                          <PlayIcon size={9} color="FFFFFF" /> {g.duration}
-                        </span>
-                      </div>
-                    </>
-                  )}
-
-                  <div className="absolute inset-x-4 bottom-3.5 hidden sm:block">
-                    <div
-                      className="font-display uppercase leading-[1.1] text-white"
-                      style={{ fontSize: "clamp(15px,1.3vw,19px)" }}
-                    >
-                      {g.title}
-                    </div>
-                    <div className="mt-[5px] font-mono text-[10.5px] tracking-[0.06em] text-white/[0.72]">
-                      {g.location}
-                    </div>
-                  </div>
-                </div>
-              </button>
-            ))}
+            )}
           </div>
         )}
       </section>
 
+      <GalleryBrowseSheet
+        open={browseOpen}
+        onClose={() => setBrowseOpen(false)}
+        taxonomy={taxonomy}
+        selection={selection}
+        onSelect={setSelection}
+      />
+
       {open && (
         <PhotoLightbox
-          slides={items.map((g) => ({
-            id: String(g.id),
-            type: g.type,
-            src: g.type === "video" ? g.videoSrc ?? null : g.image ?? null,
-            title: g.title,
-            subtitle: g.location,
-            badge: g.category,
-            badgeColor: dotFor(g.category),
-          }))}
+          slides={items.map((g) => ({ id: g.id, src: g.src, title: g.title }))}
           initialIndex={viewer}
           onClose={() => setViewer(-1)}
         />
@@ -225,7 +185,7 @@ export default function GalleryClient() {
   );
 }
 
-function EmptyState({ onReset }: { onReset: () => void }) {
+function EmptyState({ filtered }: { filtered: boolean }) {
   return (
     <div className="flex flex-col items-center justify-center gap-[18px] py-[clamp(56px,8vw,120px)] text-center">
       <div
@@ -238,16 +198,10 @@ function EmptyState({ onReset }: { onReset: () => void }) {
         Nothing here yet.
       </h3>
       <p className="m-0 max-w-[380px] text-[15px] text-[#181A20]/60">
-        We haven&apos;t published media for this category. Try another filter or
-        get in touch for project references.
+        {filtered
+          ? "No photos published for this filter yet — try another category or product."
+          : "We haven't published photos for the catalogue yet — check back soon, or get in touch for project references."}
       </p>
-      <button
-        type="button"
-        onClick={onReset}
-        className="mt-1.5 rounded-full border-0 bg-brand px-[26px] py-3.5 text-xs font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#004E5F]"
-      >
-        View all media
-      </button>
     </div>
   );
 }

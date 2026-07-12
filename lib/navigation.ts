@@ -14,7 +14,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "About", href: "/about" },
-  { label: "Gallery", href: "#" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Projects", href: "#" },
   { label: "News", href: "/#fw-news" },
   { label: "Catalogues", href: "#" },

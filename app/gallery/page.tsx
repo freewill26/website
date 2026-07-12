@@ -6,15 +6,35 @@ import FloatingEstimate from "@/components/site/FloatingEstimate";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import GalleryClient from "@/components/gallery/GalleryClient";
+import { getGalleryPageContent, getGalleryFeedPage, getGalleryTaxonomy } from "@/lib/api/gallery";
 
-export const metadata: Metadata = {
-  title: "Gallery · Freewill",
-  description:
-    "Photos and films from sports venues Freewill has surfaced, seated and equipped across India. Filter by surface to explore.",
-};
+/** SEO/OG metadata for `/gallery` sourced from the CMS "gallery" page. */
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getGalleryPageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
 
-/** Freewill Gallery — the "Freewill Gallery.dc.html" design. */
-export default function GalleryPage() {
+/**
+ * Freewill Gallery — an async Server Component. The hero copy comes from the
+ * CMS; the feed's first page is fetched server-side so it's in the initial
+ * HTML, and `GalleryClient` takes over paging further pages client-side.
+ */
+export default async function GalleryPage() {
+  const [content, firstPage, taxonomy] = await Promise.all([
+    getGalleryPageContent(),
+    getGalleryFeedPage(1),
+    getGalleryTaxonomy(),
+  ]);
+  const headlineLines = content.hero.headline.split("\n").map((line) => line.trim());
+
   return (
     <div className="overflow-x-clip bg-cream text-[#111820]">
       <SiteHeader solid />
@@ -26,14 +46,14 @@ export default function GalleryPage() {
               <FwReveal className="mb-3.5 flex items-center gap-3">
                 <span className="block h-0.5 w-7 bg-brand" />
                 <span className="text-xs font-bold tracking-[0.28em] text-brand">
-                  THE GALLERY
+                  {content.hero.title.toUpperCase()}
                 </span>
               </FwReveal>
               <MaskedHeading
                 as="h1"
                 className="m-0 font-display uppercase leading-[0.94] text-[#111820]"
                 style={{ fontSize: "clamp(44px,6.4vw,108px)" }}
-                lines={["Where India", "comes to play."]}
+                lines={headlineLines}
               />
             </div>
             <FwReveal
@@ -41,13 +61,16 @@ export default function GalleryPage() {
               className="m-0 max-w-[380px] leading-[1.7] text-[#181A20]/[0.62]"
               style={{ fontSize: "clamp(15px,1.4vw,18px)" }}
             >
-              Photos and films from venues we&apos;ve surfaced, seated and
-              equipped across the country. Filter by surface to explore.
+              {content.hero.description}
             </FwReveal>
           </div>
         </section>
 
-        <GalleryClient />
+        <GalleryClient
+          initialItems={firstPage.items}
+          initialHasMore={firstPage.hasMore}
+          taxonomy={taxonomy}
+        />
 
         {/* CTA banner */}
         <section className="box-border bg-brand px-[6vw] py-[clamp(60px,8vw,100px)] text-center text-cream">
