@@ -149,6 +149,15 @@ export interface HomePageContent {
     image2: string;
   };
   showreel: { youtubeId: string };
+  whoWeWorkWith: {
+    headline: string;
+    paragraph1: string;
+    paragraph2: string;
+    buttonLabel: string;
+    buttonLink: string;
+    image: string;
+    audiences: string[];
+  };
   brands: { headline: string; description: string };
   products: { headline: string; paragraph: string };
   timeline: { headline: string };
@@ -203,6 +212,24 @@ const HOME_CONTENT_DEFAULTS: HomePageContent = {
     image2: "/assets/home-about-install.png",
   },
   showreel: { youtubeId: "StguKQPzkEs" },
+  whoWeWorkWith: {
+    headline: "Who We Work With",
+    paragraph1:
+      "Since 1990, Freewill has been India's leading sports infrastructure company, delivering Taraflex® flooring, stadium seating and gymnastics equipment for the country's biggest venues.",
+    paragraph2:
+      "As a trusted, knowledgeable partner we're committed to professional service and client satisfaction — supporting Sports Directors, Facility Managers, Coaches and Groundsmen at every level of practice and play.",
+    buttonLabel: "READ MORE",
+    buttonLink: "/about",
+    image: "https://picsum.photos/seed/who-we-work-with/900/1100",
+    audiences: [
+      "Schools",
+      "Colleges & Universities",
+      "Sports Clubs",
+      "Professional Clubs",
+      "Sporting Associations",
+      "Individuals",
+    ],
+  },
   brands: {
     headline: "The company we keep.",
     description:
@@ -297,6 +324,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const counts = section("counts_section");
   const about = section("about_section");
   const video = section("video_section");
+  const whoWeWorkWith = section("who_we_work_with_section");
   const brands = section("brand_section");
   const products = section("category_section");
   const timeline = section("milestone_section");
@@ -344,6 +372,18 @@ export async function getHomePageContent(): Promise<HomePageContent> {
     },
     showreel: {
       youtubeId: extractYouTubeId(fieldValue(video, "youtube_url")) ?? d.showreel.youtubeId,
+    },
+    whoWeWorkWith: {
+      headline: fieldValue(whoWeWorkWith, "headline") ?? d.whoWeWorkWith.headline,
+      paragraph1: fieldValue(whoWeWorkWith, "paragraph_1") ?? d.whoWeWorkWith.paragraph1,
+      paragraph2: fieldValue(whoWeWorkWith, "paragraph_2") ?? d.whoWeWorkWith.paragraph2,
+      buttonLabel:
+        fieldValue(whoWeWorkWith, "button_label")?.toUpperCase() ?? d.whoWeWorkWith.buttonLabel,
+      buttonLink: fieldValue(whoWeWorkWith, "button_link") ?? d.whoWeWorkWith.buttonLink,
+      image: imageFieldValue(whoWeWorkWith, "image") ?? d.whoWeWorkWith.image,
+      audiences: d.whoWeWorkWith.audiences.map(
+        (fallback, i) => fieldValue(whoWeWorkWith, `audience_${i + 1}_label`) ?? fallback,
+      ),
     },
     brands: {
       headline: fieldValue(brands, "headline") ?? d.brands.headline,

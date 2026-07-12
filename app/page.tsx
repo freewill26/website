@@ -6,6 +6,7 @@ import HomeSplash from "@/components/home/HomeSplash";
 import HomeHero from "@/components/home/HomeHero";
 import HomeStats from "@/components/home/HomeStats";
 import HomeAbout from "@/components/home/HomeAbout";
+import HomeWhoWeWorkWith from "@/components/home/HomeWhoWeWorkWith";
 import HomeBrands from "@/components/home/HomeBrands";
 import HomeShowreel from "@/components/home/HomeShowreel";
 import HomeProducts from "@/components/home/HomeProducts";
@@ -83,6 +84,7 @@ export default async function HomePage() {
         <HomeHero content={content.hero} meta1={content.heroMeta1} meta2={content.heroMeta2} />
         <HomeStats stats={content.stats} />
         <HomeAbout content={content.about} />
+        <HomeWhoWeWorkWith content={content.whoWeWorkWith} />
         <HomeBrands
           brands={brands}
           heading={content.brands.headline}
