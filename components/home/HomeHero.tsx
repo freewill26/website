@@ -10,6 +10,8 @@ interface HomeHeroContent {
   button1Link: string;
   button2Label: string;
   button2Link: string;
+  /** CMS-managed URL for the scroll-scrubbed background video. */
+  backgroundVideo: string;
 }
 
 interface HomeHeroMeta {
@@ -121,7 +123,7 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       <div className="sticky top-0 h-screen overflow-hidden">
         <video
           ref={videoRef}
-          src="/assets/lulu.mp4"
+          src={content.backgroundVideo}
           preload="auto"
           playsInline
           muted
