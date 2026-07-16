@@ -89,13 +89,10 @@ export default function HomeGlobe({ regions, heading, description }: HomeGlobePr
           {/* Globe: below lg it flows under the copy, centered and pulled past
               the card's bottom edge so the sphere crops like a horizon; at lg
               it anchors past the bottom-right corner instead. */}
-          <div className="relative mx-auto mt-10 aspect-square w-full max-w-[440px] mb-[calc(-1*var(--pad)-38%)] [touch-action:pan-y] lg:absolute lg:bottom-[max(-52%,-460px)] lg:right-[max(-24%,-260px)] lg:m-0 lg:w-[min(860px,60vw)] lg:max-w-none">
+          <div className="relative mx-auto mt-10 aspect-square w-full max-w-[440px] mb-[calc(-1*var(--pad)-22%)] [touch-action:pan-y] lg:absolute lg:bottom-[max(-24%,-210px)] lg:right-[max(-14%,-150px)] lg:m-0 lg:w-[min(860px,60vw)] lg:max-w-none">
             <Globe3D
               className="h-full w-full"
               config={{
-                atmosphereColor: "#4da6ff",
-                atmosphereIntensity: 20,
-                atmosphereBlur: 3,
                 bumpScale: 5,
                 autoRotateSpeed: 0.3,
               }}
