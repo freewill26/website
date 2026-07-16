@@ -84,6 +84,124 @@
   animation: fw-shimmer 3s linear infinite;
 }
 
+/* ===========================================================================
+   CMS-authored article body (News + Blog `content`, via <ArticleBody>)
+   Tailwind's Preflight resets h1–h6 to `font-size/font-weight: inherit`, so
+   every tag the editor can emit needs an explicit rule here or it renders as
+   plain body copy. Element selectors are scoped under `.fw-article`, which
+   also outranks Preflight's bare-element reset.
+   =========================================================================== */
+.fw-article {
+  font-size: 17px;
+  line-height: 1.85;
+  color: rgba(24, 26, 32, 0.74);
+}
+
+.fw-article h1,
+.fw-article h2,
+.fw-article h3,
+.fw-article h4,
+.fw-article h5,
+.fw-article h6 {
+  font-family: var(--font-anton), sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #181a20;
+}
+
+/* The page's own <h1> is the article title, so content headings step down from it. */
+.fw-article h1 { font-size: clamp(26px, 2.9vw, 38px); line-height: 1.08; margin: 40px 0 16px; }
+.fw-article h2 { font-size: clamp(22px, 2.4vw, 32px); line-height: 1.1;  margin: 40px 0 16px; }
+.fw-article h3 { font-size: clamp(19px, 2vw, 24px);   line-height: 1.15; margin: 32px 0 12px; }
+.fw-article h4 { font-size: 16px; line-height: 1.2;  margin: 28px 0 10px; }
+.fw-article h5 { font-size: 14px; line-height: 1.25; margin: 24px 0 8px; }
+.fw-article h6 { font-size: 13px; line-height: 1.3;  margin: 24px 0 8px; letter-spacing: 0.1em; }
+
+.fw-article > :first-child { margin-top: 0; }
+
+.fw-article p { margin: 0 0 20px; }
+.fw-article p:last-child { margin-bottom: 0; }
+
+.fw-article strong,
+.fw-article b { font-weight: 700; color: #181a20; }
+
+.fw-article a {
+  color: #00687f;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.fw-article a:hover { color: #004e5f; }
+
+.fw-article ul,
+.fw-article ol { margin: 0 0 20px; padding-left: 22px; }
+.fw-article ul { list-style: disc; }
+.fw-article ol { list-style: decimal; }
+.fw-article li { margin-bottom: 8px; }
+
+.fw-article blockquote {
+  margin: 32px 0;
+  padding-left: 24px;
+  border-left: 2px solid #00687f;
+  font-style: italic;
+  color: rgba(24, 26, 32, 0.6);
+}
+
+.fw-article img { margin: 24px 0; width: 100%; border-radius: 16px; }
+.fw-article figure { margin: 24px 0; }
+.fw-article figcaption {
+  margin-top: 12px;
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  color: rgba(24, 26, 32, 0.45);
+}
+
+.fw-article hr { margin: 36px 0; border: 0; border-top: 1px solid rgba(24, 26, 32, 0.12); }
+
+.fw-article code {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.9em;
+  background: rgba(24, 26, 32, 0.06);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.fw-article pre {
+  margin: 24px 0;
+  padding: 20px;
+  border-radius: 12px;
+  background: #0a1024;
+  color: #dff6fa;
+  overflow-x: auto;
+}
+.fw-article pre code { background: none; padding: 0; color: inherit; }
+
+/* Wide tables scroll inside their own wrapper rather than breaking the page. */
+.fw-article table {
+  margin: 24px 0;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  display: block;
+  overflow-x: auto;
+}
+.fw-article th,
+.fw-article td {
+  border: 1px solid rgba(24, 26, 32, 0.16);
+  padding: 10px 12px;
+  text-align: left;
+}
+.fw-article th { font-weight: 700; color: #181a20; background: rgba(24, 26, 32, 0.04); }
+
+/* Drop cap — only when the article opens on a paragraph, so it never lands mid-body. */
+.fw-article > p:first-child::first-letter {
+  float: left;
+  margin-right: 12px;
+  font-family: var(--font-anton), sans-serif;
+  font-size: 64px;
+  line-height: 0.78;
+  color: #00687f;
+}
+
 .fw-anim-ribbon   { animation: fw-ribbon 26s linear infinite; }
 .fw-anim-shimmer  { animation: fw-shimmer 3s linear infinite; }
 .fw-anim-pill     { animation: fw-shimmer 3s linear infinite, fw-glow 2.4s ease-in-out infinite; }

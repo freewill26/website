@@ -114,6 +114,18 @@ export interface ApiTestimonial {
   order: number;
 }
 
+/**
+ * The CMS `keyvalue` field submits `{ key, value }`, but some seeded records
+ * predate that convention and stored `{ label, value }` instead — tolerate
+ * both rather than dropping the fact.
+ */
+export interface ApiKeyFact {
+  key?: string;
+  label?: string;
+  value: string;
+}
+
+/** `GET /news` and `GET /news/:id` return the same shape — no list-projection on this resource. */
 export interface ApiNews {
   id: string;
   bannerImageUrl: string;
@@ -122,7 +134,34 @@ export interface ApiNews {
   publishedDate: string;
   title: string;
   description: string;
+  /** Full article body (HTML), authored via the CMS rich-text editor. */
+  content: string;
+  keyFacts: ApiKeyFact[];
   isActive: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+}
+
+/** `GET /blogs` and `GET /blogs/:id` — same shape, no list-projection on this resource. */
+export interface ApiBlog {
+  id: string;
+  bannerImageUrl: string;
+  bannerImageAlt: string | null;
+  tag: string | null;
+  publishedDate: string;
+  title: string;
+  description: string;
+  /** Full post body (HTML), authored via the CMS rich-text editor. */
+  content: string;
+  isActive: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
 }
 
 /** CMS `Field.type`; `value` shape depends on it (plain string, or `{ url, alt }` for images). */
