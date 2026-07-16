@@ -71,6 +71,28 @@
 @keyframes fw-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes fw-ping { 0% { transform: scale(0.6); opacity: 0.9; } 80%,100% { transform: scale(2.6); opacity: 0; } }
 
+/* Mobile menu overlay (MobileMenu.tsx): panel fade/settle on open, staggered
+   link reveal out of overflow-hidden masks, and a quick fade on dismiss. The
+   exit duration must stay in sync with EXIT_MS in MobileMenu.tsx. */
+@keyframes fw-menu-in       { from { opacity: 0; transform: translateY(14px) scale(0.985); } to { opacity: 1; transform: none; } }
+@keyframes fw-menu-out      { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(10px) scale(0.985); } }
+@keyframes fw-menu-link-in  { from { opacity: 0; transform: translateY(110%); } to { opacity: 1; transform: none; } }
+
+.fw-menu-enter  { animation: fw-menu-in 0.34s cubic-bezier(0.32, 0.72, 0.24, 1) both; }
+.fw-menu-exit   { animation: fw-menu-out 0.26s ease-in both; }
+.fw-menu-chrome { animation: fade 0.45s ease-out 0.12s both; }
+.fw-menu-link   { animation: fw-menu-link-in 0.55s cubic-bezier(0.22, 0.9, 0.24, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-menu-enter,
+  .fw-menu-exit,
+  .fw-menu-chrome,
+  .fw-menu-link {
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
+  }
+}
+
 /* CMS-authored hero headline: `<strong>` renders in the brand shimmer gradient
    (ports the wordmark treatment previously hardcoded in AboutHero). */
 .fw-hero-headline strong {
