@@ -4,16 +4,16 @@ import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import AboutHero from "@/components/about/AboutHero";
 import AboutManifesto from "@/components/about/AboutManifesto";
-import AboutMarquee from "@/components/about/AboutMarquee";
 import AboutStats from "@/components/about/AboutStats";
 import AboutStory from "@/components/about/AboutStory";
 import AboutFounderQuote from "@/components/about/AboutFounderQuote";
 import AboutTeam from "@/components/about/AboutTeam";
 import AboutAwards from "@/components/about/AboutAwards";
-import AboutBrands from "@/components/about/AboutBrands";
 import AboutContact from "@/components/about/AboutContact";
-import { getAboutPageContent, getTeam, getAboutBrands } from "@/lib/api/about";
+import HomeBrands from "@/components/home/HomeBrands";
+import { getAboutPageContent, getTeam } from "@/lib/api/about";
 import type { AboutStoryVM } from "@/lib/api/about";
+import { getBrands } from "@/lib/api/home";
 import { getCatalogOptions } from "@/lib/api/products";
 
 /** SEO/OG metadata for `/about` sourced from the CMS "about" page. */
@@ -45,10 +45,9 @@ export default async function AboutPage() {
   const [content, team, brands, catalogOptions] = await Promise.all([
     getAboutPageContent(),
     getTeam(),
-    getAboutBrands(),
+    getBrands(),
     getCatalogOptions(),
   ]);
-  // brands.organisations → "Trusted by…" band; brands.brands → the ✦ ribbon.
 
   return (
     <div className="overflow-x-clip" style={{ background: "#0A0E1C" }}>
@@ -61,7 +60,6 @@ export default async function AboutPage() {
           backgroundImage={content.hero.backgroundImage}
         />
         <AboutManifesto words={content.whoWeAre.words} />
-        <AboutMarquee items={brands.brands} />
         <AboutStats stats={content.stats} />
         <AboutStory
           id="fw-s1"
@@ -104,7 +102,11 @@ export default async function AboutPage() {
         />
         <AboutTeam founders={team.founders} people={team.people} />
         {/* <AboutAwards /> */}
-        <AboutBrands brands={brands.organisations} />
+        <HomeBrands
+          brands={brands}
+          heading="The company we keep."
+          description="The federations and institutions we build for, and the world-class product brands we bring to India — one network behind every arena."
+        />
         <AboutContact options={catalogOptions} />
       </main>
       <SiteFooter />

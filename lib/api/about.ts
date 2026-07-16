@@ -4,19 +4,15 @@
  * `getAboutPageContent` reads the CMS "about" page (slug `about`) and maps each
  * section's fields into the small view model its component consumes; every
  * field falls back independently to {@link ABOUT_CONTENT_DEFAULTS} so a missing
- * section/field (or a down API) never blanks the page. `getTeam` and
- * `getAboutBrands` fetch the two collection-backed sections.
+ * section/field (or a down API) never blanks the page. `getTeam` fetches the
+ * other collection-backed section.
  */
 import { safeGet, safeList } from "./http";
 import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { ABOUT_LIMITS } from "@/utils/constants";
 import { sanitizeRichText, sanitizeInlineRichText } from "@/utils/sanitizeHtml";
-import {
-  ABOUT_STATS,
-  MANIFESTO_WORDS,
-  BRAND_PARTNERS,
-} from "@/lib/aboutContent";
-import type { ApiBrand, ApiField, ApiPage, ApiTeamMember } from "./types";
+import { ABOUT_STATS, MANIFESTO_WORDS } from "@/lib/aboutContent";
+import type { ApiField, ApiPage, ApiTeamMember } from "./types";
 
 /* ------------------------------------------------------------------ *
  * View models (the props each About* component receives)
@@ -350,40 +346,5 @@ export async function getTeam(): Promise<AboutTeamVM> {
   return {
     founders: founders.length ? founders : DEFAULT_FOUNDERS,
     people: people.length ? people : DEFAULT_PEOPLE,
-  };
-}
-
-/** The two brand rows: partner organisations and the product brands we carry. */
-export interface AboutBrandsVM {
-  /** Federations/institutions → "Trusted by India's Leading Organizations". */
-  organisations: string[];
-  /** Product brands (Taraflex®, Gerflor, …) → the ✦ marquee ribbon. */
-  brands: string[];
-}
-
-const DEFAULT_ABOUT_BRANDS: AboutBrandsVM = {
-  organisations: [...BRAND_PARTNERS],
-  brands: ["Taraflex®", "Gerflor", "Connor Sports", "Sport Court", "Spieth", "Junckers"],
-};
-
-/**
- * Brands → the two About marquees, split by the record's `category`
- * (ORGANISATION vs BRAND). Each row falls back to the design's static list when
- * the API returns nothing for it.
- */
-export async function getAboutBrands(): Promise<AboutBrandsVM> {
-  const records = await safeList<ApiBrand>(API_ENDPOINTS.brands, {
-    searchParams: { limit: ABOUT_LIMITS.brands },
-  });
-  if (records.length === 0) return DEFAULT_ABOUT_BRANDS;
-
-  const organisations = records
-    .filter((b) => b.category === "ORGANISATION")
-    .map((b) => b.title);
-  const brands = records.filter((b) => b.category === "BRAND").map((b) => b.title);
-
-  return {
-    organisations: organisations.length ? organisations : DEFAULT_ABOUT_BRANDS.organisations,
-    brands: brands.length ? brands : DEFAULT_ABOUT_BRANDS.brands,
   };
 }

@@ -158,7 +158,6 @@ export interface HomePageContent {
     image: string;
     audiences: string[];
   };
-  brands: { headline: string; description: string };
   products: { headline: string; paragraph: string };
   timeline: { headline: string };
   references: { headline: string; description: string };
@@ -229,11 +228,6 @@ const HOME_CONTENT_DEFAULTS: HomePageContent = {
       "Sporting Associations",
       "Individuals",
     ],
-  },
-  brands: {
-    headline: "The company we keep.",
-    description:
-      "The federations and institutions we build for, and the world-class product brands we bring to India — one network behind every arena.",
   },
   products: {
     headline: "Every surface. Every category.",
@@ -325,7 +319,6 @@ export async function getHomePageContent(): Promise<HomePageContent> {
   const about = section("about_section");
   const video = section("video_section");
   const whoWeWorkWith = section("who_we_work_with_section");
-  const brands = section("brand_section");
   const products = section("category_section");
   const timeline = section("milestone_section");
   const references = section("events_section");
@@ -384,10 +377,6 @@ export async function getHomePageContent(): Promise<HomePageContent> {
       audiences: d.whoWeWorkWith.audiences.map(
         (fallback, i) => fieldValue(whoWeWorkWith, `audience_${i + 1}_label`) ?? fallback,
       ),
-    },
-    brands: {
-      headline: fieldValue(brands, "headline") ?? d.brands.headline,
-      description: fieldValue(brands, "description") ?? d.brands.description,
     },
     products: {
       headline: fieldValue(products, "headline") ?? d.products.headline,

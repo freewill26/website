@@ -7,7 +7,6 @@ import HomeHero from "@/components/home/HomeHero";
 import HomeStats from "@/components/home/HomeStats";
 import HomeAbout from "@/components/home/HomeAbout";
 import HomeWhoWeWorkWith from "@/components/home/HomeWhoWeWorkWith";
-import HomeBrands from "@/components/home/HomeBrands";
 import HomeShowreel from "@/components/home/HomeShowreel";
 import HomeProducts from "@/components/home/HomeProducts";
 import HomeTimeline from "@/components/home/HomeTimeline";
@@ -19,7 +18,6 @@ import HomeNews from "@/components/home/HomeNews";
 import HomeContact from "@/components/home/HomeContact";
 import HomeCta from "@/components/home/HomeCta";
 import {
-  getBrands,
   getCategories,
   getMilestones,
   getEvents,
@@ -53,7 +51,6 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function HomePage() {
   const [
-    brands,
     categories,
     milestones,
     events,
@@ -64,7 +61,6 @@ export default async function HomePage() {
     content,
     catalogOptions,
   ] = await Promise.all([
-    getBrands(),
     getCategories(),
     getMilestones(),
     getEvents(),
@@ -85,11 +81,6 @@ export default async function HomePage() {
         <HomeStats stats={content.stats} />
         <HomeAbout content={content.about} />
         <HomeWhoWeWorkWith content={content.whoWeWorkWith} />
-        <HomeBrands
-          brands={brands}
-          heading={content.brands.headline}
-          description={content.brands.description}
-        />
         <HomeShowreel youtubeId={content.showreel.youtubeId} />
         <HomeProducts
           categories={categories}
