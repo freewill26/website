@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { NAV_ITEMS } from "@/lib/navigation";
 import { CloseIcon } from "@/components/ui/icons";
+import useOverlayPhase from "@/lib/useOverlayPhase";
 
 interface MobileMenuProps {
   open: boolean;
@@ -27,38 +27,7 @@ const LINK_STAGGER_STEP = 55;
  * overlay fades back out before unmounting.
  */
 export default function MobileMenu({ open, onClose }: MobileMenuProps) {
-  // "closing" keeps the overlay mounted while the exit animation plays.
-  const [phase, setPhase] = useState<"closed" | "open" | "closing">("closed");
-
-  useEffect(() => {
-    if (open) {
-      setPhase("open");
-    } else {
-      setPhase((prev) => (prev === "open" ? "closing" : prev));
-    }
-  }, [open]);
-
-  useEffect(() => {
-    if (phase !== "closing") return;
-    const timer = window.setTimeout(() => setPhase("closed"), EXIT_MS);
-    return () => window.clearTimeout(timer);
-  }, [phase]);
-
-  // Lock page scroll and let Escape dismiss while the menu is up.
-  useEffect(() => {
-    if (phase !== "open") return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [phase, onClose]);
-
+  const phase = useOverlayPhase(open, onClose, EXIT_MS);
   if (phase === "closed") return null;
 
   const closing = phase === "closing";
