@@ -15,6 +15,29 @@ interface EnquiryFormProps {
   tone?: "light" | "dark";
   /** Pre-fills the "surface / product" field, e.g. when arriving from a product page. */
   defaultValue?: string;
+  /** Destination WhatsApp number (any format) — the submit redirects here with a formatted message. */
+  whatsapp: string;
+}
+
+/** Builds the `wa.me` deep link carrying the enquiry as a pre-filled, bold-labelled message. */
+function buildWhatsAppUrl(
+  whatsapp: string,
+  selectLabel: string,
+  fields: { fullName: string; phone: string; email: string; surfaceProduct: string; projectDetails: string },
+): string {
+  const message = [
+    "*New enquiry — Freewill website*",
+    "",
+    `*Name:* ${fields.fullName}`,
+    `*Phone:* ${fields.phone}`,
+    `*Email:* ${fields.email}`,
+    `*${selectLabel}:* ${fields.surfaceProduct || "—"}`,
+    "",
+    "*Project details:*",
+    fields.projectDetails || "—",
+  ].join("\n");
+
+  return `https://wa.me/${whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
 }
 
 const MAX_SUGGESTIONS = 8;
@@ -113,6 +136,7 @@ export default function EnquiryForm({
   fieldBg,
   tone = "light",
   defaultValue,
+  whatsapp,
 }: EnquiryFormProps) {
   const [sent, setSent] = useState(false);
   const dark = tone === "dark";
@@ -157,8 +181,17 @@ export default function EnquiryForm({
     );
   }
 
-  const submit = (e: FormEvent) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const url = buildWhatsAppUrl(whatsapp, selectLabel, {
+      fullName: String(data.get("fullName") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      email: String(data.get("email") ?? ""),
+      surfaceProduct: String(data.get("surfaceProduct") ?? ""),
+      projectDetails: String(data.get("projectDetails") ?? ""),
+    });
+    window.open(url, "_blank", "noopener,noreferrer");
     setSent(true);
   };
 
@@ -171,17 +204,17 @@ export default function EnquiryForm({
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>FULL NAME</span>
-          <input required type="text" placeholder="Your name" className={fieldCls} style={fieldStyle} />
+          <input required name="fullName" type="text" placeholder="Your name" className={fieldCls} style={fieldStyle} />
         </label>
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>PHONE</span>
-          <input required type="tel" placeholder="+91 …" className={fieldCls} style={fieldStyle} />
+          <input required name="phone" type="tel" placeholder="+91 …" className={fieldCls} style={fieldStyle} />
         </label>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>EMAIL</span>
-          <input required type="email" placeholder="you@company.com" className={fieldCls} style={fieldStyle} />
+          <input required name="email" type="email" placeholder="you@company.com" className={fieldCls} style={fieldStyle} />
         </label>
         <ProductAutocomplete
           options={options}
@@ -198,6 +231,7 @@ export default function EnquiryForm({
         <span className={labelCls} style={{ color: labelColor }}>PROJECT DETAILS</span>
         <textarea
           rows={4}
+          name="projectDetails"
           placeholder="Tell us about your venue, timeline and requirements…"
           className={`${fieldCls} resize-y leading-[1.7]`}
           style={fieldStyle}

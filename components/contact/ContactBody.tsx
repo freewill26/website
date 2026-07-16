@@ -1,7 +1,6 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
-import ImageSlot from "@/components/site/ImageSlot";
-import { mailHref, telHref, whatsappHref } from "@/lib/api/contact";
+import { mailHref, mapEmbedUrl, telHref, whatsappHref } from "@/lib/api/contact";
 
 interface ContactBodyProps {
   options: string[];
@@ -60,6 +59,7 @@ export default function ContactBody({ options, address, email, phone, whatsapp, 
               selectLabel="PROJECT TYPE"
               cardBg="#F6F1E6"
               fieldBg="#FFFFFF"
+              whatsapp={whatsapp}
             />
           </FwReveal>
         </div>
@@ -72,19 +72,26 @@ export default function ContactBody({ options, address, email, phone, whatsapp, 
           <span className="text-xs font-bold tracking-[0.28em] text-brand">FIND US</span>
         </FwReveal>
         <FwReveal>
-          <a
-            href={mapUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block no-underline"
+          <div
+            className="relative aspect-[16/6] w-full overflow-hidden"
+            style={{ borderRadius: "18px" }}
           >
-            <ImageSlot
-              label="View on Google Maps"
-              shape="rounded"
-              className="aspect-[16/6] w-full"
-              style={{ borderRadius: "18px" }}
+            <iframe
+              src={mapEmbedUrl(mapUrl, address)}
+              title="Freewill office location"
+              className="absolute inset-0 h-full w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             />
-          </a>
+            <a
+              href={mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute right-3 top-3 rounded-md bg-white/95 px-3 py-1.5 text-[11px] font-bold tracking-[0.12em] text-[#181A20] no-underline shadow-sm transition-colors hover:text-brand"
+            >
+              OPEN IN GOOGLE MAPS
+            </a>
+          </div>
         </FwReveal>
       </section>
     </>

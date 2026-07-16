@@ -1,8 +1,10 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
+import { getContactChannels } from "@/lib/api/contact";
 
 /** "Get in touch" — contact details beside the enquiry form. */
-export default function HomeContact({ options }: { options: string[] }) {
+export default async function HomeContact({ options }: { options: string[] }) {
+  const { address, email, phone, whatsapp } = await getContactChannels();
   return (
     <section
       id="fw-contact"
@@ -28,12 +30,10 @@ export default function HomeContact({ options }: { options: string[] }) {
             team responds within one working day.
           </p>
           <div className="flex flex-col gap-[22px]">
-            <Detail label="OFFICE">
-              6, Premier Plaza-II, Mumbai–Pune Highway, Chinchwad, Pune 411019
-            </Detail>
+            <Detail label="OFFICE">{address}</Detail>
             <div className="flex flex-wrap gap-12">
-              <Detail label="EMAIL">info@freewill.co.in</Detail>
-              <Detail label="PHONE">+91 20661 14215</Detail>
+              <Detail label="EMAIL">{email}</Detail>
+              <Detail label="PHONE">{phone}</Detail>
             </div>
           </div>
         </FwReveal>
@@ -44,6 +44,7 @@ export default function HomeContact({ options }: { options: string[] }) {
             selectLabel="PROJECT TYPE"
             cardBg="#F6F1E6"
             fieldBg="#FFFFFF"
+            whatsapp={whatsapp}
           />
         </FwReveal>
       </div>

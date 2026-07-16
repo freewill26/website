@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { NAV_ITEMS } from "@/lib/navigation";
+import { getContactChannels } from "@/lib/api/contact";
 
 const PRODUCT_LINKS = [
   "Taraflex® Indoor Surfaces",
@@ -12,7 +13,8 @@ const PRODUCT_LINKS = [
 const SOCIALS = ["Facebook", "Instagram", "LinkedIn", "YouTube"];
 
 /** Site footer: brand blurb, page/product/contact columns and a watermark. */
-export default function Footer() {
+export default async function Footer() {
+  const { address, email, phone } = await getContactChannels();
   return (
     <footer className="border-t border-brand-accent/12 bg-ink px-[6vw] pb-8 pt-14 text-cream sm:pt-20 lg:pt-24">
       <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
@@ -52,11 +54,9 @@ export default function Footer() {
 
         {/* Contact */}
         <FooterColumn title="Contact">
-          <span className="text-[13px] leading-[1.7] text-mist/60">
-            6, Premier Plaza-II, Mumbai–Pune Highway, Chinchwad, Pune 411019
-          </span>
-          <span className="text-[13px] text-mist/60">info@freewill.co.in</span>
-          <span className="text-[13px] text-mist/60">+91 20661 14215</span>
+          <span className="text-[13px] leading-[1.7] text-mist/60">{address}</span>
+          <span className="text-[13px] text-mist/60">{email}</span>
+          <span className="text-[13px] text-mist/60">{phone}</span>
         </FooterColumn>
       </div>
 

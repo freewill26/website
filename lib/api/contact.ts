@@ -81,6 +81,47 @@ export function safeMapUrl(url: string): string {
   return /^https?:\/\//i.test(url) ? url : CONTACT_CONTENT_DEFAULTS.mapUrl;
 }
 
+/**
+ * No-API-key Google Maps embed src for the "Find us" iframe. Reuses the `q=`
+ * search query off the CMS map URL when present (the shape our default and
+ * the CMS editor both produce), otherwise falls back to geocoding the office
+ * address text directly.
+ */
+export function mapEmbedUrl(mapUrl: string, address: string): string {
+  let query = address;
+  try {
+    const q = new URL(mapUrl).searchParams.get("q");
+    if (q) query = q;
+  } catch {
+    // Not a parseable URL — fall back to the address.
+  }
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+}
+
+/* ------------------------------------------------------------------ *
+ * Shared contact channels
+ * ------------------------------------------------------------------ */
+
+/** The CMS-managed contact details reused across the site (footers, CTA bands, enquiry blocks). */
+export interface ContactChannels {
+  address: string;
+  email: string;
+  phone: string;
+  whatsapp: string;
+  mapUrl: string;
+}
+
+/**
+ * Contact channels for any component outside `/contact` that shows contact
+ * details. Same CMS fetch as {@link getContactPageContent} — Next.js dedupes
+ * the underlying `fetch`, so scattering this across footers/CTAs costs one
+ * API call per render.
+ */
+export async function getContactChannels(): Promise<ContactChannels> {
+  const { address, email, phone, whatsapp, mapUrl } = await getContactPageContent();
+  return { address, email, phone, whatsapp, mapUrl };
+}
+
 /* ------------------------------------------------------------------ *
  * Page content
  * ------------------------------------------------------------------ */

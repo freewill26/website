@@ -1,8 +1,10 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
+import { getContactChannels } from "@/lib/api/contact";
 
 /** Dark "Get in touch" enquiry block closing the Products index. */
-export default function ProductsContact({ options }: { options: string[] }) {
+export default async function ProductsContact({ options }: { options: string[] }) {
+  const { email, phone, whatsapp } = await getContactChannels();
   return (
     <section
       id="fw-contact"
@@ -35,13 +37,13 @@ export default function ProductsContact({ options }: { options: string[] }) {
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#F6F4EC]/45">
                 EMAIL
               </div>
-              <div className="text-[15px]">info@freewill.co.in</div>
+              <div className="text-[15px]">{email}</div>
             </div>
             <div>
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#F6F4EC]/45">
                 PHONE
               </div>
-              <div className="text-[15px]">+91 20661 14215</div>
+              <div className="text-[15px]">{phone}</div>
             </div>
           </div>
         </FwReveal>
@@ -53,6 +55,7 @@ export default function ProductsContact({ options }: { options: string[] }) {
             selectLabel="SYSTEM OF INTEREST"
             cardBg="rgba(255,255,255,0.05)"
             fieldBg="rgba(255,255,255,0.06)"
+            whatsapp={whatsapp}
           />
         </FwReveal>
       </div>

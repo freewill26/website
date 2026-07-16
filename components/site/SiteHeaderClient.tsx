@@ -20,13 +20,16 @@ interface SiteHeaderClientProps {
   solid?: boolean;
   /** Up to 5 categories from the API, shown as cards in the Products mega-menu. */
   categories: CategoryTile[];
+  /** CMS contact channels, shown at the foot of the mobile menu. */
+  email: string;
+  phone: string;
 }
 
 /**
  * Redesigned light site header: teal credentials ribbon + cream navigation bar
  * that fades in a blur/shadow once scrolled. Shared by the Home and About pages.
  */
-export default function SiteHeaderClient({ solid = false, categories }: SiteHeaderClientProps) {
+export default function SiteHeaderClient({ solid = false, categories, email, phone }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -316,7 +319,7 @@ export default function SiteHeaderClient({ solid = false, categories }: SiteHead
         )}
       </div>
 
-      <SiteMobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SiteMobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} email={email} phone={phone} />
     </>
   );
 }

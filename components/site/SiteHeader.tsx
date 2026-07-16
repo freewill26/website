@@ -1,5 +1,6 @@
 import SiteHeaderClient from "@/components/site/SiteHeaderClient";
 import { getCategories } from "@/lib/api/home";
+import { getContactChannels } from "@/lib/api/contact";
 
 interface SiteHeaderProps {
   /** Force the cream/blur bar (used over dark heroes like About). */
@@ -12,6 +13,11 @@ interface SiteHeaderProps {
  * component for the interactive scroll/hover behaviour.
  */
 export default async function SiteHeader({ solid = false }: SiteHeaderProps) {
-  const categories = await getCategories(5);
-  return <SiteHeaderClient solid={solid} categories={categories} />;
+  const [categories, { email, phone }] = await Promise.all([
+    getCategories(5),
+    getContactChannels(),
+  ]);
+  return (
+    <SiteHeaderClient solid={solid} categories={categories} email={email} phone={phone} />
+  );
 }

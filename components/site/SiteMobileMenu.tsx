@@ -8,6 +8,9 @@ import { CloseIcon } from "@/components/ui/icons";
 interface SiteMobileMenuProps {
   open: boolean;
   onClose: () => void;
+  /** CMS contact channels shown at the foot of the menu. */
+  email: string;
+  phone: string;
 }
 
 const MENU_ITEMS = [
@@ -17,7 +20,7 @@ const MENU_ITEMS = [
 ];
 
 /** Full-screen cream navigation overlay for the redesigned light pages. */
-export default function SiteMobileMenu({ open, onClose }: SiteMobileMenuProps) {
+export default function SiteMobileMenu({ open, onClose, email, phone }: SiteMobileMenuProps) {
   if (!open) return null;
 
   return (
@@ -68,9 +71,9 @@ export default function SiteMobileMenu({ open, onClose }: SiteMobileMenuProps) {
       </nav>
 
       <div className="mt-auto text-[13px] leading-[1.7] text-[#181A20]/55">
-        info@freewill.co.in
+        {email}
         <br />
-        +91 20661 14215
+        {phone}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_NAV } from "@/lib/siteNav";
+import { getContactChannels } from "@/lib/api/contact";
 
 const SOLUTIONS = [
   "Sports Flooring",
@@ -13,7 +14,8 @@ const SOLUTIONS = [
 const SOCIALS = ["Facebook", "Instagram", "LinkedIn", "YouTube"];
 
 /** Redesigned light footer (cream) shared by the Home and About pages. */
-export default function SiteFooter() {
+export default async function SiteFooter() {
+  const { address, email, phone } = await getContactChannels();
   return (
     <footer
       className="box-border px-[6vw] pb-8 pt-14 text-[#181A20] sm:pt-20 lg:pt-[104px]"
@@ -52,11 +54,9 @@ export default function SiteFooter() {
         </FooterColumn>
 
         <FooterColumn title="Contact">
-          <span className="text-[13px] leading-[1.7] text-[#181A20]/70">
-            6, Premier Plaza-II, Mumbai–Pune Highway, Chinchwad, Pune 411019
-          </span>
-          <span className="text-[13px] text-[#181A20]/70">info@freewill.co.in</span>
-          <span className="text-[13px] text-[#181A20]/70">+91 20661 14215</span>
+          <span className="text-[13px] leading-[1.7] text-[#181A20]/70">{address}</span>
+          <span className="text-[13px] text-[#181A20]/70">{email}</span>
+          <span className="text-[13px] text-[#181A20]/70">{phone}</span>
         </FooterColumn>
       </div>
 

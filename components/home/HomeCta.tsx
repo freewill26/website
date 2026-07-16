@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
+import { getContactChannels } from "@/lib/api/contact";
 
 /** Closing teal call-to-action band. */
-export default function HomeCta() {
+export default async function HomeCta() {
+  const { email, phone } = await getContactChannels();
   return (
     <section
       id="fw-cta"
@@ -27,7 +29,7 @@ export default function HomeCta() {
             START A PROJECT
           </Link>
           <span className="text-[15px] font-semibold text-[#071027]/80">
-            info@freewill.co.in &nbsp;·&nbsp; +91 20661 14215
+            {email} &nbsp;·&nbsp; {phone}
           </span>
         </div>
       </FwReveal>
