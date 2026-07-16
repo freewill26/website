@@ -1,14 +1,19 @@
 import { WhatsAppIcon } from "@/components/ui/icons";
+import { getContactChannels, whatsappHref } from "@/lib/api/contact";
+
+const WHATSAPP_PREFILL =
+  "?text=Hi%20Freewill%2C%20I%27d%20like%20a%20quote%20for%20a%20sports%20project.";
 
 /**
  * Persistent floating action anchored to the bottom-right corner: a single
  * WhatsApp quick-chat pill.
  */
-export default function FloatingEstimate() {
+export default async function FloatingEstimate() {
+  const { whatsapp } = await getContactChannels();
   return (
     <div className="fixed bottom-[clamp(16px,3vw,32px)] right-[clamp(16px,3vw,32px)] z-[800] flex flex-col items-end gap-3">
       <a
-        href="https://wa.me/912066114215?text=Hi%20Freewill%2C%20I%27d%20like%20a%20quote%20for%20a%20sports%20project."
+        href={whatsappHref(whatsapp) + WHATSAPP_PREFILL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"

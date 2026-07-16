@@ -1,8 +1,8 @@
 import Counter from "@/components/site/Counter";
-import { STATS } from "@/lib/homeContent";
+import type { HomeStatVM } from "@/lib/api/home";
 
 /** Four headline metrics with count-up, framed by the cream band. */
-export default function HomeStats() {
+export default function HomeStats({ stats }: { stats: HomeStatVM[] }) {
   return (
     <section
       className="bg-cream"
@@ -12,7 +12,7 @@ export default function HomeStats() {
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {STATS.map((s, i) => (
+        {stats.map((s, i) => (
           <div
             key={s.label}
             className="flex flex-col gap-3.5 px-10 py-14"

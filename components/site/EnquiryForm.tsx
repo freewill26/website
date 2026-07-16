@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
 
 interface EnquiryFormProps {
-  /** Options for the "surface / product" select. */
+  /** Every category/product name searchable in the "surface / product" autocomplete. */
   options: string[];
   selectLabel: string;
   /** Card background (the panel surrounding the fields). */
@@ -13,6 +13,115 @@ interface EnquiryFormProps {
   fieldBg: string;
   /** `dark` flips the text/label/accent colours for navy backgrounds. */
   tone?: "light" | "dark";
+  /** Pre-fills the "surface / product" field, e.g. when arriving from a product page. */
+  defaultValue?: string;
+  /** Destination WhatsApp number (any format) — the submit redirects here with a formatted message. */
+  whatsapp: string;
+}
+
+/** Builds the `wa.me` deep link carrying the enquiry as a pre-filled, bold-labelled message. */
+function buildWhatsAppUrl(
+  whatsapp: string,
+  selectLabel: string,
+  fields: { fullName: string; phone: string; email: string; surfaceProduct: string; projectDetails: string },
+): string {
+  const message = [
+    "*New enquiry — Freewill website*",
+    "",
+    `*Name:* ${fields.fullName}`,
+    `*Phone:* ${fields.phone}`,
+    `*Email:* ${fields.email}`,
+    `*${selectLabel}:* ${fields.surfaceProduct || "—"}`,
+    "",
+    "*Project details:*",
+    fields.projectDetails || "—",
+  ].join("\n");
+
+  return `https://wa.me/${whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+}
+
+const MAX_SUGGESTIONS = 8;
+
+/** Type-to-filter "surface / product" combobox — a free-text input backed by a suggestion list. */
+function ProductAutocomplete({
+  options,
+  label,
+  labelColor,
+  fieldStyle,
+  fieldCls,
+  cardBg,
+  border,
+  defaultValue,
+}: {
+  options: string[];
+  label: string;
+  labelColor: string;
+  fieldStyle: React.CSSProperties;
+  fieldCls: string;
+  cardBg: string;
+  border: string;
+  defaultValue?: string;
+}) {
+  const [query, setQuery] = useState(defaultValue ?? "");
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (defaultValue) setQuery(defaultValue);
+  }, [defaultValue]);
+
+  const filtered = (
+    query.trim()
+      ? options.filter((o) => o.toLowerCase().includes(query.trim().toLowerCase()))
+      : options
+  ).slice(0, MAX_SUGGESTIONS);
+
+  return (
+    <label className="relative flex flex-col gap-2">
+      <span className="text-[11px] font-bold tracking-[0.16em]" style={{ color: labelColor }}>
+        {label}
+      </span>
+      <input
+        type="text"
+        name="surfaceProduct"
+        role="combobox"
+        aria-expanded={open}
+        autoComplete="off"
+        placeholder="Search a category or product…"
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 120)}
+        className={fieldCls}
+        style={fieldStyle}
+      />
+      {open && filtered.length > 0 && (
+        <ul
+          className="absolute left-0 right-0 top-full z-10 mt-1.5 max-h-64 overflow-y-auto rounded-[10px] py-1.5 shadow-lg"
+          style={{ background: cardBg, border: `1px solid ${border}` }}
+        >
+          {filtered.map((o) => (
+            <li key={o}>
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  setQuery(o);
+                  setOpen(false);
+                }}
+                className="block w-full px-4 py-2 text-left text-[14px] hover:bg-black/5"
+                style={{ color: fieldStyle.color }}
+              >
+                {o}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </label>
+  );
 }
 
 /**
@@ -26,6 +135,8 @@ export default function EnquiryForm({
   cardBg,
   fieldBg,
   tone = "light",
+  defaultValue,
+  whatsapp,
 }: EnquiryFormProps) {
   const [sent, setSent] = useState(false);
   const dark = tone === "dark";
@@ -70,8 +181,17 @@ export default function EnquiryForm({
     );
   }
 
-  const submit = (e: FormEvent) => {
+  const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const url = buildWhatsAppUrl(whatsapp, selectLabel, {
+      fullName: String(data.get("fullName") ?? ""),
+      phone: String(data.get("phone") ?? ""),
+      email: String(data.get("email") ?? ""),
+      surfaceProduct: String(data.get("surfaceProduct") ?? ""),
+      projectDetails: String(data.get("projectDetails") ?? ""),
+    });
+    window.open(url, "_blank", "noopener,noreferrer");
     setSent(true);
   };
 
@@ -84,33 +204,34 @@ export default function EnquiryForm({
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>FULL NAME</span>
-          <input required type="text" placeholder="Your name" className={fieldCls} style={fieldStyle} />
+          <input required name="fullName" type="text" placeholder="Your name" className={fieldCls} style={fieldStyle} />
         </label>
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>PHONE</span>
-          <input required type="tel" placeholder="+91 …" className={fieldCls} style={fieldStyle} />
+          <input required name="phone" type="tel" placeholder="+91 …" className={fieldCls} style={fieldStyle} />
         </label>
       </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="flex flex-col gap-2">
           <span className={labelCls} style={{ color: labelColor }}>EMAIL</span>
-          <input required type="email" placeholder="you@company.com" className={fieldCls} style={fieldStyle} />
+          <input required name="email" type="email" placeholder="you@company.com" className={fieldCls} style={fieldStyle} />
         </label>
-        <label className="flex flex-col gap-2">
-          <span className={labelCls} style={{ color: labelColor }}>{selectLabel}</span>
-          <select className={fieldCls} style={fieldStyle}>
-            {options.map((o) => (
-              <option key={o} style={{ color: "#181A20" }}>
-                {o}
-              </option>
-            ))}
-          </select>
-        </label>
+        <ProductAutocomplete
+          options={options}
+          label={selectLabel}
+          labelColor={labelColor}
+          fieldStyle={fieldStyle}
+          fieldCls={fieldCls}
+          cardBg={dark ? "#111826" : "#FFFFFF"}
+          border={border}
+          defaultValue={defaultValue}
+        />
       </div>
       <label className="flex flex-col gap-2">
         <span className={labelCls} style={{ color: labelColor }}>PROJECT DETAILS</span>
         <textarea
           rows={4}
+          name="projectDetails"
           placeholder="Tell us about your venue, timeline and requirements…"
           className={`${fieldCls} resize-y leading-[1.7]`}
           style={fieldStyle}

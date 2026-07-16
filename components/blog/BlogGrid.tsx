@@ -1,10 +1,10 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import BlogCard from "@/components/blog/BlogCard";
-import { POSTS_SORTED } from "@/lib/blogContent";
+import type { BlogCardVM } from "@/lib/api/blogs";
 
 /** Blog index body — a featured lead post above a three-up card grid. */
-export default function BlogGrid() {
-  const [lead, ...rest] = POSTS_SORTED;
+export default function BlogGrid({ posts }: { posts: BlogCardVM[] }) {
+  const [lead, ...rest] = posts;
 
   return (
     <section
@@ -19,7 +19,7 @@ export default function BlogGrid() {
 
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {rest.map((post) => (
-          <FwReveal key={post.slug} className="h-full">
+          <FwReveal key={post.id} className="h-full">
             <BlogCard post={post} />
           </FwReveal>
         ))}

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { ImagePlaceholderIcon } from "@/components/ui/icons";
 
 interface ImageSlotProps {
@@ -11,6 +12,8 @@ interface ImageSlotProps {
   style?: CSSProperties;
   /** When provided, renders the real photo instead of the placeholder. */
   src?: string;
+  /** `sizes` for the underlying `next/image` when `src` is provided. */
+  sizes?: string;
 }
 
 /**
@@ -25,6 +28,7 @@ export default function ImageSlot({
   className = "",
   style,
   src,
+  sizes = "100vw",
 }: ImageSlotProps) {
   const radius =
     shape === "circle" ? "9999px" : shape === "rounded" ? "6px" : "0";
@@ -35,10 +39,12 @@ export default function ImageSlot({
         className={`relative overflow-hidden ${className}`.trim()}
         style={{ borderRadius: radius, ...style }}
       >
-        <img
+        <Image
           src={src}
           alt={label}
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          sizes={sizes}
+          className="object-cover"
         />
       </div>
     );

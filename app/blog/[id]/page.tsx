@@ -4,38 +4,42 @@ import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import BlogPostView from "@/components/blog/BlogPostView";
-import { POSTS, getPost, relatedPosts } from "@/lib/blogContent";
+import { getBlogArticle, getRelatedBlogs } from "@/lib/api/blogs";
 
 interface BlogSinglePageProps {
-  params: Promise<{ slug: string }>;
-}
-
-/** Pre-render one static page per post. */
-export function generateStaticParams() {
-  return POSTS.map((p) => ({ slug: p.slug }));
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: BlogSinglePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const post = getPost(slug);
+  const { id } = await params;
+  const post = await getBlogArticle(id);
   if (!post) return { title: "Post not found · Freewill" };
 
   return {
-    title: `${post.title} · Freewill Blog`,
-    description: post.excerpt,
+    title: post.seo.title,
+    description: post.seo.description,
+    openGraph: {
+      title: post.seo.ogTitle,
+      description: post.seo.ogDescription,
+      ...(post.seo.ogImage ? { images: [post.seo.ogImage] } : {}),
+    },
   };
 }
 
-/** Freewill Blog (single) — one evergreen article. */
+/**
+ * Real, DB-backed blog post — reached from a card on the Blog index
+ * (`/blog/[id]`). Both the post and its related rail come straight from the
+ * service API.
+ */
 export default async function BlogSinglePage({ params }: BlogSinglePageProps) {
-  const { slug } = await params;
-  const post = getPost(slug);
+  const { id } = await params;
+  const post = await getBlogArticle(id);
 
   if (!post) notFound();
 
-  const related = relatedPosts(slug);
+  const related = await getRelatedBlogs(id);
 
   return (
     <div className="overflow-x-clip bg-cream text-[#181A20]">

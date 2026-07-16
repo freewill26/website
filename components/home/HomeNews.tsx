@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
-import { NEWS } from "@/lib/homeContent";
+import type { NewsCardVM } from "@/lib/api/home";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
 /** Latest-news strip — three full-bleed editorial cards. */
-export default function HomeNews() {
+export default function HomeNews({ news }: { news: NewsCardVM[] }) {
   return (
     <section
       id="fw-news"
@@ -37,8 +37,8 @@ export default function HomeNews() {
       </FwReveal>
 
       <div className="grid gap-5 px-[6vw] md:grid-cols-3">
-        {NEWS.map((n) => (
-          <FwReveal key={n.title}>
+        {news.map((n) => (
+          <FwReveal key={n.id}>
             <article
               className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl bg-white transition-colors hover:border-brand/50"
               style={{ border: "1px solid rgba(24,26,32,0.08)" }}

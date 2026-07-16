@@ -14,7 +14,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
   { label: "About", href: "/about" },
-  { label: "Gallery", href: "#" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Projects", href: "#" },
   { label: "News", href: "/#fw-news" },
   { label: "Catalogues", href: "#" },
@@ -40,4 +40,9 @@ export function familyHref(family: string = DEFAULT_FAMILY): string {
 /** Build the route for a single product-type detail page (Product Type). */
 export function productTypeHref(code: string, family: string = DEFAULT_FAMILY): string {
   return `/products/${family}/${code}`;
+}
+
+/** Build the route for a real, DB-backed product's detail page. */
+export function productHref(id: string): string {
+  return `/products/item/${id}`;
 }

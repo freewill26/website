@@ -4,75 +4,110 @@ import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import AboutHero from "@/components/about/AboutHero";
 import AboutManifesto from "@/components/about/AboutManifesto";
-import AboutMarquee from "@/components/about/AboutMarquee";
 import AboutStats from "@/components/about/AboutStats";
 import AboutStory from "@/components/about/AboutStory";
 import AboutFounderQuote from "@/components/about/AboutFounderQuote";
-import AboutTimeline from "@/components/about/AboutTimeline";
 import AboutTeam from "@/components/about/AboutTeam";
 import AboutAwards from "@/components/about/AboutAwards";
-import AboutBrands from "@/components/about/AboutBrands";
 import AboutContact from "@/components/about/AboutContact";
+import HomeBrands from "@/components/home/HomeBrands";
+import { getAboutPageContent, getTeam } from "@/lib/api/about";
+import type { AboutStoryVM } from "@/lib/api/about";
+import { getBrands } from "@/lib/api/home";
+import { getCatalogOptions } from "@/lib/api/products";
 
-export const metadata: Metadata = {
-  title: "About Freewill · Sports Infrastructure Since 1990",
-  description:
-    "The most innovative sports infrastructure company in India — building the ground a billion people play on since 1990.",
-};
+/** SEO/OG metadata for `/about` sourced from the CMS "about" page. */
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getAboutPageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
 
-/** Freewill About — the "Freewill About.dc.html" design ported to Next.js. */
-export default function AboutPage() {
+/** Splits a CMS headline (`\n`-delimited) into the stacked lines AboutStory renders. */
+function storyLines(story: AboutStoryVM) {
+  return story.headline.split("\n").map((line) => line.trim());
+}
+
+/**
+ * Freewill About — an async Server Component. Every data-driven section is
+ * fetched on the server in parallel and passed down as props, so the
+ * fully-populated HTML ships in the first response. Each fetch degrades to its
+ * defaults independently, so one slow/failing endpoint can't break the page.
+ */
+export default async function AboutPage() {
+  const [content, team, brands, catalogOptions] = await Promise.all([
+    getAboutPageContent(),
+    getTeam(),
+    getBrands(),
+    getCatalogOptions(),
+  ]);
+
   return (
     <div className="overflow-x-clip" style={{ background: "#0A0E1C" }}>
       <SiteHeader solid />
       <main>
-        <AboutHero />
-        <AboutManifesto />
-        <AboutMarquee />
-        <AboutStats />
+        <AboutHero
+          title={content.hero.title}
+          headlineHtml={content.hero.headlineHtml}
+          description={content.hero.description}
+          backgroundImage={content.hero.backgroundImage}
+        />
+        <AboutManifesto words={content.whoWeAre.words} />
+        <AboutStats stats={content.stats} />
         <AboutStory
           id="fw-s1"
           kicker="01 — THE PRODUCT"
-          titleLines={["The Ground", "India Plays On."]}
-          body="From school multi-sport halls to championship arenas, Freewill supplies and installs indoor vinyl, synthetic grass, PU courts and athletics tracks — all laid by our own certified crews."
-          ctaLabel="View Products →"
-          ctaHref="/products"
+          titleLines={storyLines(content.about1)}
+          body={content.about1.description}
+          ctaLabel={content.about1.buttonLabel}
+          ctaHref={content.about1.buttonLink}
           imageLabel="Sports surface"
           imageSide="left"
-          imageSrc="/assets/about-story-surface.png"
+          imageSrc={content.about1.image}
         />
         <AboutStory
           id="fw-s2"
           kicker="02 — THE CRAFT"
-          titleLines={[
-            "Built to Last,",
-            <span style={{ color: "#5FD0E0" }}>Built to Perform.</span>,
-          ]}
-          body="Every surface follows a rigorous process — sub-floor assessment, preparation, surface lay and final line marking — backed by 35 years of expertise and trained to international standards."
-          ctaLabel="Get a Quote →"
-          ctaHref="/#fw-contact"
+          titleLines={storyLines(content.about2)}
+          body={content.about2.description}
+          ctaLabel={content.about2.buttonLabel}
+          ctaHref={content.about2.buttonLink}
           imageLabel="Installation"
           imageSide="right"
           variant="dark"
-          imageSrc="/assets/about-story-install.png"
+          imageSrc={content.about2.image}
         />
         <AboutStory
           id="fw-s3"
           kicker="03 — THE EDGE"
-          titleLines={["Pioneer of", "Innovation."]}
-          body="Today Freewill is the pioneer in optimising and introducing sports infrastructure with innovative technology — dynamic marking, acoustic flooring, synchronised clocks and smart scoreboards."
-          ctaLabel="Talk to Us →"
-          ctaHref="/#fw-contact"
+          titleLines={storyLines(content.about3)}
+          body={content.about3.description}
+          ctaLabel={content.about3.buttonLabel}
+          ctaHref={content.about3.buttonLink}
           imageLabel="Innovation"
           imageSide="left"
-          imageSrc="/assets/about-story-innovation.png"
+          imageSrc={content.about3.image}
         />
-        <AboutFounderQuote />
-        {/* <AboutTimeline /> */}
-        <AboutTeam />
-        <AboutAwards />
-        <AboutBrands />
-        <AboutContact />
+        <AboutFounderQuote
+          html={content.testimonial.html}
+          author={content.testimonial.author}
+          occupation={content.testimonial.occupation}
+        />
+        <AboutTeam founders={team.founders} people={team.people} />
+        {/* <AboutAwards /> */}
+        <HomeBrands
+          brands={brands}
+          heading="The company we keep."
+          description="The federations and institutions we build for, and the world-class product brands we bring to India — one network behind every arena."
+        />
+        <AboutContact options={catalogOptions} />
       </main>
       <SiteFooter />
       <FloatingEstimate />

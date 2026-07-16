@@ -28,11 +28,6 @@ export const ABOUT_STATS: AboutStat[] = [
   { target: 2019, suffix: "", label: "ASSOCHAM award winner" },
 ];
 
-export const BRAND_PARTNERS = [
-  "BCCI", "IPL", "ISL", "Pro Kabaddi", "SAI", "Sports Authority of India", "AIFF",
-  "National Games", "CWG", "Asian Games", "Olympic Council of India", "Indian Badminton Association",
-];
-
 export interface TimelineItem {
   year: string;
   title: string;

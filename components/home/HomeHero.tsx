@@ -2,6 +2,29 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { splitLastWord } from "@/utils/text";
+
+interface HomeHeroContent {
+  description: string;
+  button1Label: string;
+  button1Link: string;
+  button2Label: string;
+  button2Link: string;
+  /** CMS-managed URL for the scroll-scrubbed background video. */
+  backgroundVideo: string;
+}
+
+interface HomeHeroMeta {
+  headline: string;
+  description: string;
+}
+
+interface HomeHeroProps {
+  /** CMS-sourced hero copy, fetched server-side by the page so this still renders in the initial SSR HTML. */
+  content: HomeHeroContent;
+  meta1: HomeHeroMeta;
+  meta2: HomeHeroMeta;
+}
 
 /**
  * Home hero — a 320vh pinned section whose background video is *scrubbed* by
@@ -10,7 +33,9 @@ import Link from "next/link";
  * playhead tracks scroll progress. `data-hero-line` / `data-hero-fade` still
  * stagger in once <HomeSplash> clears (see globals.css `.fw-intro`).
  */
-export default function HomeHero() {
+export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
+  const [meta1Rest, meta1Last] = splitLastWord(meta1.headline);
+  const [meta2Rest, meta2Last] = splitLastWord(meta2.headline);
   const outerRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -98,7 +123,7 @@ export default function HomeHero() {
       <div className="sticky top-0 h-screen overflow-hidden">
         <video
           ref={videoRef}
-          src="/assets/lulu.mp4"
+          src={content.backgroundVideo}
           preload="auto"
           playsInline
           muted
@@ -134,22 +159,21 @@ export default function HomeHero() {
             }}
           >
             <p className="m-0 mb-6 text-base leading-[1.8] text-[#181A20]/[0.78]">
-              World-class flooring, seating and equipment — behind every National
-              Games since 1992. The ground India plays on.
+              {content.description}
             </p>
             <div className="pointer-events-auto flex flex-wrap gap-3">
               <Link
-                href="/products"
+                href={content.button1Link}
                 className="rounded-full bg-brand px-[26px] py-[15px] text-[13px] font-bold tracking-[0.1em] text-white no-underline transition-colors hover:bg-[#004E5F]"
               >
-                EXPLORE PRODUCTS
+                {content.button1Label}
               </Link>
               <Link
-                href="/#fw-contact"
+                href={content.button2Link}
                 className="rounded-full border px-[26px] py-[15px] text-[13px] font-bold tracking-[0.1em] text-[#181A20] no-underline transition-colors hover:bg-[#181A20]/5"
                 style={{ borderColor: "rgba(24,26,32,0.32)" }}
               >
-                TALK TO US
+                {content.button2Label}
               </Link>
             </div>
           </div>
@@ -185,13 +209,13 @@ export default function HomeHero() {
             className="font-display uppercase leading-[1.02] text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,76px)", textShadow: "0 2px 34px rgba(241,234,216,0.95)" }}
           >
-            100,000+ seats <span className="text-brand">installed.</span>
+            {meta1Rest} <span className="text-brand">{meta1Last}</span>
           </div>
           <p
             className="m-0 mt-[18px] max-w-[420px] text-[15px] leading-[1.7] text-[#181A20]/[0.72]"
             style={{ textShadow: "0 2px 24px rgba(241,234,216,0.95)" }}
           >
-            Every National Games since 1992 has been played on ground Freewill built.
+            {meta1.description}
           </p>
         </div>
         <div
@@ -202,13 +226,13 @@ export default function HomeHero() {
             className="font-display uppercase leading-[1.02] text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,76px)", textShadow: "0 2px 34px rgba(241,234,216,0.95)" }}
           >
-            From court <span className="text-brand">to podium.</span>
+            {meta2Rest} <span className="text-brand">{meta2Last}</span>
           </div>
           <p
             className="m-0 mt-[18px] max-w-[420px] text-[15px] leading-[1.7] text-[#181A20]/[0.72]"
             style={{ textShadow: "0 2px 24px rgba(241,234,216,0.95)" }}
           >
-            Surfaces, seating and equipment certified by FIBA, FIVB and FIG.
+            {meta2.description}
           </p>
         </div>
 

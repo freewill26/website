@@ -12,11 +12,16 @@ import { MenuIcon } from "@/components/ui/icons";
 // Desktop nav omits "Catalogues" (it lives in the mobile menu and footer only).
 const DESKTOP_NAV = NAV_ITEMS.filter((item) => item.label !== "Catalogues");
 
+interface HeaderProps {
+  /** CMS-managed ribbon credentials, fetched by the page (this is a client component). */
+  marqueeItems?: string[];
+}
+
 /**
  * Fixed site header: marquee ribbon + primary navigation, with a burger menu
  * on small screens. Highlights the active route in teal.
  */
-export default function Header() {
+export default function Header({ marqueeItems }: HeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -60,7 +65,7 @@ export default function Header() {
           transform: isVisible ? "translateY(0)" : "translateY(-100%)",
         }}
       >
-        <MarqueeRibbon />
+        <MarqueeRibbon items={marqueeItems} />
 
         <header className="flex items-center justify-between gap-4 border-b border-brand-accent/15 bg-ink/[0.88] px-[6vw] py-4 backdrop-blur-md">
           <Logo />

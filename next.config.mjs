@@ -11,6 +11,20 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        // Public assets uploaded through the service app (Supabase storage).
+        protocol: "https",
+        hostname: "**.supabase.co",
+      },
+      {
+        // Placeholder hosts used by the service app's seed data.
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+      },
     ],
   },
 };

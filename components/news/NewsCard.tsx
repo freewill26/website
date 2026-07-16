@@ -1,10 +1,10 @@
 import Link from "next/link";
 import ImageSlot from "@/components/site/ImageSlot";
-import type { NewsArticle } from "@/lib/newsContent";
+import type { NewsCardVM } from "@/lib/api/news";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
 interface NewsCardProps {
-  article: NewsArticle;
+  article: NewsCardVM;
   /** `feature` renders a larger horizontal lead card. */
   variant?: "default" | "feature";
 }
@@ -15,7 +15,7 @@ export default function NewsCard({ article, variant = "default" }: NewsCardProps
 
   return (
     <Link
-      href={`/news/${article.slug}`}
+      href={`/news/${article.id}`}
       className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white no-underline transition-colors hover:border-brand/50 ${
         feature ? "md:flex-row" : ""
       }`}
@@ -27,7 +27,8 @@ export default function NewsCard({ article, variant = "default" }: NewsCardProps
         }`}
       >
         <ImageSlot
-          label={article.imageLabel}
+          label={article.imageAlt}
+          src={article.image ?? undefined}
           className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-[1.04]"
         />
         <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">

@@ -5,25 +5,48 @@ import FloatingEstimate from "@/components/site/FloatingEstimate";
 import ProductsHero from "@/components/products/ProductsHero";
 import ProductsCategory from "@/components/products/ProductsCategory";
 import ProductsContact from "@/components/products/ProductsContact";
-import { CATEGORIES } from "@/lib/productsContent";
+import { getProductsPageContent, getCategoriesWithProducts, getCatalogOptions } from "@/lib/api/products";
 
-export const metadata: Metadata = {
-  title: "Products & Systems · Freewill",
-  description:
-    "Everything the game is played on — Olympic vinyl, floating maple, all-weather turf, telescopic seating and competition equipment, indoor to outdoor.",
-};
+/** SEO/OG metadata for `/products` sourced from the CMS "products" page. */
+export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getProductsPageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
 
-/** Freewill Products (Page A) — the "Freewill Products.dc.html" design. */
-export default function ProductsPage() {
+/**
+ * Freewill Products index — an async Server Component. Hero copy comes from
+ * the CMS; categories and their products come straight from the service API,
+ * grouped client-side (there's no combined endpoint).
+ */
+export default async function ProductsPage() {
+  const [content, categories, catalogOptions] = await Promise.all([
+    getProductsPageContent(),
+    getCategoriesWithProducts(),
+    getCatalogOptions(),
+  ]);
+
   return (
     <div className="overflow-x-clip bg-cream text-[#111820]">
       <SiteHeader solid />
       <main>
-        <ProductsHero />
-        {CATEGORIES.map((category) => (
-          <ProductsCategory key={category.n} category={category} />
+        <ProductsHero hero={content.hero} />
+        {categories.map((category, i) => (
+          <ProductsCategory
+            key={category.id}
+            category={category}
+            index={i}
+            tone={i % 2 === 0 ? "cream" : "white"}
+          />
         ))}
-        <ProductsContact />
+        <ProductsContact options={catalogOptions} />
       </main>
       <SiteFooter />
       <FloatingEstimate />

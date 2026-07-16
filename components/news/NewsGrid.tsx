@@ -1,10 +1,10 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import NewsCard from "@/components/news/NewsCard";
-import { ARTICLES_SORTED } from "@/lib/newsContent";
+import type { NewsCardVM } from "@/lib/api/news";
 
 /** News index body — a featured lead story above a three-up card grid. */
-export default function NewsGrid() {
-  const [lead, ...rest] = ARTICLES_SORTED;
+export default function NewsGrid({ articles }: { articles: NewsCardVM[] }) {
+  const [lead, ...rest] = articles;
 
   return (
     <section
@@ -19,7 +19,7 @@ export default function NewsGrid() {
 
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {rest.map((article) => (
-          <FwReveal key={article.slug} className="h-full">
+          <FwReveal key={article.id} className="h-full">
             <NewsCard article={article} />
           </FwReveal>
         ))}

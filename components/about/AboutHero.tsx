@@ -1,19 +1,33 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 
+interface AboutHeroProps {
+  /** Eyebrow line above the wordmark. */
+  title: string;
+  /** Sanitized rich-text headline; any `<strong>` renders in the brand gradient. */
+  headlineHtml: string;
+  description: string;
+  /** Full-bleed background photo behind the navy gradients. */
+  backgroundImage: string;
+}
+
 /** About hero — stadium photo under navy gradients with a shimmering gradient wordmark. */
-export default function AboutHero() {
+export default function AboutHero({ title, headlineHtml, description, backgroundImage }: AboutHeroProps) {
   return (
     <section
       id="top"
       className="relative flex min-h-screen items-center overflow-hidden"
       style={{ background: "#0A0E1C" }}
     >
-      <img
-        src="/assets/splash-stadium.jpg"
+      <Image
+        src={backgroundImage}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 object-cover"
       />
       <div
         className="absolute inset-0"
@@ -44,30 +58,15 @@ export default function AboutHero() {
         <FwReveal className="mb-[30px] flex items-center gap-3">
           <span className="block h-0.5 w-[30px]" style={{ background: "#5FD0E0" }} />
           <span className="font-mono text-[11px] uppercase tracking-[0.34em] text-[#9FE4EF]">
-            Est. 1990 · Pune, India
+            {title}
           </span>
         </FwReveal>
 
         <MaskedHeading
           as="h1"
-          className="m-0 font-display uppercase leading-[1.04] text-[#F6F4EC]"
+          className="fw-hero-headline m-0 font-display uppercase leading-[1.04] text-[#F6F4EC]"
           style={{ fontSize: "clamp(58px,11vw,200px)" }}
-          lines={[
-            "Welcome to",
-            <span
-              className="fw-anim-shimmer inline-block bg-clip-text text-transparent"
-              style={{
-                background:
-                  "linear-gradient(90deg,#5FD0E0 0%,#00687F 22%,#C3F53C 50%,#1FA95B 72%,#5FD0E0 100%)",
-                backgroundSize: "200% auto",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Freewill
-            </span>,
-          ]}
+          lines={[<span key="headline" dangerouslySetInnerHTML={{ __html: headlineHtml }} />]}
         />
 
         <div className="mt-9 flex flex-wrap items-end justify-between gap-7">
@@ -76,8 +75,7 @@ export default function AboutHero() {
             className="m-0 max-w-[540px] leading-[1.7] text-[#F6F4EC]/[0.82]"
             style={{ fontSize: "clamp(16px,1.6vw,21px)" }}
           >
-            The Most Innovative Sports Infrastructure Company in India — building
-            the ground a billion people play on.
+            {description}
           </FwReveal>
           <FwReveal as="div">
             <Link

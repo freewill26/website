@@ -1,10 +1,10 @@
 import Link from "next/link";
 import ImageSlot from "@/components/site/ImageSlot";
-import type { BlogPost } from "@/lib/blogContent";
+import type { BlogCardVM } from "@/lib/api/blogs";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
 interface BlogCardProps {
-  post: BlogPost;
+  post: BlogCardVM;
   /** `feature` renders a larger horizontal lead card. */
   variant?: "default" | "feature";
 }
@@ -15,7 +15,7 @@ export default function BlogCard({ post, variant = "default" }: BlogCardProps) {
 
   return (
     <Link
-      href={`/blog/${post.slug}`}
+      href={`/blog/${post.id}`}
       className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white no-underline transition-colors hover:border-brand/50 ${
         feature ? "md:flex-row" : ""
       }`}
@@ -27,7 +27,8 @@ export default function BlogCard({ post, variant = "default" }: BlogCardProps) {
         }`}
       >
         <ImageSlot
-          label={post.imageLabel}
+          label={post.imageAlt}
+          src={post.image ?? undefined}
           className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-[1.04]"
         />
         <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">

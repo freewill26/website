@@ -1,5 +1,6 @@
 import { FwReveal } from "@/components/site/FwReveal";
 import EnquiryForm from "@/components/site/EnquiryForm";
+import { getContactChannels } from "@/lib/api/contact";
 
 const OPTIONS = [
   "Taraflex® (Indoor Surface)",
@@ -11,7 +12,8 @@ const OPTIONS = [
 ];
 
 /** Cream "Get in touch" enquiry block closing a product family page. */
-export default function ProductFamilyContact() {
+export default async function ProductFamilyContact() {
+  const { email, phone, whatsapp } = await getContactChannels();
   return (
     <section
       id="fw-contact"
@@ -44,13 +46,13 @@ export default function ProductFamilyContact() {
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#181A20]/45">
                 EMAIL
               </div>
-              <div className="text-[15px]">info@freewill.co.in</div>
+              <div className="text-[15px]">{email}</div>
             </div>
             <div>
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#181A20]/45">
                 PHONE
               </div>
-              <div className="text-[15px]">+91 20661 14215</div>
+              <div className="text-[15px]">{phone}</div>
             </div>
           </div>
         </FwReveal>
@@ -61,6 +63,7 @@ export default function ProductFamilyContact() {
             selectLabel="SURFACE / PRODUCT"
             cardBg="#FFFFFF"
             fieldBg="#F6F1E6"
+            whatsapp={whatsapp}
           />
         </FwReveal>
       </div>

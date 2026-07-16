@@ -1,19 +1,31 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import { ArrowRightIcon, CloseIcon } from "@/components/ui/icons";
-import { REFERENCES, type Reference } from "@/lib/homeContent";
+import type { EventVM } from "@/lib/api/home";
 
 /**
  * "Built for India's biggest stages" — an awwwards-style index list with a
  * sweeping teal hover fill, a cursor-following preview image, and a full-screen
  * case-study overlay on click.
  */
-export default function HomeReferences() {
-  const [active, setActive] = useState<Reference | null>(null);
+interface HomeReferencesProps {
+  events: EventVM[];
+  heading: string;
+  description: string;
+}
+
+export default function HomeReferences({ events, heading, description }: HomeReferencesProps) {
+  const [active, setActive] = useState<EventVM | null>(null);
   const [showCursor, setShowCursor] = useState(false);
+
+  // Header stats derived from the data: total events and the year span.
+  const years = events.map((e) => Number(e.year)).filter((y) => !Number.isNaN(y));
+  const yearRange =
+    years.length > 0 ? `${Math.min(...years)}—${Math.max(...years)}` : "";
 
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorImgRef = useRef<HTMLImageElement>(null);
@@ -103,13 +115,10 @@ export default function HomeReferences() {
             className="m-0 font-display uppercase leading-[0.98] text-[#181A20]"
             style={{ fontSize: "clamp(36px,4.6vw,72px)", textWrap: "balance" }}
           >
-            Built for India&apos;s
-            <br />
-            biggest stages.
+            {heading}
           </h2>
           <p className="mt-[22px] max-w-[480px] text-base leading-[1.8] text-[#181A20]/[0.62]">
-            From the National Games to World Cups — three decades of surfaces,
-            seating and equipment trusted at the events that matter most.
+            {description}
           </p>
         </div>
         <div className="flex-none text-right">
@@ -117,10 +126,10 @@ export default function HomeReferences() {
             className="font-display leading-[0.86] text-brand"
             style={{ fontSize: "clamp(56px,6vw,104px)" }}
           >
-            26
+            {events.length}
           </div>
           <div className="mt-2 text-xs font-bold tracking-[0.2em] text-[#181A20]/55">
-            EVENTS · 1994—2025
+            EVENTS{yearRange ? ` · ${yearRange}` : ""}
           </div>
         </div>
       </FwReveal>
@@ -173,9 +182,9 @@ export default function HomeReferences() {
         }}
         onMouseLeave={() => setShowCursor(false)}
       >
-        {REFERENCES.map((r) => (
+        {events.map((r) => (
           <button
-            key={r.idx}
+            key={r.id}
             type="button"
             data-ref-img={r.img}
             onMouseEnter={() => setPreview(r.img)}
@@ -222,7 +231,7 @@ function ReferenceDetail({
   reference,
   onClose,
 }: {
-  reference: Reference;
+  reference: EventVM;
   onClose: () => void;
 }) {
   const { detail } = reference;
@@ -247,11 +256,13 @@ function ReferenceDetail({
       </button>
 
       <div className="relative h-screen w-full overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={reference.img}
           alt={reference.title}
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
           style={{ background: "#0F1428", animation: "fw-hero-zoom 1.4s ease both" }}
         />
         <div
@@ -287,24 +298,26 @@ function ReferenceDetail({
         style={{ background: "#F1EAD8", padding: "clamp(56px,7vw,120px) clamp(24px,6vw,90px)" }}
       >
         <div className="mx-auto max-w-[1100px]">
-          <div
-            className="grid grid-cols-3 gap-[clamp(16px,3vw,40px)] pb-[clamp(40px,5vw,64px)]"
-            style={{ borderBottom: "1px solid rgba(24,26,32,0.14)" }}
-          >
-            {detail.metrics.map((m) => (
-              <div key={m.k}>
-                <div
-                  className="font-display leading-none text-brand"
-                  style={{ fontSize: "clamp(34px,4vw,64px)" }}
-                >
-                  {m.v}
+          {detail.metrics.length > 0 && (
+            <div
+              className="grid grid-cols-3 gap-[clamp(16px,3vw,40px)] pb-[clamp(40px,5vw,64px)]"
+              style={{ borderBottom: "1px solid rgba(24,26,32,0.14)" }}
+            >
+              {detail.metrics.map((m) => (
+                <div key={m.k}>
+                  <div
+                    className="font-display leading-none text-brand"
+                    style={{ fontSize: "clamp(34px,4vw,64px)" }}
+                  >
+                    {m.v}
+                  </div>
+                  <div className="mt-2 text-[13px] font-semibold tracking-[0.04em] text-[#181A20]/60">
+                    {m.k}
+                  </div>
                 </div>
-                <div className="mt-2 text-[13px] font-semibold tracking-[0.04em] text-[#181A20]/60">
-                  {m.k}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="grid gap-[clamp(40px,6vw,90px)] pt-[clamp(40px,5vw,64px)] md:grid-cols-2">
             <div>

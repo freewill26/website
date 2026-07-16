@@ -8,6 +8,7 @@ import {
 import { getAllFamilySlugs, getFamily } from "@/lib/productFamily";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { getMarqueeItems } from "@/lib/api/advertising";
 import ProductHero from "@/components/sections/ProductHero";
 import ProductDescription from "@/components/sections/ProductDescription";
 import ProductHighlights from "@/components/sections/ProductHighlights";
@@ -52,10 +53,11 @@ export default async function ProductTypePage({ params }: ProductTypePageProps) 
   if (!product || !getFamily(family)) notFound();
 
   const related = getRelatedTypes(product.code);
+  const marqueeItems = await getMarqueeItems();
 
   return (
     <>
-      <Header />
+      <Header marqueeItems={marqueeItems} />
       <main>
         <ProductHero product={product} />
         <ProductDescription product={product} />

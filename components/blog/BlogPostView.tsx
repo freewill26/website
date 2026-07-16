@@ -1,36 +1,22 @@
 import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
+import ArticleBody from "@/components/site/ArticleBody";
 import BlogCard from "@/components/blog/BlogCard";
 import ReadingProgress from "@/components/site/ReadingProgress";
 import ShareBar from "@/components/site/ShareBar";
-import TableOfContents, { type TocItem } from "@/components/site/TableOfContents";
+import TableOfContents from "@/components/site/TableOfContents";
 import Newsletter from "@/components/site/Newsletter";
-import { slugify } from "@/lib/utils";
-import type { BlogPost } from "@/lib/blogContent";
+import type { BlogArticleVM, BlogCardVM } from "@/lib/api/blogs";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/ui/icons";
 
 interface BlogPostViewProps {
-  post: BlogPost;
-  related: BlogPost[];
-}
-
-/** Initials for the byline avatar, e.g. "Freewill Technical Team" → "FT". */
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+  post: BlogArticleVM;
+  related: BlogCardVM[];
 }
 
 /** Single blog post screen — editorial layout with sticky share/TOC rail. */
 export default function BlogPostView({ post, related }: BlogPostViewProps) {
-  const toc: TocItem[] = post.body
-    .filter((b) => b.heading)
-    .map((b) => ({ id: slugify(b.heading as string), label: b.heading as string }));
-
   return (
     <>
       <ReadingProgress />
@@ -100,13 +86,11 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
               className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-[13px] font-bold tracking-[0.04em] text-white"
               aria-hidden
             >
-              {initials(post.author)}
+              FW
             </span>
             <div className="leading-tight">
-              <div className="text-[14px] font-bold text-[#181A20]">{post.author}</div>
-              <div className="mt-0.5 text-[12px] text-[#181A20]/50">
-                {post.authorRole} · {post.date}
-              </div>
+              <div className="text-[14px] font-bold text-[#181A20]">Freewill Team</div>
+              <div className="mt-0.5 text-[12px] text-[#181A20]/50">{post.date}</div>
             </div>
           </div>
           <ShareBar title={post.title} />
@@ -118,14 +102,12 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
         <FwReveal>
           <figure className="m-0">
             <ImageSlot
-              label={post.imageLabel}
+              label={post.imageAlt}
+              src={post.image ?? undefined}
               shape="rounded"
               className="aspect-[16/8] w-full"
               style={{ borderRadius: "18px" }}
             />
-            <figcaption className="mt-3 text-[12px] italic leading-[1.5] text-[#181A20]/45">
-              {post.imageLabel}. Photography: Freewill.
-            </figcaption>
           </figure>
         </FwReveal>
       </section>
@@ -137,73 +119,7 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
       >
         <div className="mx-auto grid max-w-[1100px] gap-[clamp(32px,5vw,72px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]">
           <FwReveal as="article" className="min-w-0">
-            {post.body.map((block, i) => (
-              <div
-                key={i}
-                id={block.heading ? slugify(block.heading) : undefined}
-                className="mb-9"
-                style={{ scrollMarginTop: "120px" }}
-              >
-                {block.heading && (
-                  <h2 className="m-0 mb-4 font-display text-[clamp(22px,2.4vw,32px)] uppercase leading-[1.1] text-[#181A20]">
-                    {block.heading}
-                  </h2>
-                )}
-                {block.paragraphs.map((p, j) => (
-                  <p
-                    key={j}
-                    className={`m-0 mb-5 text-[17px] leading-[1.85] text-[#181A20]/[0.74] ${
-                      i === 0 && j === 0
-                        ? "first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[64px] first-letter:leading-[0.78] first-letter:text-brand"
-                        : ""
-                    }`}
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-            ))}
-
-            {/* Key takeaways callout */}
-            {post.takeaways && post.takeaways.length > 0 && (
-              <div
-                className="my-10 rounded-[18px] p-7"
-                style={{ background: "#F6F1E6", border: "1px solid rgba(24,26,32,0.08)" }}
-              >
-                <div className="mb-4 text-[11px] font-bold tracking-[0.22em] text-brand">
-                  KEY TAKEAWAYS
-                </div>
-                <ul className="m-0 flex list-none flex-col gap-3 p-0">
-                  {post.takeaways.map((t) => (
-                    <li key={t} className="flex gap-3 text-[15px] leading-[1.6] text-[#181A20]/[0.78]">
-                      <span className="mt-2 block h-1.5 w-1.5 flex-none rounded-full bg-brand" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
-              <div
-                className="mt-10 flex flex-wrap items-center gap-2.5 border-t pt-7"
-                style={{ borderColor: "rgba(24,26,32,0.1)" }}
-              >
-                <span className="mr-1 text-[11px] font-bold tracking-[0.18em] text-[#181A20]/45">
-                  TAGS
-                </span>
-                {post.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border px-3.5 py-1.5 text-[12px] font-semibold text-[#181A20]/70"
-                    style={{ borderColor: "rgba(24,26,32,0.16)" }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
+            <ArticleBody html={post.bodyHtml} />
 
             {/* Foot share */}
             <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
@@ -220,12 +136,12 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
           {/* Sticky aside: TOC + CTA */}
           <FwReveal as="aside" className="lg:pt-2">
             <div className="flex flex-col gap-7 lg:sticky lg:top-[124px]">
-              {toc.length > 0 && (
+              {post.toc.length > 0 && (
                 <div
                   className="hidden rounded-[18px] bg-white p-7 lg:block"
                   style={{ border: "1px solid rgba(24,26,32,0.08)" }}
                 >
-                  <TableOfContents items={toc} />
+                  <TableOfContents items={post.toc} />
                 </div>
               )}
 
@@ -275,7 +191,7 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
           </FwReveal>
           <div className="grid gap-5 md:grid-cols-3">
             {related.map((r) => (
-              <FwReveal key={r.slug} className="h-full">
+              <FwReveal key={r.id} className="h-full">
                 <BlogCard post={r} />
               </FwReveal>
             ))}

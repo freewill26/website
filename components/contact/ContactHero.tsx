@@ -1,7 +1,14 @@
 import { FwReveal } from "@/components/site/FwReveal";
 
+interface ContactHeroProps {
+  /** Eyebrow line above the heading. */
+  title: string;
+  headline: string;
+  description: string;
+}
+
 /** Contact page hero — light cream band with the headline + intro. */
-export default function ContactHero() {
+export default function ContactHero({ title, headline, description }: ContactHeroProps) {
   return (
     <section
       id="top"
@@ -11,7 +18,7 @@ export default function ContactHero() {
       <FwReveal className="mb-5 flex items-center gap-3">
         <span className="block h-0.5 w-7 bg-brand" />
         <span className="text-xs font-bold tracking-[0.3em] text-brand">
-          GET IN TOUCH
+          {title.toUpperCase()}
         </span>
       </FwReveal>
       <FwReveal
@@ -19,15 +26,14 @@ export default function ContactHero() {
         className="m-0 max-w-[1100px] font-display uppercase leading-[0.92] text-[#181A20]"
         style={{ fontSize: "clamp(34px,7.4vw,140px)", textWrap: "balance" }}
       >
-        Let&apos;s build your arena.
+        {headline}
       </FwReveal>
       <FwReveal
         as="p"
         className="m-0 mt-7 max-w-[640px] leading-[1.7] text-[#181A20]/[0.66]"
         style={{ fontSize: "clamp(16px,1.5vw,20px)" }}
       >
-        New build, retrofit or a quick consultation — tell us about your project
-        and our team responds within one working day.
+        {description}
       </FwReveal>
     </section>
   );
