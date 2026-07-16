@@ -48,8 +48,6 @@ export const HOME_LIMITS = {
 export const ABOUT_LIMITS = {
   /** Team members pulled for the founders + "our people" grids. */
   team: 50,
-  /** Partner organisations pulled for the brand marquee. */
-  brands: 40,
 } as const;
 
 /**
@@ -69,6 +67,15 @@ export const PRODUCTS_LIMITS = {
  * batch is exactly that many images, regardless of how images are distributed
  * across products.
  */
+/** How many records the News / Blog index pages request — generous since both are single unpaginated feeds. */
+export const NEWS_LIMITS = {
+  list: 100,
+} as const;
+
+export const BLOG_LIMITS = {
+  list: 100,
+} as const;
+
 export const GALLERY_LIMITS = {
   /** Category images shown once, ahead of the product feed. */
   categories: 50,

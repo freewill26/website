@@ -4,38 +4,42 @@ import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import NewsArticle from "@/components/news/NewsArticle";
-import { ARTICLES, getArticle, relatedArticles } from "@/lib/newsContent";
+import { getNewsArticle, getRelatedNews } from "@/lib/api/news";
 
 interface NewsSinglePageProps {
-  params: Promise<{ slug: string }>;
-}
-
-/** Pre-render one static page per article. */
-export function generateStaticParams() {
-  return ARTICLES.map((a) => ({ slug: a.slug }));
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: NewsSinglePageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const article = getArticle(slug);
+  const { id } = await params;
+  const article = await getNewsArticle(id);
   if (!article) return { title: "Article not found · Freewill" };
 
   return {
-    title: `${article.title} · Freewill News`,
-    description: article.excerpt,
+    title: article.seo.title,
+    description: article.seo.description,
+    openGraph: {
+      title: article.seo.ogTitle,
+      description: article.seo.ogDescription,
+      ...(article.seo.ogImage ? { images: [article.seo.ogImage] } : {}),
+    },
   };
 }
 
-/** Freewill News (single) — one newsroom article. */
+/**
+ * Real, DB-backed news article — reached from a card on the News index
+ * (`/news/[id]`). Both the article and its related rail come straight from
+ * the service API.
+ */
 export default async function NewsSinglePage({ params }: NewsSinglePageProps) {
-  const { slug } = await params;
-  const article = getArticle(slug);
+  const { id } = await params;
+  const article = await getNewsArticle(id);
 
   if (!article) notFound();
 
-  const related = relatedArticles(slug);
+  const related = await getRelatedNews(id);
 
   return (
     <div className="overflow-x-clip bg-cream text-[#181A20]">
