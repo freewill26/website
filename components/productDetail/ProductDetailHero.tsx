@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
@@ -21,11 +22,14 @@ export default function ProductDetailHero({ title, tag, description, image, imag
       style={{ background: "#0F1428", scrollMarginTop: "104px" }}
     >
       {image ? (
-        <img
+        <Image
           src={image}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 object-cover object-center opacity-40"
         />
       ) : (
         <ImageSlot tone="light" label={imageAlt} className="absolute inset-0 h-full w-full" />

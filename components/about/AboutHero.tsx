@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 
@@ -19,11 +20,14 @@ export default function AboutHero({ title, headlineHtml, description, background
       className="relative flex min-h-screen items-center overflow-hidden"
       style={{ background: "#0A0E1C" }}
     >
-      <img
+      <Image
         src={backgroundImage}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 object-cover"
       />
       <div
         className="absolute inset-0"

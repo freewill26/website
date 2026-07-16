@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FwReveal } from "@/components/site/FwReveal";
 
 /** Product image gallery. Renders nothing when there are no gallery images. */
@@ -13,7 +14,13 @@ export default function ProductDetailGallery({ images, alt }: { images: string[]
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
         {images.map((src, i) => (
           <FwReveal key={src} className="relative aspect-[4/3] overflow-hidden rounded-[14px]">
-            <img src={src} alt={`${alt} ${i + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+            <Image
+              src={src}
+              alt={`${alt} ${i + 1}`}
+              fill
+              sizes="(max-width: 1024px) 50vw, 33vw"
+              className="object-cover"
+            />
           </FwReveal>
         ))}
       </div>

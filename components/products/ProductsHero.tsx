@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import type { ProductsPageContent } from "@/lib/api/products";
@@ -14,11 +15,14 @@ export default function ProductsHero({ hero }: ProductsHeroProps) {
       className="relative h-[92vh] min-h-[600px] overflow-hidden"
       style={{ background: "#0F1428", scrollMarginTop: "104px" }}
     >
-      <img
+      <Image
         src={hero.backgroundImage}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover object-center opacity-40"
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 object-cover object-center opacity-40"
       />
       <div
         className="absolute inset-0"

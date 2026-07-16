@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 
@@ -37,7 +38,14 @@ export default function ProductDetailAbout({ title, description, image }: Produc
 
         <FwReveal className="relative aspect-[4/5] overflow-hidden rounded-[14px]">
           {image ? (
-            <img src={image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover object-center" />
+            <Image
+              src={image}
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              className="object-cover object-center"
+            />
           ) : (
             <ImageSlot label="Product detail" shape="rounded" className="absolute inset-0 h-full w-full" />
           )}

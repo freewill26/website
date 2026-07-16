@@ -95,7 +95,12 @@ export default function ProductsCategory({
             }}
           >
             <div className="relative aspect-[4/3] overflow-hidden" style={{ background: "#DCD3BE" }}>
-              <ImageSlot label={p.title} src={p.image ?? undefined} className="absolute inset-0 h-full w-full" />
+              <ImageSlot
+                label={p.title}
+                src={p.image ?? undefined}
+                className="absolute inset-0 h-full w-full"
+                sizes="(max-width: 768px) 82vw, 400px"
+              />
             </div>
             <div className="flex flex-1 flex-col px-6 pb-[26px] pt-6">
               <h3 className="m-0 mb-2.5 font-display text-2xl uppercase leading-[1.12] text-[#111820]">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import ParallaxMedia from "@/components/site/ParallaxMedia";
@@ -37,10 +38,12 @@ export default function AboutTeam({ founders, people }: AboutTeamVM) {
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-ink-card lg:w-[38%]">
                 <ParallaxMedia>
                   {f.image ? (
-                    <img
+                    <Image
                       src={f.image}
                       alt={f.name}
-                      className="absolute inset-0 h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 1024px) 38vw, 100vw"
+                      className="object-cover"
                     />
                   ) : (
                     <ImageSlot label={f.name} className="absolute inset-0 h-full w-full" />
@@ -126,7 +129,12 @@ export default function AboutTeam({ founders, people }: AboutTeamVM) {
             >
               <div className="relative aspect-square overflow-hidden" style={{ background: "#DCD3BE" }}>
                 <ParallaxMedia scale={1.18}>
-                  <ImageSlot label={e.name} className="absolute inset-0 h-full w-full" src={e.image ?? undefined} />
+                  <ImageSlot
+                    label={e.name}
+                    className="absolute inset-0 h-full w-full"
+                    src={e.image ?? undefined}
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
                 </ParallaxMedia>
               </div>
               <div className="px-[18px] pb-5 pt-4">
