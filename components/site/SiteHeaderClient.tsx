@@ -8,9 +8,10 @@ import SiteMobileMenu from "@/components/site/SiteMobileMenu";
 import { HEADER_NAV } from "@/lib/siteNav";
 import { PRODUCT_MENU } from "@/lib/productMenu";
 import type { CategoryTile } from "@/lib/api/home";
+import type { AdLink } from "@/lib/api/advertising";
 
-const RIBBON_TEXT =
-  "33+ YEARS BUILDING INDIA'S ARENAS  ✦  EXCLUSIVE PARTNER — GERFLOR · CONNOR SPORTS · SPORT COURT · SPIETH  ✦  TRUSTED BY KHELO INDIA & THE NATIONAL GAMES SINCE 1992  ✦  FIBA · FIVB · FIG CERTIFIED SYSTEMS  ✦  ";
+/** Separator between ribbon credentials; also trails the last one so the loop is seamless. */
+const RIBBON_SEPARATOR = "  ✦  ";
 
 /** Swatch colours applied behind (or under a semi-transparent) category image. */
 const FALLBACK_SWATCHES = ["#C9442E", "#00687F", "#1FA95B", "#8FBD1A", "#2D6A3F"];
@@ -23,14 +24,27 @@ interface SiteHeaderClientProps {
   /** CMS contact channels, shown at the foot of the mobile menu. */
   email: string;
   phone: string;
+  /** CMS-managed accent pill at the end of the nav. */
+  headerButton: AdLink;
+  /** CMS-managed credentials scrolled by the ribbon above the nav. */
+  marqueeItems: string[];
 }
 
 /**
  * Redesigned light site header: teal credentials ribbon + cream navigation bar
  * that fades in a blur/shadow once scrolled. Shared by the Home and About pages.
  */
-export default function SiteHeaderClient({ solid = false, categories, email, phone }: SiteHeaderClientProps) {
+export default function SiteHeaderClient({
+  solid = false,
+  categories,
+  email,
+  phone,
+  headerButton,
+  marqueeItems,
+}: SiteHeaderClientProps) {
   const pathname = usePathname();
+  const ribbonText =
+    marqueeItems.map((item) => `${item}${RIBBON_SEPARATOR}`).join("");
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -135,7 +149,7 @@ export default function SiteHeaderClient({ solid = false, categories, email, pho
                 key={i}
                 className="pr-12 text-[11px] font-bold tracking-[0.18em] text-white"
               >
-                {RIBBON_TEXT}
+                {ribbonText}
               </span>
             ))}
           </div>
@@ -196,9 +210,9 @@ export default function SiteHeaderClient({ solid = false, categories, email, pho
               ),
             )}
 
-            {/* Pickleball — signature accent pill */}
+            {/* Signature accent pill — text, link and badge come from the CMS */}
             <Link
-              href="/products"
+              href={headerButton.href}
               className="fw-anim-pill inline-flex items-center gap-[9px] rounded-full py-[9px] pl-3 pr-4 text-xs font-extrabold uppercase tracking-[0.1em] no-underline"
               style={{
                 background: "linear-gradient(120deg,#1FA95B,#C3F53C,#1FA95B)",
@@ -214,13 +228,15 @@ export default function SiteHeaderClient({ solid = false, categories, email, pho
                   boxShadow: "inset -1px -1px 2px rgba(0,0,0,0.18)",
                 }}
               />
-              Pickleball
-              <span
-                className="rounded-full px-1.5 py-0.5 text-[8px] font-extrabold tracking-[0.12em]"
-                style={{ background: "#0A2A14", color: "#C3F53C" }}
-              >
-                NEW
-              </span>
+              {headerButton.label}
+              {headerButton.badge && (
+                <span
+                  className="rounded-full px-1.5 py-0.5 text-[8px] font-extrabold tracking-[0.12em]"
+                  style={{ background: "#0A2A14", color: "#C3F53C" }}
+                >
+                  {headerButton.badge}
+                </span>
+              )}
             </Link>
           </nav>
 

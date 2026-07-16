@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
   globalReach: "/global-reach",
   socialLinks: "/social-links",
   teamMembers: "/team-members",
+  advertisements: "/advertisements",
 } as const;
 
 /** Builders for single-resource / nested endpoints that take a parameter. */
