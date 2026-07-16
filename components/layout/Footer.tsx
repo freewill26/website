@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { NAV_ITEMS } from "@/lib/navigation";
 import { getContactChannels } from "@/lib/api/contact";
+import { getSocialLinks } from "@/lib/api/socialLinks";
 
 const PRODUCT_LINKS = [
   "Taraflex® Indoor Surfaces",
@@ -10,11 +11,12 @@ const PRODUCT_LINKS = [
   "Stadium Seating",
 ];
 
-const SOCIALS = ["Facebook", "Instagram", "LinkedIn", "YouTube"];
-
 /** Site footer: brand blurb, page/product/contact columns and a watermark. */
 export default async function Footer() {
-  const { address, email, phone } = await getContactChannels();
+  const [{ address, email, phone }, socials] = await Promise.all([
+    getContactChannels(),
+    getSocialLinks(),
+  ]);
   return (
     <footer className="border-t border-brand-accent/12 bg-ink px-[6vw] pb-8 pt-14 text-cream sm:pt-20 lg:pt-24">
       <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
@@ -75,11 +77,23 @@ export default async function Footer() {
       <div className="mt-6 flex flex-wrap justify-between gap-4 border-t border-brand-accent/12 pt-6 text-[11px] tracking-[0.08em] text-mist/30">
         <span>© 2026 FREEWILL INFRASTRUCTURES PVT LTD.</span>
         <span className="flex flex-wrap gap-6">
-          {SOCIALS.map((s) => (
-            <span key={s} className="uppercase">
-              {s}
-            </span>
-          ))}
+          {socials.map((s) =>
+            s.href ? (
+              <a
+                key={s.app}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="uppercase text-inherit no-underline transition-colors hover:text-brand-accent"
+              >
+                {s.app}
+              </a>
+            ) : (
+              <span key={s.app} className="uppercase">
+                {s.app}
+              </span>
+            ),
+          )}
         </span>
       </div>
     </footer>

@@ -2,20 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { SITE_NAV } from "@/lib/siteNav";
 import { getContactChannels } from "@/lib/api/contact";
-
-const SOLUTIONS = [
-  "Sports Flooring",
-  "Stadium Seating",
-  "Sports Equipment",
-  "Gymnastics",
-  "Pickleball Courts",
-];
-
-const SOCIALS = ["Facebook", "Instagram", "LinkedIn", "YouTube"];
+import { getFooterSolutions } from "@/lib/api/advertising";
+import { getSocialLinks } from "@/lib/api/socialLinks";
 
 /** Redesigned light footer (cream) shared by the Home and About pages. */
 export default async function SiteFooter() {
-  const { address, email, phone } = await getContactChannels();
+  const [{ address, email, phone }, solutions, socials] = await Promise.all([
+    getContactChannels(),
+    getFooterSolutions(),
+    getSocialLinks(),
+  ]);
   return (
     <footer
       className="box-border px-[6vw] pb-8 pt-14 text-[#181A20] sm:pt-20 lg:pt-[104px]"
@@ -46,10 +42,14 @@ export default async function SiteFooter() {
         </FooterColumn>
 
         <FooterColumn title="Solutions">
-          {SOLUTIONS.map((label) => (
-            <span key={label} className="text-[13px] text-[#181A20]/70">
-              {label}
-            </span>
+          {solutions.map((solution) => (
+            <Link
+              key={solution.label}
+              href={solution.href}
+              className="text-[13px] text-[#181A20]/70 no-underline transition-colors hover:text-brand"
+            >
+              {solution.label}
+            </Link>
           ))}
         </FooterColumn>
 
@@ -77,11 +77,23 @@ export default async function SiteFooter() {
       >
         <span>© 2026 FREEWILL INFRASTRUCTURES PVT LTD.</span>
         <span className="flex flex-wrap gap-6">
-          {SOCIALS.map((s) => (
-            <span key={s} className="uppercase">
-              {s}
-            </span>
-          ))}
+          {socials.map((s) =>
+            s.href ? (
+              <a
+                key={s.app}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="uppercase text-inherit no-underline transition-colors hover:text-brand"
+              >
+                {s.app}
+              </a>
+            ) : (
+              <span key={s.app} className="uppercase">
+                {s.app}
+              </span>
+            ),
+          )}
         </span>
       </div>
     </footer>
