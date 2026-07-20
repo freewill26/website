@@ -46,3 +46,13 @@ export function productTypeHref(code: string, family: string = DEFAULT_FAMILY): 
 export function productHref(id: string): string {
   return `/products/item/${id}`;
 }
+
+/** DOM id of a category's section on the products index page. */
+export function categoryAnchorId(categoryId: string): string {
+  return `fw-cat-id-${categoryId}`;
+}
+
+/** Build the route that opens the products index scrolled to one category. */
+export function categoryHref(categoryId: string): string {
+  return `/products#${categoryAnchorId(categoryId)}`;
+}
