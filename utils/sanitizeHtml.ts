@@ -36,6 +36,24 @@ export function sanitizeInlineRichText(html: string): string {
   });
 }
 
+/**
+ * Sanitizes short rich-text bodies that need block structure — product
+ * specification blocks, whose copy is mostly bullet lists. Wider than
+ * {@link sanitizeRichText} (which allows inline emphasis only), narrower than
+ * {@link sanitizeArticleHtml}: no images, tables or anchors, since these blocks
+ * render inside a fixed column beside their own illustration.
+ */
+export function sanitizeBlockHtml(html: string): string {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      "p", "br", "span", "strong", "b", "em", "i", "u", "s", "mark",
+      "ul", "ol", "li", "h3", "h4", "blockquote",
+    ],
+    ALLOWED_ATTR: ["style", "class"],
+    FORBID_ATTR: ["href", "src", "srcset"],
+  });
+}
+
 export interface ArticleHeading {
   id: string;
   label: string;
