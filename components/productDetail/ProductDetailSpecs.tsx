@@ -1,27 +1,33 @@
 import { FwReveal } from "@/components/site/FwReveal";
-import { sanitizeRichText } from "@/utils/sanitizeHtml";
+import BlueprintFrame from "./BlueprintFrame";
 
-/** "Specifications" — CMS rich text (the product's blueprint/spec sheet). Renders nothing when empty. */
-export default function ProductDetailSpecs({ html }: { html: string | null }) {
+/**
+ * The product's blueprint document, uploaded in the CMS as a self-contained
+ * `.html` file and embedded here in a sandboxed iframe.
+ *
+ * The frame itself is full-bleed — the uploaded document brings its own layout,
+ * so it spans the full viewport width with no padding or rounding. Only the
+ * eyebrow label is inset, so it doesn't collide with the viewport edge.
+ * Renders nothing when no blueprint has been uploaded.
+ */
+export default function ProductDetailSpecs({
+  html,
+  productTitle,
+}: {
+  html: string | null;
+  productTitle: string;
+}) {
   if (!html) return null;
 
   return (
-    <section
-      className="box-border px-[6vw] text-[#EAF8FB]"
-      style={{ background: "#0A1024", paddingBlock: "clamp(64px,8vw,120px)" }}
-    >
-      <FwReveal className="mb-[18px] flex items-center gap-3">
+    <section className="w-full" style={{ background: "#0A1024" }}>
+      <FwReveal className="flex items-center gap-3 px-[6vw] pb-[clamp(18px,2.5vw,32px)] pt-[clamp(40px,5vw,72px)]">
         <span className="block h-0.5 w-7" style={{ background: "#5FD0E0" }} />
         <span className="font-mono text-xs font-medium tracking-[0.24em] text-[#9FE4EF]">
-          SPECIFICATIONS
+          BLUEPRINT
         </span>
       </FwReveal>
-      <FwReveal as="div" className="max-w-[760px]">
-        <div
-          className="text-[15px] leading-[1.9] text-[#DFF6FA]/85 [&_strong]:text-[#5FD0E0] [&_b]:text-[#5FD0E0]"
-          dangerouslySetInnerHTML={{ __html: sanitizeRichText(html) }}
-        />
-      </FwReveal>
+      <BlueprintFrame html={html} title={`${productTitle} blueprint`} />
     </section>
   );
 }
