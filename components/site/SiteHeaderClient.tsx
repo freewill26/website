@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import SiteMobileMenu from "@/components/site/SiteMobileMenu";
 import { HEADER_NAV } from "@/lib/siteNav";
 import { PRODUCT_MENU } from "@/lib/productMenu";
+import { categoryAnchorId, categoryHref } from "@/lib/navigation";
 import type { CategoryTile } from "@/lib/api/home";
 import type { AdLink } from "@/lib/api/advertising";
 
@@ -94,6 +95,17 @@ export default function SiteHeaderClient({
     closeTimer.current = setTimeout(() => setProductsOpen(false), 180);
   };
 
+  // Already on /products? Route navigation is a no-op, so scroll to the
+  // category section ourselves (and re-scroll when the same card is reclicked).
+  const scrollToCategory = (event: React.MouseEvent, categoryId: string) => {
+    if (pathname !== "/products") return;
+    const target = document.getElementById(categoryAnchorId(categoryId));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", categoryHref(categoryId));
+  };
+
   const isSolid = solid || scrolled;
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : href.startsWith("/") && pathname.startsWith(href);
@@ -105,15 +117,17 @@ export default function SiteHeaderClient({
       ? [
           ...categories.map((c, i) => ({
             key: c.id,
+            categoryId: c.id as string | null,
             name: c.title,
             cat: c.description,
             tag: c.kicker,
-            href: "/products",
+            href: categoryHref(c.id),
             image: c.image as string | null,
             swatch: FALLBACK_SWATCHES[i % FALLBACK_SWATCHES.length],
           })),
           {
             key: "see-all",
+            categoryId: null as string | null,
             name: "See All Products →",
             cat: "View full catalogue",
             tag: "→",
@@ -124,6 +138,7 @@ export default function SiteHeaderClient({
         ]
       : PRODUCT_MENU.map((pg) => ({
           key: pg.name,
+          categoryId: null as string | null,
           name: pg.name,
           cat: pg.cat,
           tag: pg.tag,
@@ -284,7 +299,10 @@ export default function SiteHeaderClient({
                   <Link
                     key={pg.key}
                     href={pg.href}
-                    onClick={() => setProductsOpen(false)}
+                    onClick={(e) => {
+                      setProductsOpen(false);
+                      if (pg.categoryId) scrollToCategory(e, pg.categoryId);
+                    }}
                     className="group relative flex min-h-[288px] flex-col justify-end overflow-hidden no-underline transition-opacity hover:opacity-85"
                     style={{
                       background: isSeeAll
