@@ -34,6 +34,23 @@ export interface ApiProduct {
   categoryId: string | null;
 }
 
+/** One row of a product's feature strip, authored in the CMS. */
+export interface ApiProductFeature {
+  image: string;
+  imageAlt?: string | null;
+  title: string;
+  description: string;
+}
+
+/** One numbered component block on a product detail page. */
+export interface ApiProductSpecBlock {
+  title: string;
+  image: string;
+  imageAlt?: string | null;
+  /** rich-text HTML */
+  content: string;
+}
+
 /** `GET /products/:id` — the full record, for the product detail page. */
 export interface ApiProductDetail extends ApiProduct {
   broadDescription: string;
@@ -42,6 +59,8 @@ export interface ApiProductDetail extends ApiProduct {
   aboutDescription: string | null;
   aboutImage: string | null;
   blueprintHtml: string | null;
+  features: ApiProductFeature[];
+  specifications: ApiProductSpecBlock[];
   seoTitle: string;
   seoDescription: string;
   ogTitle: string;
