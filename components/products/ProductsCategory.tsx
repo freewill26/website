@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from "@/components/ui/icons";
 import ImageSlot from "@/components/site/ImageSlot";
-import { productHref } from "@/lib/navigation";
+import { categoryAnchorId, productHref } from "@/lib/navigation";
 import type { CategoryWithProductsVM } from "@/lib/api/products";
 
 /**
@@ -41,6 +41,9 @@ export default function ProductsCategory({
         scrollMarginTop: "104px",
       }}
     >
+      {/* Stable, id-based anchor so header menu links survive re-ordering. */}
+      <span id={categoryAnchorId(category.id)} className="block" style={{ scrollMarginTop: "104px" }} />
+
       <FwReveal className="flex flex-wrap items-end justify-between gap-6 px-[6vw] pb-[clamp(36px,4vw,56px)]">
         <div className="max-w-[640px]">
           <div className="mb-[18px] flex items-center gap-3.5">
