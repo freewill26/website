@@ -5,6 +5,8 @@ import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
 import ProductDetailHero from "@/components/productDetail/ProductDetailHero";
 import ProductDetailAbout from "@/components/productDetail/ProductDetailAbout";
+import ProductDetailFeatures from "@/components/productDetail/ProductDetailFeatures";
+import ProductDetailSpecBlocks from "@/components/productDetail/ProductDetailSpecBlocks";
 import ProductDetailSpecs from "@/components/productDetail/ProductDetailSpecs";
 import ProductDetailGallery from "@/components/productDetail/ProductDetailGallery";
 import ProductDetailContact from "@/components/productDetail/ProductDetailContact";
@@ -57,7 +59,12 @@ export default async function ProductItemPage({ params }: ProductItemPageProps) 
           description={product.aboutDescription}
           image={product.aboutImage}
         />
-        <ProductDetailSpecs html={product.blueprintHtml} />
+        <ProductDetailFeatures
+          features={product.features ?? []}
+          productTitle={product.title}
+        />
+        <ProductDetailSpecBlocks blocks={product.specifications ?? []} />
+        <ProductDetailSpecs html={product.blueprintHtml} productTitle={product.title} />
         <ProductDetailGallery images={product.images} alt={product.title} />
         <ProductDetailContact productTitle={product.title} options={catalogOptions} />
       </main>
