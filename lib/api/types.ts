@@ -68,6 +68,18 @@ export interface ApiProductDetail extends ApiProduct {
   ogImage: string;
 }
 
+/** `GET /catalogues` — downloadable PDF brochures for the Catalogue screen. */
+export interface ApiCatalogue {
+  id: string;
+  title: string;
+  description: string | null;
+  fileUrl: string;
+  /** Bytes, when the PDF was uploaded through the CMS; null for external links. */
+  fileSize: number | null;
+  coverImage: string | null;
+  coverImageAlt: string | null;
+}
+
 export interface ApiMilestone {
   id: string;
   imageUrl: string;
