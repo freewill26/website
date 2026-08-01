@@ -58,3 +58,15 @@ const CATALOGUE_CONTENT_DEFAULTS: CataloguePageContent = {
   hero: {
     title: "The Catalogue",
     headline: "Everything we build,\non paper.",
+    description:
+      "Product ranges, technical specifications and certifications — download the brochure you need, or take the lot.",
+  },
+};
+
+/* ------------------------------------------------------------------ *
+ * Helpers
+ * ------------------------------------------------------------------ */
+
+function fieldValue(fields: ApiField[] | undefined, key: string): string | undefined {
+  const value = fields?.find((f) => f.key === key)?.value;
+  return typeof value === "string" && value.length > 0 ? value : undefined;
