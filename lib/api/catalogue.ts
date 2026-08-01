@@ -10,3 +10,15 @@ import { safeGet, safeList } from "./http";
 import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { CATALOGUE_LIMITS } from "@/utils/constants";
 import type { ApiCatalogue, ApiField, ApiPage } from "./types";
+
+/* ------------------------------------------------------------------ *
+ * View models
+ * ------------------------------------------------------------------ */
+
+export interface CataloguePageContent {
+  seo: {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    ogImage: string | null;
