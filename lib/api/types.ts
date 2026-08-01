@@ -90,6 +90,8 @@ export interface ApiVideo {
   youtubeUrl: string;
   /** Custom poster; when null the site derives YouTube's own still. */
   thumbnail: string | null;
+  isActive: boolean;
+  order: number;
 }
 
 export interface ApiMilestone {
