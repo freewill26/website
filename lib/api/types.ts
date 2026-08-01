@@ -78,6 +78,18 @@ export interface ApiCatalogue {
   fileSize: number | null;
   coverImage: string | null;
   coverImageAlt: string | null;
+  isActive: boolean;
+  order: number;
+}
+
+/** `GET /videos` — YouTube films for the Videos screen. */
+export interface ApiVideo {
+  id: string;
+  title: string;
+  description: string | null;
+  youtubeUrl: string;
+  /** Custom poster; when null the site derives YouTube's own still. */
+  thumbnail: string | null;
 }
 
 export interface ApiMilestone {
