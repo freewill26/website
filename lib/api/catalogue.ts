@@ -118,3 +118,15 @@ export async function getCataloguePageContent(): Promise<CataloguePageContent> {
       description: fieldValue(hero, "description") ?? d.hero.description,
     },
   };
+}
+
+/**
+ * The published brochures, in the order set in the CMS. `isActive=true` keeps
+ * unpublished rows off the site; anything without a file URL is dropped so a
+ * half-filled record can't render a dead download button.
+ */
+export async function getCatalogues(): Promise<CatalogueItemVM[]> {
+  const rows = await safeList<ApiCatalogue>(API_ENDPOINTS.catalogues, {
+    searchParams: { limit: CATALOGUE_LIMITS.list, isActive: true },
+  });
+
