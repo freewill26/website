@@ -22,3 +22,15 @@ export interface CataloguePageContent {
     ogTitle: string;
     ogDescription: string;
     ogImage: string | null;
+  };
+  hero: {
+    title: string;
+    /** `\n`-delimited — one stacked heading line per entry. */
+    headline: string;
+    description: string;
+  };
+}
+
+/** One downloadable brochure card. */
+export interface CatalogueItemVM {
+  id: string;
