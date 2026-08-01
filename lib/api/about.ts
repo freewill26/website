@@ -151,6 +151,13 @@ const ABOUT_CONTENT_DEFAULTS: AboutPageContent = {
     buttonLabel: "Talk to Us →",
     buttonLink: "/#fw-contact",
   },
+  award: {
+    image: "/assets/about-story-innovation.png",
+    title: "Recognition",
+    headline: "ASSOCHAM Sports Infrastructure Company of the Year",
+    description:
+      "Recognised by ASSOCHAM for raising the standard of sports infrastructure in India — for the courts, tracks and arenas we have delivered, and the athletes who compete on them.",
+  },
   testimonial: {
     html: DEFAULT_TESTIMONIAL_HTML,
     author: "Rajesh Kharabanda",
