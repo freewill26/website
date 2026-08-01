@@ -70,3 +70,15 @@ const CATALOGUE_CONTENT_DEFAULTS: CataloguePageContent = {
 function fieldValue(fields: ApiField[] | undefined, key: string): string | undefined {
   const value = fields?.find((f) => f.key === key)?.value;
   return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+/** Human-readable file size; null when the API didn't record one. */
+function formatSize(bytes: number | null): string | null {
+  if (!bytes || bytes <= 0) return null;
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+/**
+ * A safe `download` filename derived from the title, so a saved brochure isn't
+ * called `9f2c-…-uuid.pdf`. Only honoured for same-origin downloads; on a
