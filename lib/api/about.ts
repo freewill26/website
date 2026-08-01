@@ -286,6 +286,7 @@ export async function getAboutPageContent(): Promise<AboutPageContent> {
   const about1 = section("about_section_1");
   const about2 = section("about_section_2");
   const about3 = section("about_section_3");
+  const award = section("award_section");
   const testimonial = section("testimonial_section");
   const d = ABOUT_CONTENT_DEFAULTS;
 
