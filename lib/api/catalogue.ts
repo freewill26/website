@@ -94,3 +94,15 @@ function downloadName(title: string): string {
   return `${slug}.pdf`;
 }
 
+/* ------------------------------------------------------------------ *
+ * Fetchers
+ * ------------------------------------------------------------------ */
+
+/** Catalogue CMS page (`slug: "catalogue"`) → hero copy + SEO metadata. */
+export async function getCataloguePageContent(): Promise<CataloguePageContent> {
+  const page = await safeGet<ApiPage | null>(API_ROUTES.page("catalogue"), null);
+  const hero = page?.sections?.find((s) => s.key === "hero_section")?.fields;
+  const d = CATALOGUE_CONTENT_DEFAULTS;
+
+  return {
+    seo: {
