@@ -319,6 +319,12 @@ export async function getAboutPageContent(): Promise<AboutPageContent> {
     about1: readStory(about1, d.about1),
     about2: readStory(about2, d.about2),
     about3: readStory(about3, d.about3),
+    award: {
+      image: fieldImage(award, "image") ?? d.award.image,
+      title: fieldValue(award, "title") ?? d.award.title,
+      headline: fieldValue(award, "headline") ?? d.award.headline,
+      description: fieldValue(award, "description") ?? d.award.description,
+    },
     testimonial: {
       html: sanitizeRichText(fieldValue(testimonial, "testimonial") ?? d.testimonial.html),
       author: fieldValue(testimonial, "author") ?? d.testimonial.author,
