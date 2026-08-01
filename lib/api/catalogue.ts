@@ -34,3 +34,15 @@ export interface CataloguePageContent {
 /** One downloadable brochure card. */
 export interface CatalogueItemVM {
   id: string;
+  title: string;
+  description: string | null;
+  fileUrl: string;
+  cover: string | null;
+  coverAlt: string;
+  /** Pre-formatted size ("2.4 MB"), or null when the size isn't known. */
+  size: string | null;
+  /** Filename suggested to the browser when downloading. */
+  downloadName: string;
+}
+
+const CATALOGUE_CONTENT_DEFAULTS: CataloguePageContent = {
