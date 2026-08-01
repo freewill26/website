@@ -68,6 +68,15 @@ export interface AboutPageContent {
   testimonial: { html: string; author: string; occupation: string };
 }
 
+/** The About page's award/recognition panel. */
+export interface AboutAwardVM {
+  image: string;
+  /** Eyebrow above the heading. */
+  title: string;
+  headline: string;
+  description: string;
+}
+
 export interface FounderVM {
   id: string;
   name: string;
