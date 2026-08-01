@@ -63,6 +63,8 @@ export interface AboutPageContent {
   about1: AboutStoryVM;
   about2: AboutStoryVM;
   about3: AboutStoryVM;
+  /** Recognition panel — a single award: one image, one heading, one blurb. */
+  award: AboutAwardVM;
   testimonial: { html: string; author: string; occupation: string };
 }
 
