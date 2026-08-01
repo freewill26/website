@@ -106,3 +106,15 @@ export async function getCataloguePageContent(): Promise<CataloguePageContent> {
 
   return {
     seo: {
+      title: page?.seoTitle || d.seo.title,
+      description: page?.seoDescription || d.seo.description,
+      ogTitle: page?.ogTitle || d.seo.ogTitle,
+      ogDescription: page?.ogDescription || d.seo.ogDescription,
+      ogImage: page?.ogImage || d.seo.ogImage,
+    },
+    hero: {
+      title: fieldValue(hero, "title") ?? d.hero.title,
+      headline: fieldValue(hero, "headline") ?? d.hero.headline,
+      description: fieldValue(hero, "description") ?? d.hero.description,
+    },
+  };
