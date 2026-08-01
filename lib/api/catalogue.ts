@@ -82,3 +82,15 @@ function formatSize(bytes: number | null): string | null {
 /**
  * A safe `download` filename derived from the title, so a saved brochure isn't
  * called `9f2c-…-uuid.pdf`. Only honoured for same-origin downloads; on a
+ * cross-origin storage URL the browser keeps the server's name, which is fine.
+ */
+function downloadName(title: string): string {
+  const slug =
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 60) || "catalogue";
+  return `${slug}.pdf`;
+}
+
