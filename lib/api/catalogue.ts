@@ -46,3 +46,15 @@ export interface CatalogueItemVM {
 }
 
 const CATALOGUE_CONTENT_DEFAULTS: CataloguePageContent = {
+  seo: {
+    title: "Catalogue · Freewill",
+    description:
+      "Download Freewill product catalogues and brochures — sports flooring, stadium seating, gymnastics apparatus and outdoor surfaces.",
+    ogTitle: "Catalogue · Freewill",
+    ogDescription:
+      "Download Freewill product catalogues and brochures — sports flooring, stadium seating, gymnastics apparatus and outdoor surfaces.",
+    ogImage: null,
+  },
+  hero: {
+    title: "The Catalogue",
+    headline: "Everything we build,\non paper.",
