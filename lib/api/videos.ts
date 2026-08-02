@@ -94,3 +94,15 @@ export function youtubeIdFrom(url: string): string | null {
 
 function toVideoVM(row: ApiVideo): VideoItemVM | null {
   const youtubeId = youtubeIdFrom(row.youtubeUrl);
+  if (!youtubeId) return null;
+
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description,
+    youtubeId,
+    // hqdefault exists for every video (maxres doesn't), so posters never 404.
+    thumbnail: row.thumbnail || `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`,
+    // youtube-nocookie + autoplay: the card is the play affordance, so by the
+    // time this URL is mounted the visitor has already asked for playback.
+    embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`,
