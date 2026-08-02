@@ -130,3 +130,15 @@ export async function getCatalogues(): Promise<CatalogueItemVM[]> {
     searchParams: { limit: CATALOGUE_LIMITS.list, isActive: true },
   });
 
+  return rows
+    .filter((c) => Boolean(c.fileUrl))
+    .map((c) => ({
+      id: c.id,
+      title: c.title,
+      description: c.description,
+      fileUrl: c.fileUrl,
+      cover: c.coverImage,
+      coverAlt: c.coverImageAlt || c.title,
+      size: formatSize(c.fileSize),
+      downloadName: downloadName(c.title),
+    }));
