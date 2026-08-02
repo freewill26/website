@@ -118,3 +118,15 @@ function toVideoVM(row: ApiVideo): VideoItemVM | null {
 export async function getVideosPageContent(): Promise<VideosPageContent> {
   const page = await safeGet<ApiPage | null>(API_ROUTES.page("videos"), null);
   const hero = page?.sections?.find((s) => s.key === "hero_section")?.fields;
+  const d = VIDEOS_CONTENT_DEFAULTS;
+
+  return {
+    seo: {
+      title: page?.seoTitle || d.seo.title,
+      description: page?.seoDescription || d.seo.description,
+      ogTitle: page?.ogTitle || d.seo.ogTitle,
+      ogDescription: page?.ogDescription || d.seo.ogDescription,
+      ogImage: page?.ogImage || d.seo.ogImage,
+    },
+    hero: {
+      title: fieldValue(hero, "title") ?? d.hero.title,
