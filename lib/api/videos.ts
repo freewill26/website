@@ -58,3 +58,15 @@ const VIDEOS_CONTENT_DEFAULTS: VideosPageContent = {
       "Installations, walkthroughs and venue films from Freewill — the sports infrastructure we build across India, on camera.",
     ogTitle: "Videos · Freewill",
     ogDescription:
+      "Installations, walkthroughs and venue films from Freewill — the sports infrastructure we build across India, on camera.",
+    ogImage: null,
+  },
+  hero: {
+    title: "Watch",
+    headline: "The work,\nin motion.",
+    description:
+      "Installations, walkthroughs and venue films from the courts, tracks and arenas we have built.",
+  },
+};
+
+/* ------------------------------------------------------------------ *
