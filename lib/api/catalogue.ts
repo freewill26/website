@@ -142,3 +142,4 @@ export async function getCatalogues(): Promise<CatalogueItemVM[]> {
       size: formatSize(c.fileSize),
       downloadName: downloadName(c.title),
     }));
+}
