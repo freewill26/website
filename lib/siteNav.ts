@@ -13,6 +13,8 @@ export const SITE_NAV: SiteNavItem[] = [
   { label: "About", href: "/about" },
   { label: "News", href: "/news", footerOnly: true },
   { label: "Blog", href: "/blog", footerOnly: true },
+  { label: "Catalogue", href: "/catalogue", footerOnly: true },
+  { label: "Videos", href: "/videos", footerOnly: true },
   { label: "Contact", href: "/contact" },
 ];
 
