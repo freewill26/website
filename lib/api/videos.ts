@@ -142,3 +142,15 @@ export async function getVideosPageContent(): Promise<VideosPageContent> {
  *
  * Reads the paginated envelope rather than going through `safeList`, because
  * `hasMore` has to come from the API's own page count: rows whose URL doesn't
+ * parse to a video id are dropped here, so a short page doesn't mean the feed
+ * has ended.
+ */
+export async function getVideosFeedPage(page: number): Promise<VideosFeedPage> {
+  const perPage = VIDEO_LIMITS.perPage;
+  const empty: Paginated<ApiVideo> = { data: [], total: 0, page, limit: perPage, pages: 0 };
+  const result = await safeGet<Paginated<ApiVideo>>(API_ENDPOINTS.videos, empty, {
+    searchParams: { page, limit: perPage, isActive: true },
+  });
+
+  return {
+    items: result.data.map(toVideoVM).filter((v): v is VideoItemVM => v !== null),
