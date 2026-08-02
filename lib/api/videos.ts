@@ -130,3 +130,15 @@ export async function getVideosPageContent(): Promise<VideosPageContent> {
     },
     hero: {
       title: fieldValue(hero, "title") ?? d.hero.title,
+      headline: fieldValue(hero, "headline") ?? d.hero.headline,
+      description: fieldValue(hero, "description") ?? d.hero.description,
+    },
+  };
+}
+
+/**
+ * One infinite-scroll page of published videos (`page` is 1-indexed), in the
+ * order set in the CMS.
+ *
+ * Reads the paginated envelope rather than going through `safeList`, because
+ * `hasMore` has to come from the API's own page count: rows whose URL doesn't
