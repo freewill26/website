@@ -22,3 +22,15 @@ export interface VideosPageContent {
     ogDescription: string;
     ogImage: string | null;
   };
+  hero: {
+    title: string;
+    /** `\n`-delimited — one stacked heading line per entry. */
+    headline: string;
+    description: string;
+  };
+}
+
+/** One video card. */
+export interface VideoItemVM {
+  id: string;
+  title: string;
