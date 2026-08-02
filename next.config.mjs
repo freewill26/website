@@ -17,6 +17,12 @@ const nextConfig = {
         hostname: "**.supabase.co",
       },
       {
+        // YouTube poster stills for the Videos screen, when a CMS-uploaded
+        // custom thumbnail isn't set.
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
+      {
         // Placeholder hosts used by the service app's seed data.
         protocol: "https",
         hostname: "picsum.photos",
