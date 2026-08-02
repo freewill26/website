@@ -154,3 +154,6 @@ export async function getVideosFeedPage(page: number): Promise<VideosFeedPage> {
 
   return {
     items: result.data.map(toVideoVM).filter((v): v is VideoItemVM => v !== null),
+    hasMore: page < result.pages,
+  };
+}
