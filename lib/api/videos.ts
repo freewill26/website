@@ -82,3 +82,15 @@ function fieldValue(fields: ApiField[] | undefined, key: string): string | undef
  * Pulls the 11-character video id out of any YouTube link shape the CMS
  * accepts — watch (`?v=`), share (`youtu.be/`), shorts, live and embed.
  * Returns null for anything unrecognised so the row can be dropped rather than
+ * rendering a broken player.
+ */
+export function youtubeIdFrom(url: string): string | null {
+  const match =
+    /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/i.exec(
+      url,
+    );
+  return match ? match[1] : null;
+}
+
+function toVideoVM(row: ApiVideo): VideoItemVM | null {
+  const youtubeId = youtubeIdFrom(row.youtubeUrl);
