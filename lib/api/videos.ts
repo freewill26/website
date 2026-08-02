@@ -34,3 +34,15 @@ export interface VideosPageContent {
 export interface VideoItemVM {
   id: string;
   title: string;
+  description: string | null;
+  /** YouTube video id, used for both the poster and the modal embed. */
+  youtubeId: string;
+  /** Poster image — the CMS override when set, else YouTube's own still. */
+  thumbnail: string;
+  /** Privacy-preserving embed URL, autoplaying inside the modal. */
+  embedUrl: string;
+  /** Canonical watch page, offered as the "Watch on YouTube" fallback. */
+  watchUrl: string;
+}
+
+export interface VideosFeedPage {
