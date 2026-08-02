@@ -44,19 +44,6 @@ export const ABOUT_TIMELINE: TimelineItem[] = [
   { year: "2019", title: "Best Sports Technology", desc: "ASSOCHAM honours Freewill for its outstanding contribution to sports infrastructure in India." },
 ];
 
-export interface Award {
-  year: string;
-  title: string;
-  org: string;
-}
-
-export const AWARDS: Award[] = [
-  { year: "2019", title: "Best Sports Technology", org: "ASSOCHAM National Award" },
-  { year: "1992→", title: "National Games", org: "Sports Infrastructure Partner" },
-  { year: "—", title: "Commonwealth Youth Games", org: "Surfaces & Stadium Seating" },
-  { year: "—", title: "South Asian Games", org: "Sports Infrastructure" },
-];
-
 export interface FounderSocial {
   linkedin?: string;
   twitter?: string;
