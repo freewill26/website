@@ -46,3 +46,15 @@ export interface VideoItemVM {
 }
 
 export interface VideosFeedPage {
+  items: VideoItemVM[];
+  /** Whether the API has more videos beyond this page. */
+  hasMore: boolean;
+}
+
+const VIDEOS_CONTENT_DEFAULTS: VideosPageContent = {
+  seo: {
+    title: "Videos · Freewill",
+    description:
+      "Installations, walkthroughs and venue films from Freewill — the sports infrastructure we build across India, on camera.",
+    ogTitle: "Videos · Freewill",
+    ogDescription:
