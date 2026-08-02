@@ -10,3 +10,15 @@ import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { VIDEO_LIMITS } from "@/utils/constants";
 import type { ApiField, ApiPage, ApiVideo, Paginated } from "./types";
 
+/* ------------------------------------------------------------------ *
+ * View models
+ * ------------------------------------------------------------------ */
+
+export interface VideosPageContent {
+  seo: {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    ogImage: string | null;
+  };
