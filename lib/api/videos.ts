@@ -106,3 +106,15 @@ function toVideoVM(row: ApiVideo): VideoItemVM | null {
     // youtube-nocookie + autoplay: the card is the play affordance, so by the
     // time this URL is mounted the visitor has already asked for playback.
     embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`,
+    watchUrl: `https://www.youtube.com/watch?v=${youtubeId}`,
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * Fetchers
+ * ------------------------------------------------------------------ */
+
+/** Videos CMS page (`slug: "videos"`) → hero copy + SEO metadata. */
+export async function getVideosPageContent(): Promise<VideosPageContent> {
+  const page = await safeGet<ApiPage | null>(API_ROUTES.page("videos"), null);
+  const hero = page?.sections?.find((s) => s.key === "hero_section")?.fields;
