@@ -70,3 +70,15 @@ const VIDEOS_CONTENT_DEFAULTS: VideosPageContent = {
 };
 
 /* ------------------------------------------------------------------ *
+ * Helpers
+ * ------------------------------------------------------------------ */
+
+function fieldValue(fields: ApiField[] | undefined, key: string): string | undefined {
+  const value = fields?.find((f) => f.key === key)?.value;
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+/**
+ * Pulls the 11-character video id out of any YouTube link shape the CMS
+ * accepts — watch (`?v=`), share (`youtu.be/`), shorts, live and embed.
+ * Returns null for anything unrecognised so the row can be dropped rather than
