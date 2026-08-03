@@ -22,3 +22,15 @@ export default function CatalogueGrid({ items }: { items: CatalogueItemVM[] }) {
         </div>
       )}
     </section>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-[18px] py-[clamp(56px,8vw,120px)] text-center">
+      <div
+        className="flex h-[84px] w-[84px] items-center justify-center rounded-full"
+        style={{ background: "rgba(0,104,127,0.08)", border: "1px solid rgba(0,104,127,0.2)" }}
+      >
+        <DocumentIcon size={34} />
+      </div>
