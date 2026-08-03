@@ -9,6 +9,8 @@ export const API_ENDPOINTS = {
   categories: "/categories",
   categoriesFeatured: "/categories/featured",
   products: "/products",
+  catalogues: "/catalogues",
+  videos: "/videos",
   blogs: "/blogs",
   news: "/news",
   events: "/events",
