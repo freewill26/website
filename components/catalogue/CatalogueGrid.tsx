@@ -10,3 +10,15 @@ export default function CatalogueGrid({ items }: { items: CatalogueItemVM[] }) {
       className="box-border bg-cream px-[6vw]"
       style={{ paddingBlock: "0 clamp(72px,9vw,140px)" }}
     >
+      {items.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <FwReveal key={item.id} className="h-full">
+              <CatalogueCard item={item} />
+            </FwReveal>
+          ))}
+        </div>
+      )}
+    </section>
