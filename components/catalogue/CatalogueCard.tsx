@@ -22,3 +22,15 @@ export default function CatalogueCard({ item }: { item: CatalogueItemVM }) {
       <div className="relative aspect-[4/3] overflow-hidden" style={{ background: "#DCD3BE" }}>
         {item.cover ? (
           <Image
+            src={item.cover}
+            alt={item.coverAlt}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="absolute inset-0 object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        ) : (
+          <span className="absolute inset-0 flex items-center justify-center">
+            <DocumentIcon size={48} />
+          </span>
+        )}
+        <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">
