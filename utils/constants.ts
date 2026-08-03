@@ -88,6 +88,12 @@ export const CATALOGUE_LIMITS = {
  * Videos page pagination. The feed is infinite-scrolled straight off the
  * service API's own `page`/`limit`, unlike the gallery (which has to flatten
  * two resources first).
+ */
+export const VIDEO_LIMITS = {
+  /** Videos returned per infinite-scroll page. */
+  perPage: 12,
+} as const;
+
 export const GALLERY_LIMITS = {
   /** Category images shown once, ahead of the product feed. */
   categories: 50,
