@@ -34,3 +34,15 @@ export default function AboutAward({ award }: { award: AboutAwardVM }) {
           <FwReveal className="mb-4 flex items-center gap-3">
             <span className="block h-0.5 w-7" style={{ background: "#5FD0E0" }} />
             <span className="text-xs font-bold tracking-[0.28em] text-[#9FE4EF]">
+              {award.title.toUpperCase()}
+            </span>
+          </FwReveal>
+
+          <MaskedHeading
+            className="m-0 font-display uppercase leading-[1.05] text-[#F6F4EC]"
+            style={{ fontSize: "clamp(30px,3.6vw,58px)" }}
+            lines={[award.headline]}
+          />
+
+          <FwReveal
+            as="p"
