@@ -60,6 +60,12 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
 
     if (video) {
       video.muted = true;
+      // The markup ships `preload="none"` so the clip can't delay the window
+      // load event (and with it hydration — a media element keeps the "delaying
+      // the load event" flag raised while it fetches). Kicking the fetch off
+      // here instead means it starts just after hydration, which is also what
+      // lets <SplashScreen> report its buffering as live progress.
+      video.preload = "auto";
       try {
         video.load();
       } catch {}
