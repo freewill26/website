@@ -76,6 +76,18 @@ export const BLOG_LIMITS = {
   list: 100,
 } as const;
 
+/**
+ * Catalogue page. One unpaginated list — a company publishes a handful of
+ * brochures, not hundreds, so they all ship in the first response.
+ */
+export const CATALOGUE_LIMITS = {
+  list: 100,
+} as const;
+
+/**
+ * Videos page pagination. The feed is infinite-scrolled straight off the
+ * service API's own `page`/`limit`, unlike the gallery (which has to flatten
+ * two resources first).
 export const GALLERY_LIMITS = {
   /** Category images shown once, ahead of the product feed. */
   categories: 50,
