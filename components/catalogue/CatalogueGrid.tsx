@@ -34,3 +34,15 @@ function EmptyState() {
       >
         <DocumentIcon size={34} />
       </div>
+      <h3
+        className="m-0 font-display uppercase text-[#111820]"
+        style={{ fontSize: "clamp(24px,3vw,40px)" }}
+      >
+        Nothing to download yet.
+      </h3>
+      <p className="m-0 max-w-[380px] text-[15px] text-[#181A20]/60">
+        We haven&apos;t published our brochures here yet — get in touch and
+        we&apos;ll send the range you need.
+      </p>
+    </div>
+  );
