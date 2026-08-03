@@ -46,3 +46,11 @@ export default function CatalogueCard({ item }: { item: CatalogueItemVM }) {
           <p className="m-0 mb-5 text-sm leading-[1.75] text-[#181A20]/[0.62]">
             {item.description}
           </p>
+        )}
+        <span className="mt-auto inline-flex items-center gap-2 text-xs font-bold tracking-[0.12em] text-brand">
+          DOWNLOAD <DownloadIcon size={13} color="00687F" />
+        </span>
+      </div>
+    </a>
+  );
+}
