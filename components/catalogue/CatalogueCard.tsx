@@ -34,3 +34,15 @@ export default function CatalogueCard({ item }: { item: CatalogueItemVM }) {
           </span>
         )}
         <span className="absolute left-3.5 top-3.5 rounded-full bg-brand px-3 py-[7px] text-[10px] font-bold tracking-[0.14em] text-white">
+          PDF{item.size ? ` · ${item.size}` : ""}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5 sm:p-[26px]">
+        <h3 className="m-0 mb-3 font-display text-[20px] uppercase leading-[1.12] text-[#181A20] sm:text-[23px]">
+          {item.title}
+        </h3>
+        {item.description && (
+          <p className="m-0 mb-5 text-sm leading-[1.75] text-[#181A20]/[0.62]">
+            {item.description}
+          </p>
