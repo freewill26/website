@@ -22,3 +22,15 @@ export default function AboutAward({ award }: { award: AboutAwardVM }) {
           >
             <Image
               src={award.image}
+              alt={award.headline}
+              fill
+              sizes="(min-width: 768px) 42vw, 88vw"
+              className="absolute inset-0 object-cover object-center"
+            />
+          </div>
+        </FwReveal>
+
+        <div className="min-w-0 flex-1">
+          <FwReveal className="mb-4 flex items-center gap-3">
+            <span className="block h-0.5 w-7" style={{ background: "#5FD0E0" }} />
+            <span className="text-xs font-bold tracking-[0.28em] text-[#9FE4EF]">
