@@ -46,3 +46,13 @@ export default function AboutAward({ award }: { award: AboutAwardVM }) {
 
           <FwReveal
             as="p"
+            className="m-0 mt-[clamp(18px,2vw,28px)] max-w-[560px] leading-[1.8] text-[#F6F4EC]/60"
+            style={{ fontSize: "clamp(15px,1.4vw,18px)" }}
+          >
+            {award.description}
+          </FwReveal>
+        </div>
+      </div>
+    </section>
+  );
+}
