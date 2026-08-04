@@ -121,30 +121,18 @@ export default function SplashScreen() {
       const hasSource = Boolean(v.getAttribute("src")) || Boolean(v.querySelector("source"));
       if (!hasSource) continue;
 
-    // Eager images only — lazy ones load on scroll and would never resolve.
-    const images = Array.from(document.images).filter(
-      (img) => img.getAttribute("loading") !== "lazy",
-    );
-    images.forEach((img) => {
-      total += 1;
-      // `complete` is true once the browser is done — loaded, errored, or the
-      // src is empty. Any of those means "settled"; only truly in-flight images
-      // (complete === false) get listeners, otherwise an empty-src <img> (which
-      // never fires load/error) would hang the counter forever.
-      if (img.complete) {
-        bump();
-        return;
-      }
-      const onDone = () => {
-        img.removeEventListener("load", onDone);
-        img.removeEventListener("error", onDone);
-        bump();
-      };
-      img.addEventListener("load", onDone);
-      img.addEventListener("error", onDone);
-      cleanups.push(() => {
-        img.removeEventListener("load", onDone);
-        img.removeEventListener("error", onDone);
+      const critical = v.hasAttribute("data-splash-critical");
+      // Nudge non-critical clips into at least fetching metadata, or they'd
+      // never settle. The critical one is left alone — HomeHero owns its
+      // preload/load() so the two don't restart each other's fetch.
+      if (!critical && v.preload === "none") v.preload = "metadata";
+
+      tasks.push({
+        weight: critical ? WEIGHT.heroVideo : WEIGHT.video,
+        progress: () =>
+          v.error ? 1 : Math.max(v.readyState / 4, bufferedFraction(v)),
+        // Scrubbing needs real buffer, so the hero waits for HAVE_ENOUGH_DATA;
+        // other clips only need to have shown up (HAVE_METADATA).
       });
     });
 
