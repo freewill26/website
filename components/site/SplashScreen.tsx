@@ -40,6 +40,18 @@ function bufferedFraction(v: HTMLVideoElement): number {
   if (!ranges || ranges.length === 0) return 0;
   let seconds = 0;
   for (let i = 0; i < ranges.length; i++) seconds += ranges.end(i) - ranges.start(i);
+  return Math.min(1, seconds / v.duration);
+}
+
+const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+/** One thing the splash waits on. */
+interface PreloadTask {
+  weight: number;
+  /** Real 0..1 progress for this asset. */
+  progress: () => number;
+  /** True once it can't progress further — loaded, errored, or good enough. */
+  settled: () => boolean;
  *
  * Guards against hanging: lazy (below-the-fold) images are skipped, every
  * asset resolves on `error` too, and a safety timeout forces the reveal.
