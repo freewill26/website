@@ -95,6 +95,9 @@ export default function SplashScreen() {
 
     html.classList.add("fw-intro");
 
+    // Scroll stays locked by CSS for as long as #fw-splash is mounted — see
+    // globals.css. Nothing here touches documentElement.style.overflow: the
+    // home page's other modals own that inline style and would clobber us.
     const reveal = () => {
       html.classList.add("fw-loaded");
       html.style.overflow = "";
