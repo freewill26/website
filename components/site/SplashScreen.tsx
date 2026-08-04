@@ -64,8 +64,12 @@ let introPlayed = false;
 /**
  * Home intro splash — a *real* asset preloader, not a timer.
  *
- * Guards against hanging: lazy (below-the-fold) images are skipped, every
- * asset resolves on `error` too, and a safety timeout forces the reveal.
+ * Progress is the weighted fraction of what has genuinely arrived: the hero's
+ * scroll-scrubbed video (buffered seconds / duration, weighted heaviest), any
+ * other above-the-fold video, every eager image, and the web fonts. Everything
+ * is polled from the rAF loop — `readyState`, `buffered`, `HTMLImageElement.complete`
+ * and `MediaError` are all readable properties, so there are no listeners to
+ * leak and nothing that can silently fail to fire.
  *
  * Shared by the Home, About, Products and Gallery routes.
  */
