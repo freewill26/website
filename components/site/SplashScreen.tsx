@@ -109,10 +109,7 @@ export default function SplashScreen() {
     if (reduce) {
       setPct(100);
       reveal();
-      return () => {
-        html.classList.remove("fw-intro", "fw-loaded");
-        html.style.overflow = "";
-      };
+      return () => html.classList.remove("fw-intro", "fw-loaded");
     }
 
     html.style.overflow = "hidden";
