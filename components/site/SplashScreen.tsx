@@ -4,11 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 /**
- * Intro splash loader — a *real* asset preloader. It watches the page's
- * eager images, `<video>` elements and web fonts, drives the 0 → 100% counter
- * from how many have actually finished loading, then wipes up to reveal the
- * page (adding the `fw-loaded` html class, which plays the home hero's
- * staggered entrance — a no-op on pages without a hero).
+ * Relative weight of each asset class in the progress bar. The hero clip
+ * dominates because it *is* the wait — it's several MB against a handful of
+ * images and one font payload, so letting it share equally with them would make
+ * the counter race to ~90% and then sit there.
+ */
+const WEIGHT = {
+  /** The scroll-scrubbed hero clip (`data-splash-critical`). */
+  heroVideo: 6,
+  /** Any other above-the-fold video. */
+  video: 2,
+  /** Web fonts, counted as a single unit. */
+  fonts: 2,
  *
  * Guards against hanging: lazy (below-the-fold) images are skipped, every
  * asset resolves on `error` too, and a safety timeout forces the reveal.
