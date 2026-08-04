@@ -52,6 +52,17 @@ interface PreloadTask {
   progress: () => number;
   /** True once it can't progress further — loaded, errored, or good enough. */
   settled: () => boolean;
+}
+
+/**
+ * Set once the intro has played for this page load, so returning Home via
+ * client-side navigation doesn't replay a full-screen loader over assets the
+ * browser already has. A hard refresh resets it.
+ */
+let introPlayed = false;
+
+/**
+ * Home intro splash — a *real* asset preloader, not a timer.
  *
  * Guards against hanging: lazy (below-the-fold) images are skipped, every
  * asset resolves on `error` too, and a safety timeout forces the reveal.
