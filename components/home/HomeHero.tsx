@@ -129,7 +129,9 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* `data-splash-critical` makes <SplashScreen> hold the intro until this
             clip has buffered enough to scrub — without it the hero reveals black
-            and stutters on the first drag. */}
+            and stutters on the first drag. `preload="none"` is deliberate: the
+            effect above flips it to "auto" and starts the fetch, so the download
+            can't hold up the load event and stall hydration. */}
         <video
           ref={videoRef}
           data-splash-critical
