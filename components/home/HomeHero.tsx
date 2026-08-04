@@ -136,7 +136,7 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
           ref={videoRef}
           data-splash-critical
           src={content.backgroundVideo}
-          preload="auto"
+          preload="none"
           playsInline
           muted
           className="absolute inset-0 h-full w-full object-cover"
