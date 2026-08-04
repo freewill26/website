@@ -101,7 +101,6 @@ export default function SplashScreen() {
     const reveal = () => {
       introPlayed = true;
       html.classList.add("fw-loaded");
-      html.style.overflow = "";
       setPct(100);
       setRevealing(true);
       window.setTimeout(() => setDone(true), 1100);
