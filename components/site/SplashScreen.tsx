@@ -112,7 +112,8 @@ export default function SplashScreen() {
       return () => html.classList.remove("fw-intro", "fw-loaded");
     }
 
-    html.style.overflow = "hidden";
+    // --- What we actually wait on -----------------------------------------
+    const tasks: PreloadTask[] = [];
 
     // --- Build the set of assets we actually wait on ------------------------
     let total = 0;
