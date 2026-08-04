@@ -133,6 +133,7 @@ export default function SplashScreen() {
           v.error ? 1 : Math.max(v.readyState / 4, bufferedFraction(v)),
         // Scrubbing needs real buffer, so the hero waits for HAVE_ENOUGH_DATA;
         // other clips only need to have shown up (HAVE_METADATA).
+        settled: () => Boolean(v.error) || v.readyState >= (critical ? 4 : 1),
       });
     });
 
