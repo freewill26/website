@@ -99,6 +99,7 @@ export default function SplashScreen() {
     // globals.css. Nothing here touches documentElement.style.overflow: the
     // home page's other modals own that inline style and would clobber us.
     const reveal = () => {
+      introPlayed = true;
       html.classList.add("fw-loaded");
       html.style.overflow = "";
       setPct(100);
