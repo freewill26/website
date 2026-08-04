@@ -115,13 +115,11 @@ export default function SplashScreen() {
     // --- What we actually wait on -----------------------------------------
     const tasks: PreloadTask[] = [];
 
-    // --- Build the set of assets we actually wait on ------------------------
-    let total = 0;
-    let loaded = 0;
-    const cleanups: Array<() => void> = [];
-    const bump = () => {
-      loaded += 1;
-    };
+    for (const v of Array.from(document.querySelectorAll("video"))) {
+      // Read the attribute, not `.src`: an empty `src` resolves to the document
+      // URL, which would leave us waiting on a clip that will never load.
+      const hasSource = Boolean(v.getAttribute("src")) || Boolean(v.querySelector("source"));
+      if (!hasSource) continue;
 
     // Eager images only — lazy ones load on scroll and would never resolve.
     const images = Array.from(document.images).filter(
