@@ -87,6 +87,9 @@ export default function SplashScreen() {
   const accentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Already shown this page load (client-side nav back to Home).
+    if (introPlayed) return;
+
     const html = document.documentElement;
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
