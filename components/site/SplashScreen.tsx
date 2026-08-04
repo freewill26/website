@@ -71,7 +71,13 @@ let introPlayed = false;
  * and `MediaError` are all readable properties, so there are no listeners to
  * leak and nothing that can silently fail to fire.
  *
- * Shared by the Home, About, Products and Gallery routes.
+ * The hero clip is held to a higher bar than the rest: because scroll *scrubs*
+ * its playhead, metadata alone would reveal a hero that stutters or shows black
+ * on the first drag, so it must reach HAVE_ENOUGH_DATA. Lazy (below-the-fold)
+ * images are skipped, errored assets count as settled, and {@link MAX_MS} caps
+ * the whole thing.
+ *
+ * Home only — other routes render without it.
  */
 export default function SplashScreen() {
   const [pct, setPct] = useState(0);
