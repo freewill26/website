@@ -82,7 +82,7 @@ let introPlayed = false;
 export default function SplashScreen() {
   const [pct, setPct] = useState(0);
   const [revealing, setRevealing] = useState(false);
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState(() => introPlayed);
   const splashRef = useRef<HTMLDivElement>(null);
   const accentRef = useRef<HTMLDivElement>(null);
 
