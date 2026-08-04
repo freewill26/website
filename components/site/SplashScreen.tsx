@@ -28,6 +28,18 @@ const MIN_MS = 500;
  * than hold the page hostage.
  */
 const MAX_MS = 12000;
+
+/**
+ * Fraction of a clip the browser has actually buffered. Ranges are summed
+ * rather than read off the last one — a scrubbed video seeks around, so what's
+ * buffered is often disjoint.
+ */
+function bufferedFraction(v: HTMLVideoElement): number {
+  if (!v.duration || !Number.isFinite(v.duration) || v.duration <= 0) return 0;
+  const ranges = v.buffered;
+  if (!ranges || ranges.length === 0) return 0;
+  let seconds = 0;
+  for (let i = 0; i < ranges.length; i++) seconds += ranges.end(i) - ranges.start(i);
  *
  * Guards against hanging: lazy (below-the-fold) images are skipped, every
  * asset resolves on `error` too, and a safety timeout forces the reveal.
