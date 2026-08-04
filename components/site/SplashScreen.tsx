@@ -16,6 +16,18 @@ const WEIGHT = {
   video: 2,
   /** Web fonts, counted as a single unit. */
   fonts: 2,
+  /** One eager image. */
+  image: 1,
+} as const;
+
+/** Don't flash past on a warm cache. */
+const MIN_MS = 500;
+/**
+ * Hard ceiling. The hero clip streams from storage and a slow connection can
+ * take a while to reach HAVE_ENOUGH_DATA; past this we reveal regardless rather
+ * than hold the page hostage.
+ */
+const MAX_MS = 12000;
  *
  * Guards against hanging: lazy (below-the-fold) images are skipped, every
  * asset resolves on `error` too, and a safety timeout forces the reveal.
