@@ -244,3 +244,12 @@ export function DownloadIcon({ size = 16, color = "FFFFFF", className = "" }: Ic
 }
 
 export function DocumentIcon({ size = 34, color = "00687F", className = "" }: IconProps) {
+  return (
+    <Svg size={size} className={className} stroke={hex(color)} strokeWidth={1.8}>
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+      <path d="M14 3v5h5" />
+      <path d="M9 13h6" />
+      <path d="M9 17h4" />
+    </Svg>
+  );
+}
