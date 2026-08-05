@@ -34,3 +34,15 @@ export default function VideoModal({
   videos,
   index,
   onIndexChange,
+  onClose,
+  onReachEnd,
+  hasMore = false,
+}: VideoModalProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  const current = videos[index];
+  const hasPrev = index > 0;
+  // The next video may not be loaded yet; the feed pages it in on demand.
+  const hasNext = index < videos.length - 1 || hasMore;
+
+  const goTo = useCallback(
