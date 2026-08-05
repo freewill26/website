@@ -216,6 +216,7 @@ export default function SplashScreen() {
       />
       <div
         ref={splashRef}
+        id="fw-splash"
         className="fixed inset-0 z-[1002] box-border flex flex-col justify-between overflow-hidden bg-[#0d1017]"
         style={{ padding: "clamp(24px,4vw,56px)", ...wipe }}
       >
