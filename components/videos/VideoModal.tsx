@@ -58,3 +58,15 @@ export default function VideoModal({
   // at the first page.
   useEffect(() => {
     if (hasMore && index >= videos.length - 1) onReachEnd?.();
+  }, [hasMore, index, videos.length, onReachEnd]);
+
+  // Mount-only: lock body scroll and move focus onto the close button so
+  // keyboard users don't land behind the iframe.
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    closeRef.current?.focus();
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
