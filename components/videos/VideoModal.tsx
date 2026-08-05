@@ -22,3 +22,15 @@ interface VideoModalProps {
 /**
  * Full-screen player popup with prev/next navigation across the feed.
  *
+ * The grid cards deliberately render a still rather than an iframe — a page of
+ * live embeds is heavy and every one would be its own player — so playback only
+ * ever happens here, in a single iframe. It's keyed on the video id so stepping
+ * to another video tears the old player down (stopping its audio) and mounts a
+ * fresh, autoplaying one.
+ *
+ * Navigation doesn't wrap, matching {@link PhotoLightbox}.
+ */
+export default function VideoModal({
+  videos,
+  index,
+  onIndexChange,
