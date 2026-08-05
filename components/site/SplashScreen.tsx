@@ -197,7 +197,6 @@ export default function SplashScreen() {
     return () => {
       cancelAnimationFrame(raf);
       html.classList.remove("fw-intro", "fw-loaded");
-      html.style.overflow = "";
     };
   }, []);
 
