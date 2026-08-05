@@ -46,3 +46,15 @@ export default function VideoModal({
   const hasNext = index < videos.length - 1 || hasMore;
 
   const goTo = useCallback(
+    (next: number) => {
+      if (next < 0 || next >= videos.length) return;
+      onIndexChange(next);
+    },
+    [videos.length, onIndexChange],
+  );
+
+  // Pull the next batch in as soon as the viewer lands on the last loaded
+  // video, so "next" is ready by the time it's pressed rather than dead-ending
+  // at the first page.
+  useEffect(() => {
+    if (hasMore && index >= videos.length - 1) onReachEnd?.();
