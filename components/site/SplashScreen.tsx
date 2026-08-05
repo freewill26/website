@@ -135,6 +135,18 @@ export default function SplashScreen() {
         // other clips only need to have shown up (HAVE_METADATA).
         settled: () => Boolean(v.error) || v.readyState >= (critical ? 4 : 1),
       });
+    }
+
+    // Eager images only — lazy ones load on scroll and would never settle.
+    for (const img of Array.from(document.images)) {
+      if (img.getAttribute("loading") === "lazy") continue;
+      if (!img.getAttribute("src") && !img.getAttribute("srcset")) continue;
+      // `complete` covers loaded, errored and empty-src alike.
+      tasks.push({
+        weight: WEIGHT.image,
+        progress: () => (img.complete ? 1 : 0),
+        settled: () => img.complete,
+      });
     });
 
     // Videos — metadata (dimensions/duration) means the clip is present and
