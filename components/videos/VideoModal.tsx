@@ -70,3 +70,15 @@ export default function VideoModal({
     };
   }, []);
 
+  // Escape dismisses; arrows step through the feed. Rebinding as the index
+  // moves is cheap and keeps the handler reading live bounds.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") goTo(index + 1);
+      else if (e.key === "ArrowLeft") goTo(index - 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goTo, index, onClose]);
+
