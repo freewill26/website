@@ -161,18 +161,7 @@ export default function SplashScreen() {
 
     const totalWeight = tasks.reduce((sum, t) => sum + t.weight, 0) || 1;
 
-    // All web fonts, counted as a single unit.
-    total += 1;
-    const fontsReady = document.fonts?.ready ?? Promise.resolve();
-    let fontsSettled = false;
-    fontsReady.finally(() => {
-      if (!fontsSettled) {
-        fontsSettled = true;
-        bump();
-      }
-    });
-
-    // --- Animate the counter toward the real loaded fraction ---------------
+    // --- Drive the counter from the real loaded fraction -------------------
     let raf = 0;
     let display = 0; // smoothed 0..100
     const startTime = performance.now();
