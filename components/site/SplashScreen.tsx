@@ -168,8 +168,10 @@ export default function SplashScreen() {
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
-      const frac = total > 0 ? loaded / total : 1;
-      const complete = frac >= 1 && elapsed >= MIN_MS;
+      const frac =
+        tasks.reduce((sum, t) => sum + t.weight * clamp01(t.progress()), 0) / totalWeight;
+      const ready = tasks.every((t) => t.settled());
+      const complete = ready && elapsed >= MIN_MS;
       const forced = elapsed >= MAX_MS;
 
       // Hold just under 100 until every asset has truly settled.
