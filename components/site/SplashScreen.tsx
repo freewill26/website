@@ -174,7 +174,8 @@ export default function SplashScreen() {
       const complete = ready && elapsed >= MIN_MS;
       const forced = elapsed >= MAX_MS;
 
-      // Hold just under 100 until every asset has truly settled.
+      // Hold just under 100 until everything has truly settled, so the number
+      // never claims done before the page is.
       let target = frac * 100;
       if (!complete && !forced) target = Math.min(target, 96);
       else target = 100;
