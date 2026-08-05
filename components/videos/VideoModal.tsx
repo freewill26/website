@@ -10,3 +10,15 @@ interface VideoModalProps {
   index: number;
   onIndexChange: (index: number) => void;
   onClose: () => void;
+  /**
+   * Called when the viewer reaches the last loaded video while more exist, so
+   * the feed can page in the next batch and navigation can keep going.
+   */
+  onReachEnd?: () => void;
+  /** Whether the feed has more videos beyond the ones loaded. */
+  hasMore?: boolean;
+}
+
+/**
+ * Full-screen player popup with prev/next navigation across the feed.
+ *
