@@ -147,6 +147,16 @@ export default function SplashScreen() {
         progress: () => (img.complete ? 1 : 0),
         settled: () => img.complete,
       });
+    }
+
+    let fontsDone = false;
+    void (document.fonts?.ready ?? Promise.resolve()).finally(() => {
+      fontsDone = true;
+    });
+    tasks.push({
+      weight: WEIGHT.fonts,
+      progress: () => (fontsDone ? 1 : 0),
+      settled: () => fontsDone,
     });
 
     // Videos — metadata (dimensions/duration) means the clip is present and
