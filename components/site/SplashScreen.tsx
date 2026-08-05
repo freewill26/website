@@ -165,8 +165,6 @@ export default function SplashScreen() {
     let raf = 0;
     let display = 0; // smoothed 0..100
     const startTime = performance.now();
-    const MIN_MS = 500; // don't flash by on instant loads
-    const MAX_MS = 9000; // never hang, whatever an asset does
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
