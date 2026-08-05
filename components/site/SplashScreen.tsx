@@ -159,27 +159,7 @@ export default function SplashScreen() {
       settled: () => fontsDone,
     });
 
-    // Videos — metadata (dimensions/duration) means the clip is present and
-    // ready to play behind the splash. We deliberately DON'T wait on the full
-    // download: background/hero videos stream from a CDN and can be many MB,
-    // so blocking on first-frame data would stall the splash for seconds.
-    const videos = Array.from(document.querySelectorAll("video"));
-    videos.forEach((v) => {
-      total += 1;
-      if (v.readyState >= 1 /* HAVE_METADATA */) {
-        bump();
-        return;
-      }
-      const events = ["loadedmetadata", "loadeddata", "canplay", "error"];
-      const onDone = () => {
-        events.forEach((e) => v.removeEventListener(e, onDone));
-        bump();
-      };
-      events.forEach((e) => v.addEventListener(e, onDone));
-      cleanups.push(() => events.forEach((e) => v.removeEventListener(e, onDone)));
-      // Nudge lazily-preloaded videos to at least fetch their metadata.
-      if (v.preload === "none") v.preload = "metadata";
-    });
+    const totalWeight = tasks.reduce((sum, t) => sum + t.weight, 0) || 1;
 
     // All web fonts, counted as a single unit.
     total += 1;
