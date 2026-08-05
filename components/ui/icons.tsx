@@ -232,3 +232,15 @@ export function GalleryIcon({ size = 34, color = "00687F", className = "" }: Ico
     </Svg>
   );
 }
+
+export function DownloadIcon({ size = 16, color = "FFFFFF", className = "" }: IconProps) {
+  return (
+    <Svg size={size} className={className} stroke={hex(color)}>
+      <path d="M12 3v12" />
+      <path d="M7 11l5 5 5-5" />
+      <path d="M4 20h16" />
+    </Svg>
+  );
+}
+
+export function DocumentIcon({ size = 34, color = "00687F", className = "" }: IconProps) {
