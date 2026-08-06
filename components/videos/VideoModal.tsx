@@ -82,3 +82,15 @@ export default function VideoModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [goTo, index, onClose]);
 
+  // The feed can shrink out from under an open viewer (e.g. a filter change);
+  // render nothing rather than crash on a stale index.
+  if (!current) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={current.title}
+      onClick={onClose}
+      className="fixed inset-0 z-[1000] flex flex-col"
+      style={{
