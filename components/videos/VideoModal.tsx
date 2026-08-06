@@ -118,3 +118,15 @@ export default function VideoModal({
           ref={closeRef}
           type="button"
           onClick={onClose}
+          aria-label="Close player"
+          className="flex h-11 w-11 items-center justify-center rounded-full transition-colors hover:bg-white/20 active:scale-95"
+          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.18)" }}
+        >
+          <CloseIcon size={18} />
+        </button>
+      </div>
+
+      {/* Stage — clicks inside the player must not fall through to the backdrop. */}
+      <div className="relative flex min-h-0 flex-1 items-center justify-center px-[clamp(12px,4vw,44px)] [container-type:size]">
+        <div
+          onClick={(e) => e.stopPropagation()}
