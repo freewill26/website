@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
+import SplashScreen from "@/components/site/SplashScreen";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import GalleryClient from "@/components/gallery/GalleryClient";
@@ -37,6 +38,7 @@ export default async function GalleryPage() {
 
   return (
     <div className="overflow-x-clip bg-cream text-[#111820]">
+      <SplashScreen />
       <SiteHeader solid />
       <main>
         {/* Intro band */}
