@@ -130,3 +130,15 @@ export default function VideoModal({
       <div className="relative flex min-h-0 flex-1 items-center justify-center px-[clamp(12px,4vw,44px)] [container-type:size]">
         <div
           onClick={(e) => e.stopPropagation()}
+          className="aspect-video w-full max-w-[min(1180px,177.78cqh)] overflow-hidden rounded-lg bg-black sm:rounded-[14px]"
+        >
+          <iframe
+            key={current.youtubeId}
+            src={current.embedUrl}
+            title={current.title}
+            className="h-full w-full border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+
