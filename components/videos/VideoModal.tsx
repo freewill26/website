@@ -94,3 +94,15 @@ export default function VideoModal({
       onClick={onClose}
       className="fixed inset-0 z-[1000] flex flex-col"
       style={{
+        background: "rgba(6,8,15,0.97)",
+        backdropFilter: "blur(8px)",
+        animation: "fade 0.25s ease both",
+        paddingTop: "env(safe-area-inset-top)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
+      {/* Top bar */}
+      <div className="flex flex-none items-center justify-between px-[clamp(16px,4vw,44px)] py-[clamp(12px,2.4vw,28px)]">
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[11px] tracking-[0.14em] text-white/[0.4]">
+            NOW PLAYING
