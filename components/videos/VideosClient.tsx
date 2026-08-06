@@ -22,3 +22,15 @@ const VIDEO_ANIM_BATCH = 12;
  */
 export default function VideosClient({ initialItems, initialHasMore }: VideosClientProps) {
   const [items, setItems] = useState(initialItems);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [loading, setLoading] = useState(false);
+  // Index into `items` of the video being played; -1 when the viewer is closed.
+  const [playing, setPlaying] = useState(-1);
+  const nextPage = useRef(2);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const loadingRef = useRef(false);
+
+  const loadMore = useCallback(async () => {
+    if (loadingRef.current || !hasMore) return;
+    loadingRef.current = true;
+    setLoading(true);
