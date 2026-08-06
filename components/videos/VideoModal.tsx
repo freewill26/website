@@ -154,3 +154,15 @@ export default function VideoModal({
             type="button"
             onClick={(e) => {
               e.stopPropagation();
+              goTo(index + d);
+            }}
+            aria-label={label}
+            disabled={!enabled}
+            className="absolute top-1/2 hidden h-[52px] w-[52px] -translate-y-1/2 items-center justify-center rounded-full transition-all hover:bg-white/20 disabled:opacity-30 md:flex"
+            style={{
+              [side]: "clamp(12px,2vw,28px)",
+              background: "rgba(255,255,255,0.1)",
+              border: "1px solid rgba(255,255,255,0.18)",
+            }}
+          >
+            {icon}
