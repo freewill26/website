@@ -142,3 +142,15 @@ export default function VideoModal({
           />
         </div>
 
+        {/* Desktop arrows. Hidden on phones, where they'd sit on top of the
+            full-bleed player and cover YouTube's own controls — the caption
+            row below carries the same controls there instead. */}
+        {[
+          { d: -1, side: "left", label: "Previous video", icon: <ChevronLeftIcon size={20} />, enabled: hasPrev },
+          { d: 1, side: "right", label: "Next video", icon: <ChevronRightIcon size={20} />, enabled: hasNext },
+        ].map(({ d, side, label, icon, enabled }) => (
+          <button
+            key={side}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
