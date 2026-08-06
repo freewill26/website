@@ -106,3 +106,15 @@ export default function VideoModal({
         <div className="flex items-center gap-3">
           <span className="font-mono text-[11px] tracking-[0.14em] text-white/[0.4]">
             NOW PLAYING
+          </span>
+          {videos.length > 1 && (
+            <span className="font-mono text-[11px] tracking-[0.14em] text-white/[0.4]">
+              {index + 1} / {videos.length}
+              {hasMore ? "+" : ""}
+            </span>
+          )}
+        </div>
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
