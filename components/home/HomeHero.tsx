@@ -31,7 +31,7 @@ interface HomeHeroProps {
  * scroll position (the design's signature scroll-driven hero). The editorial
  * card fades out as you descend and two captions band in/out, while the video
  * playhead tracks scroll progress. `data-hero-line` / `data-hero-fade` still
- * stagger in once <HomeSplash> clears (see globals.css `.fw-intro`).
+ * stagger in once <SplashScreen> clears (see globals.css `.fw-intro`).
  */
 export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
   const [meta1Rest, meta1Last] = splitLastWord(meta1.headline);

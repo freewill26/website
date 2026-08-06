@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
-import HomeSplash from "@/components/home/HomeSplash";
+import SplashScreen from "@/components/site/SplashScreen";
 import HomeHero from "@/components/home/HomeHero";
 import HomeStats from "@/components/home/HomeStats";
 import HomeAbout from "@/components/home/HomeAbout";
@@ -74,7 +74,7 @@ export default async function HomePage() {
 
   return (
     <div className="overflow-x-clip bg-cream text-[#181A20]">
-      <HomeSplash />
+      <SplashScreen />
       <SiteHeader />
       <main>
         <HomeHero content={content.hero} meta1={content.heroMeta1} meta2={content.heroMeta2} />

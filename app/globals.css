@@ -262,7 +262,7 @@
   }
 }
 
-/* Splash loader → hero intro. `fw-intro` is added by <HomeSplash> while the
+/* Splash loader → hero intro. `fw-intro` is added by <SplashScreen> while the
    loader is on screen (hiding the hero behind it); `fw-loaded` is added when the
    loader wipes away, which plays the staggered hero reveal. Without JS neither
    class is set, so the hero just renders normally. */
