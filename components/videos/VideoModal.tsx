@@ -190,3 +190,15 @@ export default function VideoModal({
           href={current.watchUrl}
           target="_blank"
           rel="noopener noreferrer"
+          className="mt-4 inline-block font-mono text-[11px] tracking-[0.14em] text-white/[0.56] underline-offset-4 transition-colors hover:text-white"
+        >
+          WATCH ON YOUTUBE
+        </a>
+
+        {/* Touch-friendly prev/next, standing in for the side arrows on phones. */}
+        {videos.length > 1 && (
+          <div className="mt-5 flex items-center justify-center gap-3 md:hidden">
+            {[
+              { d: -1, label: "Previous video", icon: <ChevronLeftIcon size={18} />, enabled: hasPrev },
+              { d: 1, label: "Next video", icon: <ChevronRightIcon size={18} />, enabled: hasNext },
+            ].map(({ d, label, icon, enabled }) => (
