@@ -178,3 +178,15 @@ export default function VideoModal({
         <div
           className="font-display uppercase leading-none text-white"
           style={{ fontSize: "clamp(17px,2.4vw,30px)" }}
+        >
+          {current.title}
+        </div>
+        {current.description && (
+          <p className="mx-auto mt-3 line-clamp-2 max-w-[620px] text-sm leading-[1.7] text-white/[0.56] [@media(max-height:480px)]:hidden">
+            {current.description}
+          </p>
+        )}
+        <a
+          href={current.watchUrl}
+          target="_blank"
+          rel="noopener noreferrer"
