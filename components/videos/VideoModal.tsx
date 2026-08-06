@@ -202,3 +202,15 @@ export default function VideoModal({
               { d: -1, label: "Previous video", icon: <ChevronLeftIcon size={18} />, enabled: hasPrev },
               { d: 1, label: "Next video", icon: <ChevronRightIcon size={18} />, enabled: hasNext },
             ].map(({ d, label, icon, enabled }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => goTo(index + d)}
+                aria-label={label}
+                disabled={!enabled}
+                className="flex h-11 w-11 items-center justify-center rounded-full transition-all active:scale-95 disabled:opacity-30"
+                style={{
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                }}
+              >
