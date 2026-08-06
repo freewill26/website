@@ -166,3 +166,15 @@ export default function VideoModal({
             }}
           >
             {icon}
+          </button>
+        ))}
+      </div>
+
+      {/* Caption */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-[40dvh] flex-none overflow-y-auto px-[6vw] pb-[clamp(16px,3vw,36px)] pt-[clamp(12px,2vw,24px)] text-center"
+      >
+        <div
+          className="font-display uppercase leading-none text-white"
+          style={{ fontSize: "clamp(17px,2.4vw,30px)" }}
