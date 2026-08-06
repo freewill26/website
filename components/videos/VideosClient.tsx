@@ -34,3 +34,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
     if (loadingRef.current || !hasMore) return;
     loadingRef.current = true;
     setLoading(true);
+    try {
+      const res = await fetch(`/api/videos/feed?page=${nextPage.current}`);
+      const data: VideosFeedPage = await res.json();
+      nextPage.current += 1;
+      setHasMore(data.hasMore);
+      if (data.items.length > 0) setItems((prev) => [...prev, ...data.items]);
+    } finally {
+      loadingRef.current = false;
+      setLoading(false);
+    }
+  }, [hasMore]);
+
