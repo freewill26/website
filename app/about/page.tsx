@@ -51,7 +51,6 @@ export default async function AboutPage() {
 
   return (
     <div className="overflow-x-clip" style={{ background: "#0A0E1C" }}>
-      <SplashScreen />
       <SiteHeader solid />
       <main>
         <AboutHero
