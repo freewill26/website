@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
-import SplashScreen from "@/components/site/SplashScreen";
 import AboutHero from "@/components/about/AboutHero";
 import AboutManifesto from "@/components/about/AboutManifesto";
 import AboutStats from "@/components/about/AboutStats";
