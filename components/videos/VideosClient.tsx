@@ -154,3 +154,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center gap-[18px] py-[clamp(56px,8vw,120px)] text-center">
+      <div
+        className="flex h-[84px] w-[84px] items-center justify-center rounded-full"
+        style={{ background: "rgba(0,104,127,0.08)", border: "1px solid rgba(0,104,127,0.2)" }}
+      >
+        <PlayIcon size={30} className="ml-[3px]" />
+      </div>
+      <h3
+        className="m-0 font-display uppercase text-[#111820]"
+        style={{ fontSize: "clamp(24px,3vw,40px)" }}
+      >
+        Nothing to watch yet.
+      </h3>
