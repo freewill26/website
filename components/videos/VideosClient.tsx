@@ -94,3 +94,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
                     alt={video.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="absolute inset-0 object-cover object-center transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                  <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/10 transition-colors duration-300 group-hover:bg-[#0A0E1C]/30" />
+                  <span
+                    className="pointer-events-none absolute left-1/2 top-1/2 flex h-[62px] w-[62px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: "rgba(255,255,255,0.92)" }}
+                  >
+                    {/* Nudged right so the triangle looks optically centred. */}
+                    <PlayIcon size={24} className="ml-[3px]" />
+                  </span>
+                </div>
+
