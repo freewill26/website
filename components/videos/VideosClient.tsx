@@ -82,3 +82,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
                 style={{
                   border: "1px solid rgba(24,26,32,0.08)",
                   animation: "fw-card-in 0.5s ease both",
+                  animationDelay: `${(i % VIDEO_ANIM_BATCH) * 0.04}s`,
+                }}
+              >
+                <div
+                  className="relative aspect-video w-full overflow-hidden"
+                  style={{ background: "#DCD3BE" }}
+                >
+                  <Image
+                    src={video.thumbnail}
+                    alt={video.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
