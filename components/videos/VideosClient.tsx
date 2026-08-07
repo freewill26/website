@@ -142,3 +142,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
           videos={items}
           index={playing}
           hasMore={hasMore}
+          onIndexChange={setPlaying}
+          onReachEnd={loadMore}
+          onClose={() => setPlaying(-1)}
+        />
+      )}
+    </>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-[18px] py-[clamp(56px,8vw,120px)] text-center">
