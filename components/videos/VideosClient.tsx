@@ -58,3 +58,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
     observer.observe(node);
     return () => observer.disconnect();
   }, [loadMore]);
+
+  const showEmpty = !loading && items.length === 0;
+
+  return (
+    <>
+      <section
+        id="fw-videos"
+        className="box-border bg-cream px-[6vw] pb-[clamp(72px,9vw,140px)] pt-[clamp(28px,3.4vw,52px)]"
+        style={{ minHeight: "60vh" }}
+      >
+        {showEmpty ? (
+          <EmptyState />
