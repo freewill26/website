@@ -106,3 +106,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
                   </span>
                 </div>
 
+                <div className="flex flex-1 flex-col p-5 sm:p-[26px]">
+                  <h3 className="m-0 mb-3 font-display text-[20px] uppercase leading-[1.12] text-[#181A20] sm:text-[23px]">
+                    {video.title}
+                  </h3>
+                  {video.description && (
+                    <p className="m-0 line-clamp-3 text-sm leading-[1.75] text-[#181A20]/[0.62]">
+                      {video.description}
+                    </p>
+                  )}
+                </div>
+              </button>
+            ))}
