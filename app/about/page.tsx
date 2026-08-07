@@ -8,7 +8,7 @@ import AboutStats from "@/components/about/AboutStats";
 import AboutStory from "@/components/about/AboutStory";
 import AboutFounderQuote from "@/components/about/AboutFounderQuote";
 import AboutTeam from "@/components/about/AboutTeam";
-import AboutAwards from "@/components/about/AboutAwards";
+import AboutAward from "@/components/about/AboutAward";
 import AboutContact from "@/components/about/AboutContact";
 import HomeBrands from "@/components/home/HomeBrands";
 import { getAboutPageContent, getTeam } from "@/lib/api/about";
