@@ -34,3 +34,15 @@ export default async function CataloguePage() {
   ]);
   const headlineLines = content.hero.headline.split("\n").map((line) => line.trim());
 
+  return (
+    <div className="overflow-x-clip bg-cream text-[#111820]">
+      <SiteHeader solid />
+      <main>
+        {/* Intro band */}
+        <section className="box-border bg-cream px-[6vw] pb-[clamp(28px,3vw,44px)] pt-[clamp(148px,12vw,180px)]">
+          <div className="flex flex-wrap items-end justify-between gap-6 sm:gap-8">
+            <div className="min-w-0">
+              <FwReveal className="mb-3.5 flex items-center gap-3">
+                <span className="block h-0.5 w-7 bg-brand" />
+                <span className="text-xs font-bold tracking-[0.28em] text-brand">
+                  {content.hero.title.toUpperCase()}
