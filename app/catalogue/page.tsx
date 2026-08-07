@@ -22,3 +22,15 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/**
+ * Freewill Catalogue — an async Server Component. The hero copy comes from the
+ * CMS; the brochures are `Catalogue` records managed in the CMS's own
+ * Catalogues section. Reached from the footer only, not the header nav.
+ */
+export default async function CataloguePage() {
+  const [content, items] = await Promise.all([
+    getCataloguePageContent(),
+    getCatalogues(),
+  ]);
+  const headlineLines = content.hero.headline.split("\n").map((line) => line.trim());
+
