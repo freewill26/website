@@ -166,3 +166,10 @@ function EmptyState() {
       >
         Nothing to watch yet.
       </h3>
+      <p className="m-0 max-w-[380px] text-[15px] text-[#181A20]/60">
+        We haven&apos;t published our films here yet — check back soon, or get in
+        touch for project references.
+      </p>
+    </div>
+  );
+}
