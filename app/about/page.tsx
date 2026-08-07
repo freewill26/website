@@ -101,7 +101,7 @@ export default async function AboutPage() {
           occupation={content.testimonial.occupation}
         />
         <AboutTeam founders={team.founders} people={team.people} />
-        {/* <AboutAwards /> */}
+        <AboutAward award={content.award} />
         <HomeBrands
           brands={brands}
           heading="The company we keep."
