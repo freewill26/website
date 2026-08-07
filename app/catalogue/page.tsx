@@ -10,3 +10,15 @@ import { getCataloguePageContent, getCatalogues } from "@/lib/api/catalogue";
 
 /** SEO/OG metadata for `/catalogue` sourced from the CMS "catalogue" page. */
 export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getCataloguePageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
+
