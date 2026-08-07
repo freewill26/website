@@ -118,3 +118,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
                 </div>
               </button>
             ))}
+          </div>
+        )}
+
+        {(hasMore || loading) && !showEmpty && (
+          <div ref={sentinelRef} className="mt-8 flex justify-center">
+            {loading && (
+              <span
+                className="block h-[22px] w-[22px] rounded-full"
+                style={{
+                  border: "2px solid rgba(0,104,127,0.25)",
+                  borderTopColor: "#00687F",
+                  animation: "fw-spin-fast 0.8s linear infinite",
