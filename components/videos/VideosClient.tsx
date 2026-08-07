@@ -70,3 +70,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
       >
         {showEmpty ? (
           <EmptyState />
+        ) : (
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {items.map((video, i) => (
+              <button
+                key={video.id}
+                type="button"
+                onClick={() => setPlaying(i)}
+                aria-label={`Play “${video.title}”`}
+                className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white p-0 text-left transition-colors hover:border-brand/50"
+                style={{
+                  border: "1px solid rgba(24,26,32,0.08)",
+                  animation: "fw-card-in 0.5s ease both",
