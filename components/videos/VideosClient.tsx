@@ -130,3 +130,15 @@ export default function VideosClient({ initialItems, initialHasMore }: VideosCli
                   border: "2px solid rgba(0,104,127,0.25)",
                   borderTopColor: "#00687F",
                   animation: "fw-spin-fast 0.8s linear infinite",
+                }}
+              />
+            )}
+          </div>
+        )}
+      </section>
+
+      {playing >= 0 && (
+        <VideoModal
+          videos={items}
+          index={playing}
+          hasMore={hasMore}
