@@ -281,6 +281,17 @@
   }
 }
 
+/* Scroll lock for the intro splash.
+   Deliberately CSS rather than an inline style set from <SplashScreen>'s effect:
+   (1) the splash is server-rendered, so this locks from first paint instead of
+   waiting for hydration — which the hero video can delay by seconds; and
+   (2) other components on the home page (HomeReferences' lightbox) drive
+   `documentElement.style.overflow` for their own modals and would otherwise
+   clobber the splash's inline lock the moment they mount. A stylesheet rule
+   survives their `overflow = ""` reset. The rule stops matching by itself once
+   the splash unmounts. */
+html:has(#fw-splash) { overflow: hidden; }
+
 /* Splash loader → hero intro. `fw-intro` is added by <SplashScreen> while the
    loader is on screen (hiding the hero behind it); `fw-loaded` is added when the
    loader wipes away, which plays the staggered hero reveal. Without JS neither
