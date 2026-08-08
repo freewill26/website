@@ -46,3 +46,15 @@ export default async function VideosPage() {
               <FwReveal className="mb-3.5 flex items-center gap-3">
                 <span className="block h-0.5 w-7 bg-brand" />
                 <span className="text-xs font-bold tracking-[0.28em] text-brand">
+                  {content.hero.title.toUpperCase()}
+                </span>
+              </FwReveal>
+              <MaskedHeading
+                as="h1"
+                className="m-0 break-words font-display uppercase leading-[1.02] text-[#111820] sm:leading-[0.94]"
+                style={{ fontSize: "clamp(34px,6.4vw,108px)" }}
+                lines={headlineLines}
+              />
+            </div>
+            <FwReveal
+              as="p"
