@@ -58,3 +58,15 @@ export default async function VideosPage() {
             </div>
             <FwReveal
               as="p"
+              className="m-0 max-w-[380px] leading-[1.7] text-[#181A20]/[0.62]"
+              style={{ fontSize: "clamp(15px,1.4vw,18px)" }}
+            >
+              {content.hero.description}
+            </FwReveal>
+          </div>
+        </section>
+
+        <VideosClient
+          initialItems={firstPage.items}
+          initialHasMore={firstPage.hasMore}
+        />
