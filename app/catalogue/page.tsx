@@ -70,3 +70,15 @@ export default async function CataloguePage() {
         {/* CTA banner */}
         <section className="box-border bg-brand px-[6vw] py-[clamp(60px,8vw,100px)] text-center text-cream">
           <FwReveal>
+            <h3
+              className="m-0 mb-4 font-display uppercase leading-[1.1]"
+              style={{ fontSize: "clamp(32px,4vw,64px)" }}
+            >
+              Need a spec we haven&apos;t listed?
+            </h3>
+            <p className="mx-auto mb-7 max-w-[560px] text-base leading-[1.7] text-cream/[0.72]">
+              Tell us the surface, the sport and the venue — we&apos;ll send the
+              right documentation and a quote to match.
+            </p>
+            <Link
+              href="/contact"
