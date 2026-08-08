@@ -82,3 +82,15 @@ export default async function VideosPage() {
             </h3>
             <p className="mx-auto mb-7 max-w-[560px] text-base leading-[1.7] text-cream/[0.72]">
               From a single court to a national-games complex — let&apos;s build
+              the ground you&apos;ll play on.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2.5 rounded-full bg-cream px-[30px] py-4 text-[13px] font-bold tracking-[0.1em] text-brand no-underline transition-colors hover:bg-cream/90"
+            >
+              GET A FREE ESTIMATE <ArrowRightIcon size={14} color="00687F" />
+            </Link>
+          </FwReveal>
+        </section>
+      </main>
+      <SiteFooter />
