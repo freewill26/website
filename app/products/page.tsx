@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
-import SplashScreen from "@/components/site/SplashScreen";
 import ProductsHero from "@/components/products/ProductsHero";
 import ProductsCategory from "@/components/products/ProductsCategory";
 import ProductsContact from "@/components/products/ProductsContact";
