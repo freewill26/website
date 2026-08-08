@@ -70,3 +70,15 @@ export default async function VideosPage() {
           initialItems={firstPage.items}
           initialHasMore={firstPage.hasMore}
         />
+
+        {/* CTA banner */}
+        <section className="box-border bg-brand px-[6vw] py-[clamp(60px,8vw,100px)] text-center text-cream">
+          <FwReveal>
+            <h3
+              className="m-0 mb-4 font-display uppercase leading-[1.1]"
+              style={{ fontSize: "clamp(32px,4vw,64px)" }}
+            >
+              Want your venue on film?
+            </h3>
+            <p className="mx-auto mb-7 max-w-[560px] text-base leading-[1.7] text-cream/[0.72]">
+              From a single court to a national-games complex — let&apos;s build
