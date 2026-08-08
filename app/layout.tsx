@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Anton, Archivo, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -22,6 +22,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   display: "swap",
 });
+
+// `viewport-fit=cover` is what makes env(safe-area-inset-*) non-zero on
+// notched phones — the lightbox/menu safe-area padding depends on it.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Freewill · Sports Infrastructure Since 1990",

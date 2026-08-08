@@ -19,7 +19,7 @@ export default async function Footer() {
   ]);
   return (
     <footer className="border-t border-brand-accent/12 bg-ink px-[6vw] pb-8 pt-14 text-cream sm:pt-20 lg:pt-24">
-      <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
         {/* Brand */}
         <div>
           <Image src="/assets/logo-freewill-white.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />

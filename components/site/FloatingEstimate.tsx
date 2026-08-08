@@ -11,13 +11,13 @@ const WHATSAPP_PREFILL =
 export default async function FloatingEstimate() {
   const { whatsapp } = await getContactChannels();
   return (
-    <div className="fixed bottom-[clamp(16px,3vw,32px)] right-[clamp(16px,3vw,32px)] z-[800] flex flex-col items-end gap-3">
+    <div className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-[clamp(16px,3vw,32px)] z-[800] flex flex-col items-end gap-3 sm:bottom-[clamp(16px,3vw,32px)]">
       <a
         href={whatsappHref(whatsapp) + WHATSAPP_PREFILL}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        className="fw-anim-float inline-flex items-center gap-3 rounded-full px-6 py-4 text-[13px] font-bold tracking-[0.08em] text-white no-underline transition-transform hover:scale-105"
+        className="fw-anim-float inline-flex items-center gap-3 rounded-full p-3.5 text-[13px] font-bold tracking-[0.08em] text-white no-underline transition-transform hover:scale-105 sm:px-6 sm:py-4"
         style={{ background: "#25D366", boxShadow: "0 16px 38px rgba(37,211,102,0.45)" }}
       >
         <span
@@ -26,7 +26,7 @@ export default async function FloatingEstimate() {
         >
           <WhatsAppIcon size={18} />
         </span>
-        LET&apos;S CONNECT
+        <span className="hidden sm:inline">LET&apos;S CONNECT</span>
       </a>
     </div>
   );

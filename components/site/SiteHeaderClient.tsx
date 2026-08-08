@@ -186,7 +186,7 @@ export default function SiteHeaderClient({
             <Image src="/assets/logo-freewill.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" priority />
           </Link>
 
-          <nav className="hidden items-center gap-[26px] min-[981px]:flex">
+          <nav className="hidden items-center gap-4 min-[981px]:flex xl:gap-[26px]">
             {HEADER_NAV.map((item) =>
               item.label === "Products" ? (
                 <div
@@ -197,7 +197,15 @@ export default function SiteHeaderClient({
                 >
                   <Link
                     href={item.href}
-                    className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.16em] no-underline transition-colors hover:text-brand"
+                    onClick={(e) => {
+                      // Touch/stylus has no hover — first tap opens the menu
+                      // instead of navigating straight to /products.
+                      if (window.matchMedia("(hover: none)").matches && !productsOpen) {
+                        e.preventDefault();
+                        openMenu();
+                      }
+                    }}
+                    className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.16em] no-underline transition-colors hover:text-brand"
                     style={{ color: isActive(item.href) || productsOpen ? "#00687F" : "rgba(24,26,32,0.7)" }}
                   >
                     {item.label}
@@ -217,7 +225,7 @@ export default function SiteHeaderClient({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-xs font-semibold uppercase tracking-[0.16em] no-underline transition-colors hover:text-brand"
+                  className="whitespace-nowrap text-xs font-semibold uppercase tracking-[0.16em] no-underline transition-colors hover:text-brand"
                   style={{ color: isActive(item.href) ? "#00687F" : "rgba(24,26,32,0.7)" }}
                 >
                   {item.label}
@@ -228,7 +236,7 @@ export default function SiteHeaderClient({
             {/* Signature accent pill — text, link and badge come from the CMS */}
             <Link
               href={headerButton.href}
-              className="fw-anim-pill inline-flex items-center gap-[9px] rounded-full py-[9px] pl-3 pr-4 text-xs font-extrabold uppercase tracking-[0.1em] no-underline"
+              className="fw-anim-pill inline-flex items-center gap-[9px] whitespace-nowrap rounded-full py-[9px] pl-3 pr-4 text-xs font-extrabold uppercase tracking-[0.1em] no-underline"
               style={{
                 background: "linear-gradient(120deg,#1FA95B,#C3F53C,#1FA95B)",
                 backgroundSize: "200% 100%",
@@ -257,7 +265,7 @@ export default function SiteHeaderClient({
 
           <Link
             href="/#fw-contact"
-            className="hidden whitespace-nowrap rounded-full border px-[22px] py-3 text-xs font-bold uppercase tracking-[0.12em] text-[#181A20] no-underline transition-colors hover:border-brand hover:bg-brand/10 hover:text-brand min-[981px]:inline-block"
+            className="hidden whitespace-nowrap rounded-full border px-[22px] py-3 text-xs font-bold uppercase tracking-[0.12em] text-[#181A20] no-underline transition-colors hover:border-brand hover:bg-brand/10 hover:text-brand xl:inline-block"
             style={{ borderColor: "rgba(24,26,32,0.32)" }}
           >
             Get a Quote
@@ -282,7 +290,7 @@ export default function SiteHeaderClient({
         {/* Products mega-menu (desktop hover) */}
         {productsOpen && (
           <div
-            className="absolute inset-x-0 top-full z-[250] hidden overflow-hidden min-[981px]:block"
+            className="absolute inset-x-0 top-full z-[250] hidden max-h-[calc(100dvh-120px)] overflow-y-auto min-[981px]:block"
             onMouseEnter={openMenu}
             onMouseLeave={scheduleClose}
             style={{
@@ -292,7 +300,7 @@ export default function SiteHeaderClient({
               animation: "fw-megamenu-in 0.22s ease-out",
             }}
           >
-            <div className="grid grid-cols-3 gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
+            <div className="grid grid-cols-2 gap-px xl:grid-cols-3" style={{ background: "rgba(255,255,255,0.07)" }}>
               {menuItems.map((pg) => {
                 const isSeeAll = pg.name.startsWith("See All Products");
                 return (
@@ -303,7 +311,7 @@ export default function SiteHeaderClient({
                       setProductsOpen(false);
                       if (pg.categoryId) scrollToCategory(e, pg.categoryId);
                     }}
-                    className="group relative flex min-h-[288px] flex-col justify-end overflow-hidden no-underline transition-opacity hover:opacity-85"
+                    className="group relative flex min-h-[200px] flex-col justify-end overflow-hidden no-underline transition-opacity hover:opacity-85 xl:min-h-[288px]"
                     style={{
                       background: isSeeAll
                         ? "linear-gradient(135deg,#00687F 0%,#0A1620 100%)"

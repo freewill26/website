@@ -99,7 +99,7 @@ function ProductAutocomplete({
       />
       {open && filtered.length > 0 && (
         <ul
-          className="absolute left-0 right-0 top-full z-10 mt-1.5 max-h-64 overflow-y-auto rounded-[10px] py-1.5 shadow-lg"
+          className="absolute left-0 right-0 top-full z-[900] mt-1.5 max-h-64 overflow-y-auto rounded-[10px] py-1.5 shadow-lg"
           style={{ background: cardBg, border: `1px solid ${border}` }}
         >
           {filtered.map((o) => (
@@ -150,7 +150,7 @@ export default function EnquiryForm({
   const placeholder = dark ? "placeholder:text-white/35" : "placeholder:text-black/35";
 
   const fieldStyle = { background: fieldBg, border: `1px solid ${border}`, color: text } as const;
-  const fieldCls = `rounded-[10px] px-4 py-3.5 text-[15px] outline-none ${focus} ${placeholder}`;
+  const fieldCls = `rounded-[10px] px-4 py-3.5 text-base outline-none sm:text-[15px] ${focus} ${placeholder}`;
   const labelCls = "text-[11px] font-bold tracking-[0.16em]";
 
   if (sent) {

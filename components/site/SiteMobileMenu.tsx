@@ -16,8 +16,8 @@ interface SiteMobileMenuProps {
 
 const MENU_ITEMS = [
   ...HEADER_NAV,
-  { label: "Projects", href: "#" },
-  { label: "Catalogues", href: "#" },
+  { label: "Projects", href: "/gallery" },
+  { label: "Catalogues", href: "/catalogue" },
 ];
 
 /** How long the overlay stays mounted after `open` flips false so the exit
@@ -48,12 +48,12 @@ export default function SiteMobileMenu({ open, onClose, email, phone }: SiteMobi
       role="dialog"
       aria-modal="true"
       aria-label="Site navigation"
-      className={`fixed inset-0 z-[900] box-border flex flex-col overflow-y-auto bg-cream p-6 sm:p-10 ${
+      className={`fixed inset-0 z-[900] box-border flex h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-cream p-6 pb-[max(24px,env(safe-area-inset-bottom))] sm:p-10 ${
         closing ? "fw-menu-exit" : "fw-menu-enter"
       }`}
     >
       <div className={`flex items-center justify-between ${closing ? "" : "fw-menu-chrome"}`}>
-        <Image src="/assets/logo-freewill.svg" alt="Freewill" width={140} height={32} className="h-8 w-auto" />
+        <Image src="/assets/logo-freewill.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />
         <button
           type="button"
           onClick={onClose}

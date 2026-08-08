@@ -14,10 +14,10 @@ export default async function SiteFooter() {
   ]);
   return (
     <footer
-      className="box-border px-[6vw] pb-8 pt-14 text-[#181A20] sm:pt-20 lg:pt-[104px]"
+      className="box-border px-[6vw] pb-24 pt-14 text-[#181A20] sm:pb-8 sm:pt-20 lg:pt-[104px]"
       style={{ background: "#EAE1CD" }}
     >
-      <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12 xl:grid-cols-[minmax(0,2fr)_repeat(3,minmax(0,1fr))]">
         <div>
           <Image src="/assets/logo-freewill.svg" alt="Freewill" width={600} height={125} className="h-8 w-auto" />
           <div className="mb-5 mt-1 text-[9px] font-bold tracking-[0.34em] text-brand">

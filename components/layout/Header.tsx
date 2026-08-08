@@ -70,12 +70,12 @@ export default function Header({ marqueeItems }: HeaderProps) {
         <header className="flex items-center justify-between gap-4 border-b border-brand-accent/15 bg-ink/[0.88] px-[6vw] py-4 backdrop-blur-md">
           <Logo />
 
-          <nav className="hidden items-center gap-[22px] min-[981px]:flex">
+          <nav className="hidden items-center gap-4 min-[981px]:flex xl:gap-[22px]">
             {DESKTOP_NAV.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:text-brand-accent ${
+                className={`whitespace-nowrap text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:text-brand-accent ${
                   isActive(item.href) ? "text-brand-accent" : "text-cream/60"
                 }`}
               >
