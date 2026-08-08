@@ -16,14 +16,15 @@ export default function NewsCard({ article, variant = "default" }: NewsCardProps
   return (
     <Link
       href={`/news/${article.id}`}
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl bg-white no-underline transition-colors hover:border-brand/50 ${
+      className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-[#181A20]/[0.08] bg-white no-underline transition-colors hover:border-brand/50 ${
         feature ? "md:flex-row" : ""
       }`}
-      style={{ border: "1px solid rgba(24,26,32,0.08)" }}
     >
       <div
         className={`relative overflow-hidden ${
-          feature ? "aspect-[16/10] md:aspect-auto md:w-[54%]" : "aspect-[16/10]"
+          feature
+            ? "aspect-[16/10] md:aspect-auto md:min-h-[300px] md:w-[54%] lg:min-h-[380px]"
+            : "aspect-[16/10]"
         }`}
       >
         <ImageSlot
@@ -35,7 +36,7 @@ export default function NewsCard({ article, variant = "default" }: NewsCardProps
           {article.cat}
         </span>
       </div>
-      <div className={`flex flex-1 flex-col ${feature ? "p-[clamp(28px,3vw,44px)]" : "p-[26px]"}`}>
+      <div className={`flex flex-1 flex-col ${feature ? "p-[clamp(28px,3vw,44px)]" : "p-5 sm:p-[26px]"}`}>
         <div className="mb-3 flex items-center gap-3 text-xs font-semibold tracking-[0.1em] text-[#181A20]/50">
           <span>{article.date}</span>
           <span className="block h-1 w-1 rounded-full bg-[#181A20]/25" />
@@ -43,7 +44,7 @@ export default function NewsCard({ article, variant = "default" }: NewsCardProps
         </div>
         <h3
           className={`m-0 mb-3 font-display uppercase leading-[1.12] text-[#181A20] ${
-            feature ? "text-[clamp(26px,3vw,40px)]" : "text-[23px]"
+            feature ? "text-[clamp(26px,3vw,40px)]" : "text-[20px] sm:text-[23px]"
           }`}
         >
           {article.title}

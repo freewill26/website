@@ -24,7 +24,7 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
       {/* Header */}
       <section
         className="box-border bg-cream px-[6vw]"
-        style={{ paddingBlock: "clamp(120px,13vw,180px) clamp(28px,4vw,52px)", scrollMarginTop: "104px" }}
+        style={{ paddingBlock: "clamp(120px,13vw,180px) clamp(28px,4vw,52px)", scrollMarginTop: "124px" }}
       >
         {/* Breadcrumb */}
         <FwReveal as="nav" aria-label="Breadcrumb">
@@ -105,7 +105,7 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
               label={post.imageAlt}
               src={post.image ?? undefined}
               shape="rounded"
-              className="aspect-[16/8] w-full"
+              className="aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[16/8]"
               style={{ borderRadius: "18px" }}
             />
           </figure>
@@ -119,6 +119,19 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
       >
         <div className="mx-auto grid max-w-[1100px] gap-[clamp(32px,5vw,72px)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]">
           <FwReveal as="article" className="min-w-0">
+            {post.toc.length > 0 && (
+              <details
+                className="mb-8 rounded-[18px] bg-white p-5 lg:hidden"
+                style={{ border: "1px solid rgba(24,26,32,0.08)" }}
+              >
+                <summary className="cursor-pointer text-xs font-bold tracking-[0.18em] text-[#181A20]/70">
+                  ON THIS PAGE
+                </summary>
+                <div className="pt-4">
+                  <TableOfContents items={post.toc} />
+                </div>
+              </details>
+            )}
             <ArticleBody html={post.bodyHtml} />
 
             {/* Foot share */}
@@ -189,7 +202,7 @@ export default function BlogPostView({ post, related }: BlogPostViewProps) {
               <span className="inline-flex items-center gap-2">ALL ARTICLES <ArrowRightIcon size={13} color="181A20" /></span>
             </Link>
           </FwReveal>
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <FwReveal key={r.id} className="h-full">
                 <BlogCard post={r} />

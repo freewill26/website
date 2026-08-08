@@ -117,7 +117,26 @@
   font-size: 17px;
   line-height: 1.85;
   color: rgba(24, 26, 32, 0.74);
+  /* CMS bodies carry bare URLs / product codes; break them rather than
+     letting one token push past a 360px column (the page wrapper clips). */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
+
+@media (max-width: 480px) {
+  .fw-article { font-size: 16px; }
+}
+
+/* CMS markup keeps its inline `style` attrs — !important is what stops an
+   editor-pasted width from forcing horizontal scroll on phones. */
+.fw-article img,
+.fw-article video,
+.fw-article iframe,
+.fw-article svg {
+  max-width: 100% !important;
+  height: auto;
+}
+.fw-article table { max-width: 100% !important; }
 
 .fw-article h1,
 .fw-article h2,
@@ -219,7 +238,7 @@
   float: left;
   margin-right: 12px;
   font-family: var(--font-anton), sans-serif;
-  font-size: 64px;
+  font-size: clamp(44px, 12vw, 64px);
   line-height: 0.78;
   color: #00687f;
 }
