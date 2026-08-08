@@ -94,3 +94,7 @@ export default async function VideosPage() {
         </section>
       </main>
       <SiteFooter />
+      <FloatingEstimate />
+    </div>
+  );
+}
