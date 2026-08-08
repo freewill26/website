@@ -35,7 +35,6 @@ export default async function ProductsPage() {
 
   return (
     <div className="overflow-x-clip bg-cream text-[#111820]">
-      <SplashScreen />
       <SiteHeader solid />
       <main>
         <ProductsHero hero={content.hero} />
