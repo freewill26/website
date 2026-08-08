@@ -10,3 +10,15 @@ import { getVideosPageContent, getVideosFeedPage } from "@/lib/api/videos";
 
 /** SEO/OG metadata for `/videos` sourced from the CMS "videos" page. */
 export async function generateMetadata(): Promise<Metadata> {
+  const { seo } = await getVideosPageContent();
+  return {
+    title: seo.title,
+    description: seo.description,
+    openGraph: {
+      title: seo.ogTitle,
+      description: seo.ogDescription,
+      ...(seo.ogImage ? { images: [seo.ogImage] } : {}),
+    },
+  };
+}
+
