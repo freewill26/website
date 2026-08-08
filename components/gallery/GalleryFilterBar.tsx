@@ -65,7 +65,7 @@ export default function GalleryFilterBar({
 
   return (
     <div
-      className="sticky top-0 z-[120] box-border px-[6vw] py-[clamp(12px,1.6vw,18px)] backdrop-blur-md"
+      className="sticky top-[116px] z-[120] box-border px-[6vw] py-2 backdrop-blur-md sm:py-[clamp(12px,1.6vw,18px)] min-[981px]:top-[104px]"
       style={{
         background: "rgba(241,234,216,0.88)",
         borderTop: "1px solid rgba(24,26,32,0.08)",
@@ -123,7 +123,7 @@ export default function GalleryFilterBar({
 
       {/* Chip row + Browse button */}
       <div className="flex items-center gap-3">
-        <div className="flex flex-1 items-center gap-2.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-1 items-center gap-2.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [mask-image:linear-gradient(to_right,black_88%,transparent)] sm:[mask-image:none]">
           <Chip
             label="All"
             active={activeKey === "all"}
@@ -149,6 +149,7 @@ export default function GalleryFilterBar({
         <button
           type="button"
           onClick={onOpenBrowse}
+          aria-label="Browse categories and products"
           className="flex flex-none items-center gap-2 rounded-full px-4 py-[11px] text-[12.5px] font-bold uppercase tracking-[0.06em] text-[#111820] transition-colors hover:border-brand hover:text-brand"
           style={{
             border: "1px solid rgba(24,26,32,0.2)",

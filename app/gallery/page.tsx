@@ -3,7 +3,6 @@ import Link from "next/link";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import FloatingEstimate from "@/components/site/FloatingEstimate";
-import SplashScreen from "@/components/site/SplashScreen";
 import { MaskedHeading, FwReveal } from "@/components/site/FwReveal";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import GalleryClient from "@/components/gallery/GalleryClient";
@@ -38,13 +37,12 @@ export default async function GalleryPage() {
 
   return (
     <div className="overflow-x-clip bg-cream text-[#111820]">
-      <SplashScreen />
       <SiteHeader solid />
       <main>
         {/* Intro band */}
-        <section className="box-border bg-cream px-[6vw] pb-[clamp(28px,3vw,44px)] pt-[clamp(120px,10vw,164px)]">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <div>
+        <section className="box-border bg-cream px-[6vw] pb-[clamp(28px,3vw,44px)] pt-[clamp(148px,12vw,180px)]">
+          <div className="flex flex-wrap items-end justify-between gap-6 sm:gap-8">
+            <div className="min-w-0">
               <FwReveal className="mb-3.5 flex items-center gap-3">
                 <span className="block h-0.5 w-7 bg-brand" />
                 <span className="text-xs font-bold tracking-[0.28em] text-brand">
@@ -53,8 +51,8 @@ export default async function GalleryPage() {
               </FwReveal>
               <MaskedHeading
                 as="h1"
-                className="m-0 font-display uppercase leading-[0.94] text-[#111820]"
-                style={{ fontSize: "clamp(44px,6.4vw,108px)" }}
+                className="m-0 break-words font-display uppercase leading-[1.02] text-[#111820] sm:leading-[0.94]"
+                style={{ fontSize: "clamp(34px,6.4vw,108px)" }}
                 lines={headlineLines}
               />
             </div>

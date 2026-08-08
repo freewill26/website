@@ -120,7 +120,7 @@ export default function GalleryClient({ initialItems, initialHasMore, taxonomy }
         {showEmpty ? (
           <EmptyState filtered={selection.type !== "all"} />
         ) : (
-          <div key={selKey} className="grid grid-cols-3 gap-1 sm:gap-3 md:grid-cols-4">
+          <div key={selKey} className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4">
             {items.map((g, i) => (
               <button
                 key={g.id}
@@ -138,11 +138,12 @@ export default function GalleryClient({ initialItems, initialHasMore, taxonomy }
                   src={g.src}
                   alt={g.title}
                   fill
-                  sizes="(max-width: 768px) 33vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                   className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
-                <span className="pointer-events-none absolute inset-x-3 bottom-3 hidden text-[13px] font-semibold uppercase tracking-[0.04em] text-white opacity-0 drop-shadow transition-opacity duration-300 group-hover:opacity-100 sm:block">
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/55 to-transparent md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100" />
+                <span className="pointer-events-none absolute inset-x-3 bottom-3 text-[12px] font-semibold uppercase tracking-[0.04em] text-white drop-shadow sm:text-[13px] md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100">
                   {g.title}
                 </span>
               </button>

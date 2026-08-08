@@ -101,7 +101,7 @@ export default function GalleryBrowseSheet({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="box-border flex max-h-[82vh] w-full flex-col overflow-hidden rounded-t-[22px] bg-cream sm:max-h-[70vh] sm:max-w-[520px] sm:rounded-[22px]"
+        className="box-border flex max-h-[82dvh] w-full flex-col overflow-hidden rounded-t-[22px] bg-cream sm:max-h-[70dvh] sm:max-w-[520px] sm:rounded-[22px]"
         style={{ animation: "fw-card-in 0.28s ease both", border: "1px solid rgba(24,26,32,0.1)" }}
       >
         {/* Header */}
@@ -127,13 +127,18 @@ export default function GalleryBrowseSheet({
             style={{ background: "#FFFFFF", border: "1px solid rgba(24,26,32,0.14)" }}
           >
             <SearchIcon size={17} color="6B6F76" />
+            {/* autoFocus only where a hardware keyboard is likely — on phones it
+                raises the software keyboard and halves the sheet. */}
             <input
-              autoFocus
+              autoFocus={
+                typeof window !== "undefined" &&
+                window.matchMedia("(min-width: 640px)").matches
+              }
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search categories & products…"
-              className="w-full bg-transparent text-[15px] text-[#181A20] outline-none placeholder:text-black/40"
+              className="w-full bg-transparent text-base text-[#181A20] outline-none placeholder:text-black/40 sm:text-[15px]"
             />
           </div>
         </div>
@@ -195,7 +200,7 @@ function CategoryRow({ label, active, onClick }: { label: string; active: boolea
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-left text-[15px] font-bold transition-colors hover:bg-black/[0.04]"
+      className="flex w-full items-center justify-between gap-3 rounded-xl px-4 py-3 text-left text-[15px] font-bold transition-colors hover:bg-black/[0.04] sm:py-2.5"
       style={{ color: active ? "#00687F" : "#111820" }}
     >
       <span>{label}</span>
@@ -210,7 +215,7 @@ function ProductRow({ label, active, onClick }: { label: string; active: boolean
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center justify-between gap-3 rounded-xl py-2 pl-8 pr-4 text-left text-[14px] transition-colors hover:bg-black/[0.04]"
+      className="flex w-full items-center justify-between gap-3 rounded-xl py-3 pl-8 pr-4 text-left text-[14px] transition-colors hover:bg-black/[0.04] sm:py-2"
       style={{ color: active ? "#00687F" : "rgba(24,26,32,0.78)", fontWeight: active ? 700 : 400 }}
     >
       <span>{label}</span>
