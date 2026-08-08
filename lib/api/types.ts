@@ -51,6 +51,14 @@ export interface ApiProductSpecBlock {
   content: string;
 }
 
+/** One "Product Types" card — a variant the product comes in, authored in the CMS. */
+export interface ApiProductType {
+  image: string;
+  imageAlt?: string | null;
+  title: string;
+  description: string;
+}
+
 /** `GET /products/:id` — the full record, for the product detail page. */
 export interface ApiProductDetail extends ApiProduct {
   broadDescription: string;
@@ -61,6 +69,7 @@ export interface ApiProductDetail extends ApiProduct {
   blueprintHtml: string | null;
   features: ApiProductFeature[];
   specifications: ApiProductSpecBlock[];
+  productTypes: ApiProductType[];
   seoTitle: string;
   seoDescription: string;
   ogTitle: string;
