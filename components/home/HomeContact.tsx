@@ -9,7 +9,7 @@ export default async function HomeContact({ options }: { options: string[] }) {
     <section
       id="fw-contact"
       className="box-border bg-white px-[6vw]"
-      style={{ paddingBlock: "clamp(72px,8vw,140px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,8vw,140px)", scrollMarginTop: "124px" }}
     >
       <div className="grid gap-[clamp(40px,6vw,90px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
         <FwReveal>

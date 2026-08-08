@@ -10,7 +10,7 @@ export default function HomeNews({ news }: { news: NewsCardVM[] }) {
     <section
       id="fw-news"
       className="bg-cream"
-      style={{ paddingBlock: "clamp(72px,8vw,128px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,8vw,128px)", scrollMarginTop: "124px" }}
     >
       <FwReveal className="flex flex-wrap items-end justify-between gap-5 px-[6vw] pb-[clamp(32px,4vw,52px)]">
         <div>
@@ -36,7 +36,7 @@ export default function HomeNews({ news }: { news: NewsCardVM[] }) {
         </a>
       </FwReveal>
 
-      <div className="grid gap-5 px-[6vw] md:grid-cols-3">
+      <div className="grid gap-5 px-[6vw] sm:grid-cols-2 lg:grid-cols-3">
         {news.map((n) => (
           <FwReveal key={n.id}>
             <article
@@ -63,7 +63,7 @@ export default function HomeNews({ news }: { news: NewsCardVM[] }) {
                 <div className="mb-3 text-xs font-semibold tracking-[0.1em] text-[#181A20]/50">
                   {n.date}
                 </div>
-                <h3 className="m-0 mb-3 font-display text-[23px] uppercase leading-[1.18] text-[#181A20]">
+                <h3 className="m-0 mb-3 font-display text-[20px] uppercase leading-[1.18] text-[#181A20] lg:text-[23px]">
                   {n.title}
                 </h3>
                 <p className="m-0 mb-5 text-sm leading-[1.75] text-[#181A20]/[0.62]">

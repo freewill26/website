@@ -18,7 +18,7 @@ export default function HomeWhoWeWorkWith({ content }: { content: HomeWhoWeWorkW
     <section
       id="fw-who-we-work-with"
       className="box-border bg-white px-[6vw] text-[#181A20]"
-      style={{ paddingBlock: "clamp(72px,9vw,140px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,9vw,140px)", scrollMarginTop: "124px" }}
     >
       <div className="grid items-center gap-[clamp(40px,6vw,96px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <FwReveal className="relative aspect-[4/5] w-full overflow-hidden rounded-[6px]">

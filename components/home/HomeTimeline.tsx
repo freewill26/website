@@ -64,8 +64,8 @@ export default function HomeTimeline({ milestones, heading }: HomeTimelineProps)
 
   return (
     <section ref={outerRef} id="fw-tl-outer" className="relative" style={{ background: "#0F1428" }}>
-      <div className="sticky top-0 flex h-screen flex-col overflow-hidden">
-        <div className="flex items-end justify-between gap-5 px-[6vw] pt-12">
+      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
+        <div className="flex flex-col items-start gap-3 px-[6vw] pt-12 md:flex-row md:items-end md:justify-between md:gap-5">
           <div>
             <div className="mb-4 flex items-center gap-3">
               <span className="block h-0.5 w-7" style={{ background: "#5E93FF" }} />
@@ -80,7 +80,7 @@ export default function HomeTimeline({ milestones, heading }: HomeTimelineProps)
               {heading}
             </h2>
           </div>
-          <div className="whitespace-nowrap pb-2 text-[11px] font-bold tracking-[0.3em] text-[#F6F4EC]/50">
+          <div className="hidden whitespace-nowrap pb-2 text-[11px] font-bold tracking-[0.3em] text-[#F6F4EC]/50 md:block">
             <span className="inline-flex items-center gap-2">SCROLL TO TRAVEL <ArrowRightIcon size={11} color="F6F4EC" /></span>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default function HomeTimeline({ milestones, heading }: HomeTimelineProps)
             {milestones.map((m, i) => (
               <article
                 key={m.id}
-                className="relative mr-7 h-[min(560px,58vh)] min-h-[400px] w-[min(620px,82vw)] flex-none overflow-hidden rounded-[14px]"
+                className="relative mr-7 h-[min(560px,58vh)] min-h-[280px] w-[min(620px,82vw)] flex-none overflow-hidden rounded-[14px] sm:min-h-[400px]"
                 style={{ boxShadow: "0 32px 64px rgba(0,0,0,0.4)" }}
               >
                 {m.image ? (

@@ -11,15 +11,11 @@ export default function HomeStats({ stats }: { stats: HomeStatVM[] }) {
         borderBottom: "1px solid rgba(24,26,32,0.12)",
       }}
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s, i) => (
+      <div className="grid grid-cols-1 gap-px bg-[#181A20]/[0.12] sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
           <div
             key={s.label}
-            className="flex flex-col gap-3.5 px-10 py-14"
-            style={{
-              borderLeft:
-                i === 0 ? "none" : "1px solid rgba(24,26,32,0.12)",
-            }}
+            className="flex flex-col gap-3.5 bg-cream px-6 py-10 sm:px-10 sm:py-14"
           >
             <div
               className="font-display leading-none text-[#181A20]"

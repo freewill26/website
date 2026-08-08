@@ -33,7 +33,7 @@ export default function HomeTestimonials({
       className="box-border overflow-hidden bg-white px-[6vw]"
       style={{ paddingBlock: "clamp(72px,8vw,128px)" }}
     >
-      <div className="mb-[clamp(32px,4vw,52px)] flex items-end justify-between gap-5">
+      <div className="mb-[clamp(32px,4vw,52px)] flex flex-wrap items-end justify-between gap-4 sm:gap-5">
         <div className="flex items-center gap-3">
           <span className="block h-0.5 w-7 bg-brand" />
           <span className="text-xs font-bold tracking-[0.28em] text-brand">
@@ -117,7 +117,7 @@ export default function HomeTestimonials({
             type="button"
             onClick={() => setIndex(i)}
             aria-label={`Go to testimonial ${i + 1}`}
-            className="h-[9px] rounded-full transition-all duration-300"
+            className="relative h-[9px] rounded-full transition-all duration-300 before:absolute before:-inset-3 before:content-['']"
             style={{
               width: i === index ? "26px" : "9px",
               background: i === index ? "#00687F" : "rgba(24,26,32,0.22)",

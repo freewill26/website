@@ -101,7 +101,7 @@ export default function HomeReferences({ events, heading, description }: HomeRef
     <section
       id="fw-refs"
       className="box-border bg-cream"
-      style={{ paddingBlock: "clamp(72px,9vw,130px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,9vw,130px)", scrollMarginTop: "124px" }}
     >
       <FwReveal className="flex flex-wrap items-end justify-between gap-7 px-[6vw] pb-[clamp(40px,4.5vw,60px)]">
         <div className="max-w-[680px]">
@@ -193,7 +193,7 @@ export default function HomeReferences({ events, heading, description }: HomeRef
             style={{ borderTop: "1px solid rgba(24,26,32,0.14)" }}
           >
             <span className="absolute inset-0 -translate-x-full bg-brand transition-transform duration-500 ease-out group-hover:translate-x-0" />
-            <span className="relative grid grid-cols-[28px_64px_1fr] items-center gap-4 px-[6vw] py-[clamp(18px,2vw,26px)] transition-transform duration-500 group-hover:translate-x-[18px] md:grid-cols-[54px_116px_minmax(0,1fr)_auto_34px] md:gap-[clamp(16px,2vw,34px)]">
+            <span className="relative grid grid-cols-[22px_48px_minmax(0,1fr)] items-center gap-3 px-[6vw] py-[clamp(18px,2vw,26px)] transition-transform duration-500 group-hover:translate-x-[18px] sm:grid-cols-[28px_64px_minmax(0,1fr)] sm:gap-4 md:grid-cols-[54px_116px_minmax(0,1fr)_auto_34px] md:gap-[clamp(16px,2vw,34px)]">
               <span className="text-xs font-bold tracking-[0.08em] text-[#181A20]/40 transition-colors group-hover:text-cream">
                 {r.idx}
               </span>
@@ -208,6 +208,9 @@ export default function HomeReferences({ events, heading, description }: HomeRef
                 style={{ fontSize: "clamp(17px,1.5vw,23px)" }}
               >
                 {r.title}
+                <span className="mt-1 block text-[11px] font-sans font-semibold normal-case tracking-[0.04em] text-[#181A20]/55 md:hidden">
+                  {r.loc}
+                </span>
               </span>
               <span className="hidden whitespace-nowrap text-right text-[13px] font-semibold tracking-[0.04em] text-[#181A20]/55 transition-colors group-hover:text-cream md:block">
                 {r.loc}
@@ -255,7 +258,7 @@ function ReferenceDetail({
         <CloseIcon size={22} />
       </button>
 
-      <div className="relative h-screen w-full overflow-hidden">
+      <div className="relative h-[100svh] w-full overflow-hidden">
         <Image
           src={reference.img}
           alt={reference.title}
@@ -300,7 +303,7 @@ function ReferenceDetail({
         <div className="mx-auto max-w-[1100px]">
           {detail.metrics.length > 0 && (
             <div
-              className="grid grid-cols-3 gap-[clamp(16px,3vw,40px)] pb-[clamp(40px,5vw,64px)]"
+              className="grid grid-cols-1 gap-[clamp(16px,3vw,40px)] pb-[clamp(40px,5vw,64px)] sm:grid-cols-3"
               style={{ borderBottom: "1px solid rgba(24,26,32,0.14)" }}
             >
               {detail.metrics.map((m) => (

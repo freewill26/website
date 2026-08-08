@@ -121,7 +121,7 @@ function MarqueeRow({
           <span
             key={side}
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 z-10 w-[max(8vw,40px)]"
+            className="pointer-events-none absolute inset-y-0 z-10 w-[max(4vw,20px)] sm:w-[max(8vw,40px)]"
             style={{
               [side]: 0,
               background: `linear-gradient(to ${side === "left" ? "right" : "left"}, ${SECTION_BG}, transparent)`,

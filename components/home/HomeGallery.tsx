@@ -72,7 +72,7 @@ export default function HomeGallery({ images, heading, paragraph }: HomeGalleryP
               />
               {/* Hover affordance so it reads as openable */}
               <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
-              <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-center justify-between opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-center justify-between opacity-100 transition-opacity duration-300 md:opacity-0 md:group-hover:opacity-100">
                 <span className="font-display text-[13px] uppercase tracking-[0.04em] text-white drop-shadow">
                   {g.label}
                 </span>

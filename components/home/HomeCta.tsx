@@ -28,8 +28,10 @@ export default async function HomeCta() {
           >
             START A PROJECT
           </Link>
-          <span className="text-[15px] font-semibold text-[#071027]/80">
-            {email} &nbsp;·&nbsp; {phone}
+          <span className="break-words text-[15px] font-semibold text-[#071027]/80">
+            <span className="block sm:inline">{email}</span>
+            <span className="hidden sm:inline"> · </span>
+            <span className="block sm:inline">{phone}</span>
           </span>
         </div>
       </FwReveal>

@@ -18,7 +18,7 @@ export default function HomeAbout({ content }: { content: HomeAboutContent }) {
     <section
       id="fw-about"
       className="box-border bg-white px-[6vw] text-[#181A20]"
-      style={{ paddingBlock: "clamp(72px,9vw,140px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,9vw,140px)", scrollMarginTop: "124px" }}
     >
       <div className="grid items-center gap-[clamp(40px,6vw,96px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
         <FwReveal>
@@ -48,7 +48,7 @@ export default function HomeAbout({ content }: { content: HomeAboutContent }) {
           </Link>
         </FwReveal>
 
-        <FwReveal className="relative min-h-[440px] lg:min-h-[560px]">
+        <FwReveal className="relative min-h-[340px] sm:min-h-[440px] lg:min-h-[560px]">
           <div className="absolute right-0 top-0 h-[88%] w-[78%] overflow-hidden rounded-[6px]">
             <Image
               src={content.image1}
@@ -60,10 +60,9 @@ export default function HomeAbout({ content }: { content: HomeAboutContent }) {
             />
           </div>
           <div
-            className="absolute bottom-0 left-0 h-[42%] w-[42%] overflow-hidden rounded-[6px]"
+            className="absolute bottom-0 left-0 h-[50%] w-[52%] overflow-hidden rounded-[6px] outline outline-[6px] outline-white sm:h-[42%] sm:w-[42%] sm:outline-[10px]"
             style={{
               boxShadow: "0 32px 64px rgba(24,26,32,0.22)",
-              outline: "10px solid #FFFFFF",
             }}
           >
             <Image
@@ -75,10 +74,10 @@ export default function HomeAbout({ content }: { content: HomeAboutContent }) {
             />
           </div>
           <div
-            className="absolute left-[8%] top-[4%] max-w-[240px] rounded-md bg-brand px-6 py-5 text-white"
+            className="absolute left-[8%] top-[4%] max-w-[170px] rounded-md bg-brand px-4 py-4 text-white sm:max-w-[240px] sm:px-6 sm:py-5"
             style={{ boxShadow: "0 24px 48px rgba(0,104,127,0.30)" }}
           >
-            <div className="font-display text-[30px] leading-none">33 YRS</div>
+            <div className="font-display text-[24px] leading-none sm:text-[30px]">33 YRS</div>
             <div className="mt-1.5 text-xs font-semibold leading-[1.5] tracking-[0.06em] opacity-90">
               of building India&apos;s sports landscape
             </div>

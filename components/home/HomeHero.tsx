@@ -118,11 +118,15 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       ref={outerRef}
       id="fw-hero-outer"
       className="relative bg-cream"
-      style={{ height: "320vh" }}
+      style={{ height: "320svh" }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-[100svh] overflow-hidden">
+        {/* `data-splash-critical` makes <SplashScreen> hold the intro until this
+            clip has buffered enough to scrub — without it the hero reveals black
+            and stutters on the first drag. */}
         <video
           ref={videoRef}
+          data-splash-critical
           src={content.backgroundVideo}
           preload="auto"
           playsInline
@@ -192,7 +196,7 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
               <div
                 data-hero-line
                 className="font-display leading-[0.92] tracking-[0.01em] text-[#181A20]"
-                style={{ fontSize: "clamp(72px,16.5vw,310px)", transitionDelay: "0.55s" }}
+                style={{ fontSize: "clamp(44px,16.5vw,310px)", transitionDelay: "0.55s" }}
               >
                 FREEWILL
               </div>
@@ -250,7 +254,7 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
             style={{ transform: "scaleX(0)", transformOrigin: "left center" }}
           />
         </div>
-        <div className="absolute bottom-9 right-[6vw] z-[25] text-[10px] font-bold tracking-[0.3em] text-[#181A20]/60">
+        <div className="absolute bottom-9 right-[6vw] z-[25] hidden text-[10px] font-bold tracking-[0.3em] text-[#181A20]/60 sm:block">
           EST. 1990 — PUNE
         </div>
       </div>

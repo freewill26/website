@@ -50,7 +50,7 @@ export default function HomeProducts({
     <section
       id="fw-products"
       className="box-border bg-cream px-[6vw]"
-      style={{ paddingBlock: "clamp(72px,8vw,128px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,8vw,128px)", scrollMarginTop: "124px" }}
     >
       <FwReveal className="mb-[clamp(36px,4vw,56px)] flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -72,7 +72,7 @@ export default function HomeProducts({
         </p>
       </FwReveal>
 
-      <div className="grid grid-cols-1 gap-3.5 [grid-auto-rows:168px] sm:grid-cols-2 lg:grid-cols-4 lg:[grid-auto-rows:208px]">
+      <div className="grid grid-cols-1 gap-3.5 [grid-auto-rows:minmax(168px,auto)] sm:grid-cols-2 lg:grid-cols-4 lg:[grid-auto-rows:208px]">
         {tiles.map((category, idx) => (
           <FwReveal
             key={category.id}
@@ -112,7 +112,7 @@ export default function HomeProducts({
                 >
                   {category.title}
                 </div>
-                <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72]">
+                <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72] line-clamp-2">
                   {category.description}
                 </div>
               </div>
