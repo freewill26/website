@@ -40,10 +40,7 @@ export default function ProductInPlay({ family }: { family?: ProductFamily }) {
       </FwReveal>
 
       {/* Grid 1: tall video (2 rows) + two images */}
-      <div
-        className="mb-4 grid grid-cols-2 gap-4"
-        style={{ gridAutoRows: "clamp(190px,23vw,310px)" }}
-      >
+      <div className="mb-4 grid grid-cols-1 gap-4 auto-rows-[clamp(160px,44vw,310px)] sm:grid-cols-2 sm:auto-rows-[clamp(190px,23vw,310px)]">
         <div className="relative row-span-2 overflow-hidden rounded-[14px]" style={{ background: "#0E1730" }}>
           <video
             src="/assets/lulu.mp4"
@@ -51,6 +48,8 @@ export default function ProductInPlay({ family }: { family?: ProductFamily }) {
             muted
             loop
             playsInline
+            preload="metadata"
+            poster={matchImg}
             className="absolute inset-0 h-full w-full object-cover"
           />
           <span
@@ -82,10 +81,7 @@ export default function ProductInPlay({ family }: { family?: ProductFamily }) {
       </div>
 
       {/* Grid 2: wide image + three images */}
-      <div
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3"
-        style={{ gridAutoRows: "clamp(190px,23vw,320px)" }}
-      >
+      <div className="grid grid-cols-2 gap-4 auto-rows-[clamp(150px,40vw,320px)] sm:grid-cols-3 sm:auto-rows-[clamp(190px,23vw,320px)]">
         <div className="relative col-span-2 overflow-hidden rounded-[14px] sm:col-span-3">
           <Image
             src={heroImg}

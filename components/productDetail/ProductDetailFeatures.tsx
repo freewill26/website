@@ -34,12 +34,12 @@ export default function ProductDetailFeatures({
 
       <FwReveal
         as="ul"
-        className="m-0 grid list-none grid-cols-2 gap-y-10 p-0 sm:grid-cols-3 lg:grid-cols-5"
+        className="m-0 grid list-none grid-cols-2 gap-x-6 gap-y-10 p-0 sm:grid-cols-3 xl:grid-cols-5"
       >
         {features.map((feature, i) => (
           <li
             key={`${feature.title}-${i}`}
-            className="flex flex-col items-center px-4 text-center lg:border-l lg:border-[#16305C]/15 lg:first:border-l-0"
+            className="flex flex-col items-center px-4 text-center xl:border-l xl:border-[#16305C]/15 xl:[&:nth-child(5n+1)]:border-l-0"
           >
             {/* Icons are optional — a feature can be authored before its
                 artwork exists, and next/image throws on an empty src. */}

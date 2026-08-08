@@ -47,7 +47,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
   return (
     <section id="fw-blueprint" className="relative">
       {/* Blueprint stage */}
-      <div className="relative" style={{ background: "#0A1024", minHeight: "150vh" }}>
+      <div className="relative lg:min-h-[150vh]" style={{ background: "#0A1024" }}>
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -56,7 +56,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
             backgroundSize: "38px 38px",
           }}
         />
-        <div className="sticky top-0 box-border flex h-screen flex-col justify-between px-[6vw] py-[14vh]">
+        <div className="box-border flex flex-col justify-between gap-10 px-[6vw] py-16 lg:sticky lg:top-0 lg:h-screen lg:gap-0 lg:py-[max(112px,14vh)]">
           {/* Heading */}
           <div className="relative z-10">
             <FwReveal className="mb-[18px] flex items-center gap-3">
@@ -73,7 +73,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
           </div>
 
           {/* Centred schematic */}
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-[6vw]">
+          <div className="relative flex items-center justify-center lg:pointer-events-none lg:absolute lg:inset-0 lg:px-[6vw]">
             {family.slug.includes("seating") || family.slug.includes("bleacher") || family.nameLead.toLowerCase().includes("seating") ? (
               <svg
                 ref={svgRef}
@@ -96,7 +96,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
                   <line x1="534" y1="60" x2="546" y2="60" />
                   <line x1="534" y1="280" x2="546" y2="280" />
                 </g>
-                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="0.04em">
+                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" className="text-[19px] sm:text-[11px]" letterSpacing="0.04em">
                   <text x="300" y="318" textAnchor="middle">BLEACHER TREAD DEPTH: 850 mm · TOTAL SPAN: 12.5 m</text>
                   <text x="555" y="175" textAnchor="middle" transform="rotate(-90 555 175)">GRANDSTAND HEIGHT: 3.80 m</text>
                   <text x="300" y="38" textAnchor="middle" opacity="0.8">
@@ -127,7 +127,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
                   <line x1="24" y1="40" x2="36" y2="40" />
                   <line x1="24" y1="300" x2="36" y2="300" />
                 </g>
-                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="0.04em">
+                <g fill="#9FE4EF" fontFamily="var(--font-jetbrains), monospace" className="text-[19px] sm:text-[11px]" letterSpacing="0.04em">
                   <text x="300" y="14" textAnchor="middle">18.00 m</text>
                   <text x="18" y="175" textAnchor="middle" transform="rotate(-90 18 175)">9.00 m</text>
                   <text x="300" y="326" textAnchor="middle" opacity="0.7">
@@ -149,7 +149,7 @@ export default function ProductBlueprint({ family }: { family: ProductFamily }) 
             <p className="m-0 max-w-[440px] font-mono text-[13px] leading-[1.8] text-[#DFF6FA]/[0.78]">
               {family.blueprintCaption}
             </p>
-            <div className="flex gap-7 font-mono text-[#9FE4EF]">
+            <div className="flex flex-wrap gap-5 font-mono text-[#9FE4EF] sm:gap-7">
               {family.blueprintStats.map((s) => (
                 <div key={s.label}>
                   <div className="text-[22px] text-[#EAF8FB]">{s.value}</div>

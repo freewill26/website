@@ -33,7 +33,7 @@ export default function ProductDetailSpecBlocks({
           <FwReveal
             as="li"
             key={`${block.title}-${i}`}
-            className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,1fr)_150px] sm:items-start"
+            className="grid grid-cols-1 gap-5 sm:grid-cols-[minmax(0,1fr)_150px] sm:items-start lg:grid-cols-[minmax(0,1fr)_120px] xl:grid-cols-[minmax(0,1fr)_150px]"
           >
             <div className="min-w-0">
               <h3
@@ -54,7 +54,7 @@ export default function ProductDetailSpecBlocks({
             </div>
 
             {block.image && (
-              <div className="relative aspect-square w-full overflow-hidden rounded-[10px] bg-[#F4F6F9] sm:w-[150px]">
+              <div className="relative aspect-square w-full overflow-hidden rounded-[10px] bg-[#F4F6F9] sm:w-[150px] lg:w-[120px] xl:w-[150px]">
                 <Image
                   src={block.image}
                   alt={block.imageAlt || block.title}

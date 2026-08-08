@@ -38,6 +38,20 @@ export default function BlueprintFrame({ html, title }: { html: string; title: s
   const srcDoc = `${html}
 <script>
 (function () {
+  // CMS blueprints are authored outside our design system and often lack a
+  // viewport meta — without one a phone renders the document at 980px wide.
+  var head = document.head || document.getElementsByTagName('head')[0];
+  if (head && !document.querySelector('meta[name="viewport"]')) {
+    var meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1';
+    head.appendChild(meta);
+  }
+  if (head) {
+    var style = document.createElement('style');
+    style.textContent = 'img,svg,video,iframe,table{max-width:100%;height:auto}';
+    head.appendChild(style);
+  }
   var report = function () {
     var d = document.documentElement, b = document.body;
     var h = Math.max(

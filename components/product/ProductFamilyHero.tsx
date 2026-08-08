@@ -12,7 +12,7 @@ export default function ProductFamilyHero({ family }: { family: ProductFamily })
     <section
       id="top"
       className="relative flex min-h-screen flex-col justify-end overflow-hidden"
-      style={{ background: "#0F1428", scrollMarginTop: "104px" }}
+      style={{ background: "#0F1428", scrollMarginTop: "124px" }}
     >
       {family.heroImage ? (
         <Image
@@ -49,8 +49,8 @@ export default function ProductFamilyHero({ family }: { family: ProductFamily })
 
         <MaskedHeading
           as="h1"
-          className="m-0 font-display uppercase leading-[0.86] text-[#F6F4EC]"
-          style={{ fontSize: "clamp(46px,15vw,260px)" }}
+          className="m-0 break-words font-display uppercase leading-[0.86] text-[#F6F4EC] [hyphens:auto]"
+          style={{ fontSize: "clamp(40px,11vw,260px)" }}
           lines={[
             <>
               {family.nameLead}
@@ -87,7 +87,7 @@ export default function ProductFamilyHero({ family }: { family: ProductFamily })
       </div>
 
       <div
-        className="absolute right-[6vw] top-[18vh] text-[10px] font-bold tracking-[0.3em] text-[#F6F4EC]/50"
+        className="absolute right-[6vw] top-[max(120px,18vh)] hidden text-[10px] font-bold tracking-[0.3em] text-[#F6F4EC]/50 sm:block"
         style={{ writingMode: "vertical-rl" }}
       >
         SCROLL TO EXPLORE ▾

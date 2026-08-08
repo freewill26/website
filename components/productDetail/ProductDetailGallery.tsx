@@ -21,7 +21,7 @@ export default function ProductDetailGallery({ images, alt }: { images: string[]
         <span className="block h-0.5 w-7 bg-brand" />
         <span className="text-xs font-bold tracking-[0.28em] text-brand">GALLERY</span>
       </FwReveal>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {images.map((src, i) => (
           <FwReveal key={src} className="relative aspect-[4/3] overflow-hidden rounded-[14px]">
             <button
@@ -34,7 +34,7 @@ export default function ProductDetailGallery({ images, alt }: { images: string[]
                 src={src}
                 alt={`${alt} ${i + 1}`}
                 fill
-                sizes="(max-width: 1024px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
             </button>

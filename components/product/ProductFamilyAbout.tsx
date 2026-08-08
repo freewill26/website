@@ -46,20 +46,20 @@ export default function ProductFamilyAbout({ family }: { family: ProductFamily }
           </FwReveal>
         </div>
 
-        <FwReveal className="relative aspect-[4/5] overflow-hidden rounded-[14px]">
+        <FwReveal className="relative aspect-[4/5]">
           {family.aboutImage ? (
             <Image
               src={family.aboutImage}
               alt="Surface detail"
               fill
               sizes="(max-width: 1024px) 100vw, 45vw"
-              className="absolute inset-0 object-cover object-center"
+              className="absolute inset-0 rounded-[14px] object-cover object-center"
             />
           ) : (
             <ImageSlot label="Surface detail" shape="rounded" className="absolute inset-0 h-full w-full" />
           )}
           <div
-            className="absolute bottom-[8%] left-[-6%] rounded-lg px-[22px] py-[18px] text-white"
+            className="absolute bottom-[8%] left-3 rounded-lg px-[22px] py-[18px] text-white sm:left-[-6%]"
             style={{ background: "#2F6BFF", boxShadow: "0 24px 48px rgba(47,107,255,0.32)" }}
           >
             <div className="font-display text-[26px] leading-none">SINCE 1976</div>

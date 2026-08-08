@@ -17,7 +17,7 @@ export default function ProductSpecs({ product }: ProductSpecsProps) {
             key={spec.label}
             className="flex flex-col justify-between gap-2.5 border-b border-brand-accent/10 px-5 py-3.5 transition-colors last:border-b-0 hover:bg-brand-accent/[0.04] sm:flex-row sm:items-center sm:gap-4 sm:px-9 sm:py-5"
           >
-            <span className="min-w-[200px] font-mono text-xs tracking-[0.1em] text-mist/50">
+            <span className="font-mono text-xs tracking-[0.1em] text-mist/50 sm:min-w-[200px]">
               {spec.label}
             </span>
             <span className="text-sm font-semibold text-surface sm:text-right">

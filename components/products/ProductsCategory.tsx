@@ -38,11 +38,11 @@ export default function ProductsCategory({
       style={{
         background: tone === "cream" ? "#F1EAD8" : "#FFFFFF",
         paddingBlock: "clamp(64px,7vw,108px)",
-        scrollMarginTop: "104px",
+        scrollMarginTop: "124px",
       }}
     >
       {/* Stable, id-based anchor so header menu links survive re-ordering. */}
-      <span id={categoryAnchorId(category.id)} className="block" style={{ scrollMarginTop: "104px" }} />
+      <span id={categoryAnchorId(category.id)} className="block" style={{ scrollMarginTop: "124px" }} />
 
       <FwReveal className="flex flex-wrap items-end justify-between gap-6 px-[6vw] pb-[clamp(36px,4vw,56px)]">
         <div className="max-w-[640px]">
@@ -65,7 +65,7 @@ export default function ProductsCategory({
             {category.description}
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="hidden gap-3 sm:flex">
           {([-1, 1] as const).map((dir) => (
             <button
               key={dir}

@@ -9,7 +9,7 @@ export default async function ProductsContact({ options }: { options: string[] }
     <section
       id="fw-contact"
       className="box-border px-[6vw] text-[#F6F4EC]"
-      style={{ background: "#0F1428", paddingBlock: "clamp(72px,9vw,150px)", scrollMarginTop: "104px" }}
+      style={{ background: "#0F1428", paddingBlock: "clamp(72px,9vw,150px)", scrollMarginTop: "124px" }}
     >
       <div className="grid items-center gap-[clamp(40px,6vw,90px)] lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
         <FwReveal>

@@ -12,8 +12,8 @@ export default function ProductsHero({ hero }: ProductsHeroProps) {
   return (
     <section
       id="top"
-      className="relative h-[92vh] min-h-[600px] overflow-hidden"
-      style={{ background: "#0F1428", scrollMarginTop: "104px" }}
+      className="relative flex min-h-[600px] flex-col justify-end overflow-hidden md:h-[92vh]"
+      style={{ background: "#0F1428", scrollMarginTop: "124px" }}
     >
       <Image
         src={hero.backgroundImage}
@@ -31,7 +31,7 @@ export default function ProductsHero({ hero }: ProductsHeroProps) {
             "linear-gradient(180deg, rgba(15,20,40,0.62) 0%, rgba(15,20,40,0.35) 40%, rgba(15,20,40,0.85) 100%)",
         }}
       />
-      <div className="absolute inset-0 box-border flex flex-col justify-end px-[6vw] pb-[clamp(56px,7vw,96px)]">
+      <div className="relative z-[1] box-border flex flex-col justify-end px-[6vw] pb-[clamp(56px,7vw,96px)] pt-[clamp(140px,18vh,220px)]">
         <FwReveal className="mb-6 flex items-center gap-3">
           <span className="block h-0.5 w-7" style={{ background: "#5E93FF" }} />
           <span className="text-xs font-bold tracking-[0.3em] text-[#9FC0FF]">
@@ -69,7 +69,7 @@ export default function ProductsHero({ hero }: ProductsHeroProps) {
         </FwReveal>
       </div>
       <div
-        className="absolute right-[6vw] bottom-[clamp(56px,7vw,96px)] text-[10px] font-bold tracking-[0.3em] text-[#F6F4EC]/55"
+        className="absolute right-[6vw] bottom-[clamp(56px,7vw,96px)] hidden text-[10px] font-bold tracking-[0.3em] text-[#F6F4EC]/55 sm:block"
         style={{ writingMode: "vertical-rl" }}
       >
         SCROLL ▾

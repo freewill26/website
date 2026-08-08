@@ -19,7 +19,7 @@ export default function ProductDetailHero({ title, tag, description, image, imag
     <section
       id="top"
       className="relative flex min-h-[80vh] flex-col justify-end overflow-hidden"
-      style={{ background: "#0F1428", scrollMarginTop: "104px" }}
+      style={{ background: "#0F1428", scrollMarginTop: "124px" }}
     >
       {image ? (
         <Image
@@ -61,7 +61,7 @@ export default function ProductDetailHero({ title, tag, description, image, imag
 
         <MaskedHeading
           as="h1"
-          className="m-0 max-w-[16ch] font-display uppercase leading-[0.94] text-[#F6F4EC]"
+          className="m-0 max-w-[16ch] break-words font-display uppercase leading-[0.94] text-[#F6F4EC] [hyphens:auto]"
           style={{ fontSize: "clamp(40px,8vw,140px)" }}
           lines={[title]}
         />

@@ -58,7 +58,7 @@ export default async function ProductTypePage({ params }: ProductTypePageProps) 
   return (
     <>
       <Header marqueeItems={marqueeItems} />
-      <main>
+      <main className="overflow-x-clip">
         <ProductHero product={product} />
         <ProductDescription product={product} />
         <ProductHighlights product={product} />

@@ -16,7 +16,7 @@ export default function ProductGallery({ product }: ProductGalleryProps) {
   return (
     <Section tone="ink">
       <SectionLabel className="mb-7 lg:mb-12">PRODUCT GALLERY</SectionLabel>
-      <div className="grid auto-rows-[clamp(180px,22vw,300px)] grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 auto-rows-[clamp(160px,44vw,300px)] sm:grid-cols-2 sm:auto-rows-[clamp(180px,22vw,300px)]">
         <ParallaxTile className="row-span-2">
           <CourtImage swatch={product.swatch} variant={0} />
         </ParallaxTile>
