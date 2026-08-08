@@ -9,7 +9,7 @@ export default async function AboutContact({ options }: { options: string[] }) {
     <section
       id="fw-contact"
       className="box-border bg-cream px-[6vw] text-[#111820]"
-      style={{ paddingBlock: "clamp(72px,9vw,150px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(72px,9vw,150px)", scrollMarginTop: "124px" }}
     >
       <div className="grid items-center gap-[clamp(40px,6vw,90px)] lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)]">
         <FwReveal>
@@ -30,18 +30,18 @@ export default async function AboutContact({ options }: { options: string[] }) {
             the right surface and return a no-obligation estimate within one
             working day.
           </p>
-          <div className="flex flex-wrap gap-10">
-            <div>
+          <div className="flex flex-wrap gap-6 sm:gap-10">
+            <div className="min-w-0">
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#181A20]/45">
                 EMAIL
               </div>
-              <div className="text-[15px]">{email}</div>
+              <div className="break-words text-[15px]">{email}</div>
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="mb-1.5 text-[11px] font-bold tracking-[0.22em] text-[#181A20]/45">
                 PHONE
               </div>
-              <div className="text-[15px]">{phone}</div>
+              <div className="break-words text-[15px]">{phone}</div>
             </div>
           </div>
         </FwReveal>

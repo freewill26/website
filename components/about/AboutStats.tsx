@@ -10,7 +10,7 @@ export default function AboutStats({ stats }: { stats: AboutStatVM[] }) {
       className="box-border px-[6vw] text-[#F6F4EC]"
       style={{ background: "#0A0E1C", paddingBlock: "clamp(72px,9vw,140px)" }}
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-[clamp(32px,4vw,56px)]">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 lg:gap-[clamp(32px,4vw,56px)]">
         {stats.map((s) => (
           <FwReveal key={s.label}>
             <div

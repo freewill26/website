@@ -36,7 +36,7 @@ export default function AboutStory({
 
   const image = (
     <div
-      className="relative aspect-[4/5] w-full flex-none self-stretch overflow-hidden rounded-2xl md:w-[46%]"
+      className="relative aspect-[4/5] w-full flex-none overflow-hidden rounded-2xl md:w-[46%]"
       style={{ background: dark ? "#1B2238" : "#DCD3BE" }}
     >
       <ParallaxMedia>
@@ -52,12 +52,11 @@ export default function AboutStory({
 
   const copy = (
     <div
-      className="min-w-0 flex-1"
-      style={
+      className={`min-w-0 flex-1 ${
         imageSide === "left"
-          ? { paddingLeft: "clamp(0px,6vw,96px)" }
-          : { paddingRight: "clamp(0px,6vw,96px)" }
-      }
+          ? "md:pl-[clamp(0px,6vw,96px)]"
+          : "md:pr-[clamp(0px,6vw,96px)]"
+      }`}
     >
       <FwReveal className="mb-[22px] flex items-center gap-3">
         <span className="block h-0.5 w-7" style={{ background: accent }} />
@@ -105,7 +104,7 @@ export default function AboutStory({
         paddingBlock: "clamp(80px,9vw,150px)",
       }}
     >
-      <div className="flex flex-col items-center gap-10 md:flex-row md:gap-0">
+      <div className="flex flex-col items-stretch gap-10 md:flex-row md:items-center md:gap-0">
         {imageSide === "left" ? (
           <>
             {image}

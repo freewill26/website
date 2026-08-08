@@ -53,10 +53,9 @@ export default function AboutManifesto({ words }: { words: ManifestoWordVM[] }) 
     <section
       id="fw-manifesto"
       ref={sectionRef}
-      className="relative bg-cream"
-      style={{ minHeight: "230vh" }}
+      className="relative min-h-[150vh] bg-cream md:min-h-[230vh]"
     >
-      <div className="sticky top-0 box-border flex h-screen flex-col justify-center px-[6vw]">
+      <div className="sticky top-0 box-border flex min-h-[100svh] flex-col justify-center px-[6vw] py-[12vh]">
         <div className="mb-[38px] flex items-center gap-3">
           <span className="block h-0.5 w-[30px] bg-brand" />
           <span className="text-xs font-bold uppercase tracking-[0.28em] text-brand">

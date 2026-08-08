@@ -32,17 +32,17 @@ export default function AboutTeam({ founders, people }: AboutTeamVM) {
           <FwReveal key={f.name}>
             <div
               className={`flex flex-col items-stretch gap-8 lg:gap-14 ${
-                i % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"
+                i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
               }`}
             >
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-ink-card lg:w-[38%]">
+              <div className="relative aspect-[3/4] w-full flex-none overflow-hidden rounded-2xl bg-ink-card md:w-[42%] lg:w-[38%]">
                 <ParallaxMedia>
                   {f.image ? (
                     <Image
                       src={f.image}
                       alt={f.name}
                       fill
-                      sizes="(min-width: 1024px) 38vw, 100vw"
+                      sizes="(min-width: 768px) 42vw, 100vw"
                       className="object-cover"
                     />
                   ) : (
@@ -133,7 +133,7 @@ export default function AboutTeam({ founders, people }: AboutTeamVM) {
                     label={e.name}
                     className="absolute inset-0 h-full w-full"
                     src={e.image ?? undefined}
-                    sizes="(max-width: 768px) 50vw, 25vw"
+                    sizes="(min-width: 1024px) 25vw, 50vw"
                   />
                 </ParallaxMedia>
               </div>

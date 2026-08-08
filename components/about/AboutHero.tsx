@@ -17,7 +17,7 @@ export default function AboutHero({ title, headlineHtml, description, background
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-center overflow-hidden"
+      className="relative flex min-h-[100svh] items-center overflow-hidden py-[clamp(140px,18vh,200px)]"
       style={{ background: "#0A0E1C" }}
     >
       <Image
@@ -64,8 +64,8 @@ export default function AboutHero({ title, headlineHtml, description, background
 
         <MaskedHeading
           as="h1"
-          className="fw-hero-headline m-0 font-display uppercase leading-[1.04] text-[#F6F4EC]"
-          style={{ fontSize: "clamp(58px,11vw,200px)" }}
+          className="fw-hero-headline m-0 break-words font-display uppercase leading-[1.04] text-[#F6F4EC] [hyphens:auto]"
+          style={{ fontSize: "clamp(40px,11vw,200px)" }}
           lines={[<span key="headline" dangerouslySetInnerHTML={{ __html: headlineHtml }} />]}
         />
 
@@ -90,7 +90,7 @@ export default function AboutHero({ title, headlineHtml, description, background
       </div>
 
       <div
-        className="absolute bottom-[34px] left-1/2 h-[46px] w-px -translate-x-1/2 overflow-hidden"
+        className="absolute bottom-[max(34px,env(safe-area-inset-bottom))] left-1/2 h-[46px] w-px -translate-x-1/2 overflow-hidden"
         style={{ background: "rgba(246,244,236,0.2)" }}
       >
         <div className="fw-anim-cue h-3.5 w-full" style={{ background: "#5FD0E0" }} />
