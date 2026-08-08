@@ -60,10 +60,7 @@ export default async function ProductItemPage({ params }: ProductItemPageProps) 
           description={product.aboutDescription}
           image={product.aboutImage}
         />
-        <ProductDetailTypes
-          types={product.productTypes ?? []}
-          productTitle={product.title}
-        />
+        <ProductDetailTypes types={product.productTypes ?? []} />
         <ProductDetailFeatures
           features={product.features ?? []}
           productTitle={product.title}
