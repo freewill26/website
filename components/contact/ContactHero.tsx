@@ -13,7 +13,7 @@ export default function ContactHero({ title, headline, description }: ContactHer
     <section
       id="top"
       className="box-border bg-cream px-[6vw]"
-      style={{ paddingBlock: "clamp(120px,14vw,200px) clamp(40px,5vw,72px)", scrollMarginTop: "104px" }}
+      style={{ paddingBlock: "clamp(120px,14vw,200px) clamp(40px,5vw,72px)", scrollMarginTop: "124px" }}
     >
       <FwReveal className="mb-5 flex items-center gap-3">
         <span className="block h-0.5 w-7 bg-brand" />

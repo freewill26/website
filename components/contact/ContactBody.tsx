@@ -26,7 +26,7 @@ export default function ContactBody({ options, address, email, phone, whatsapp, 
         className="box-border bg-cream px-[6vw]"
         style={{ paddingBlock: "0 clamp(72px,9vw,140px)" }}
       >
-        <div className="grid gap-[clamp(40px,6vw,90px)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+        <div className="grid gap-[clamp(40px,6vw,90px)] md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
           {/* Channels */}
           <FwReveal>
             <h2 className="m-0 mb-7 font-display text-[clamp(26px,3vw,40px)] uppercase leading-[1.05] text-[#181A20]">
@@ -73,7 +73,7 @@ export default function ContactBody({ options, address, email, phone, whatsapp, 
         </FwReveal>
         <FwReveal>
           <div
-            className="relative aspect-[16/6] w-full overflow-hidden"
+            className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/9] lg:aspect-[16/6]"
             style={{ borderRadius: "18px" }}
           >
             <iframe
@@ -87,11 +87,19 @@ export default function ContactBody({ options, address, email, phone, whatsapp, 
               href={mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute right-3 top-3 rounded-md bg-white/95 px-3 py-1.5 text-[11px] font-bold tracking-[0.12em] text-[#181A20] no-underline shadow-sm transition-colors hover:text-brand"
+              className="absolute right-3 top-3 hidden rounded-md bg-white/95 px-3 py-1.5 text-[11px] font-bold tracking-[0.12em] text-[#181A20] no-underline shadow-sm transition-colors hover:text-brand sm:block"
             >
               OPEN IN GOOGLE MAPS
             </a>
           </div>
+          <a
+            href={mapUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-block text-[12px] font-bold tracking-[0.12em] text-brand no-underline sm:hidden"
+          >
+            OPEN IN GOOGLE MAPS →
+          </a>
         </FwReveal>
       </section>
     </>
