@@ -82,3 +82,15 @@ export default async function CataloguePage() {
             </p>
             <Link
               href="/contact"
+              className="inline-flex items-center gap-2.5 rounded-full bg-cream px-[30px] py-4 text-[13px] font-bold tracking-[0.1em] text-brand no-underline transition-colors hover:bg-cream/90"
+            >
+              TALK TO US <ArrowRightIcon size={14} color="00687F" />
+            </Link>
+          </FwReveal>
+        </section>
+      </main>
+      <SiteFooter />
+      <FloatingEstimate />
+    </div>
+  );
+}
