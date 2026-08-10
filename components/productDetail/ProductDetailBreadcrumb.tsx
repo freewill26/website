@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import Link from "next/link";
+import { ChevronRightIcon } from "@/components/ui/icons";
 
 export interface BreadcrumbCrumb {
   label: string;
@@ -33,39 +35,74 @@ export default function ProductDetailBreadcrumb({
     })),
   };
 
+  const last = crumbs.length - 1;
+  // A variant trail is four crumbs of product names — far wider than a phone.
+  // Everything between the first and the current page collapses to an ellipsis
+  // below `sm`. Done in CSS rather than by slicing, so every crumb stays in the
+  // DOM for the JSON-LD and for anyone widening the window.
+  const collapses = crumbs.length > 2;
+
   return (
     <nav
       aria-label="Breadcrumb"
-      className="box-border bg-cream px-[6vw] pt-[clamp(20px,3vw,36px)] text-[#181A20]"
+      className="box-border border-b border-[#181A20]/10 bg-cream px-[6vw] py-[clamp(14px,1.7vw,20px)] text-[#181A20]"
     >
-      <ol className="m-0 flex list-none flex-wrap items-center gap-x-2 gap-y-1 p-0 text-[12.5px] leading-[1.5]">
+      <ol className="m-0 flex list-none flex-wrap items-center gap-x-1 gap-y-1 p-0 text-[13px] leading-[1.5]">
         {crumbs.map((c, i) => {
-          const last = i === crumbs.length - 1;
+          const isLast = i === last;
+          // Hidden on phones when the trail is long enough to need collapsing;
+          // the ellipsis below stands in for the whole run.
+          const collapsed = collapses && i > 0 && i < last;
+
           return (
-            <li key={`${c.label}-${i}`} className="flex items-center gap-2">
-              {c.href && !last ? (
-                <Link
-                  href={c.href}
-                  className="text-[#181A20]/55 no-underline transition-colors hover:text-brand"
-                >
-                  {c.label}
-                </Link>
-              ) : (
-                // The current page: announced to screen readers, and the only
-                // crumb carrying full-strength colour.
-                <span
-                  aria-current={last ? "page" : undefined}
-                  className={last ? "font-bold text-[#181A20]" : "text-[#181A20]/55"}
-                >
-                  {c.label}
-                </span>
+            <Fragment key={`${c.label}-${i}`}>
+              <li
+                className={`${collapsed ? "hidden sm:flex" : "flex"} items-center gap-1`}
+              >
+                {i > 0 && (
+                  <ChevronRightIcon
+                    size={13}
+                    color="181A20"
+                    className="mx-0.5 shrink-0 opacity-25"
+                  />
+                )}
+                {c.href && !isLast ? (
+                  <Link
+                    href={c.href}
+                    className="rounded-[3px] px-0.5 text-[#181A20]/55 decoration-brand/40 underline-offset-4 transition-colors hover:text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+                  >
+                    {c.label}
+                  </Link>
+                ) : (
+                  // The current page: announced to screen readers, and the only
+                  // crumb carrying full-strength colour.
+                  <span
+                    aria-current={isLast ? "page" : undefined}
+                    className={
+                      isLast
+                        ? "px-0.5 font-semibold text-[#181A20]"
+                        : "px-0.5 text-[#181A20]/55"
+                    }
+                  >
+                    {c.label}
+                  </span>
+                )}
+              </li>
+
+              {collapses && i === 0 && (
+                // Phone-only stand-in for the crumbs hidden between here and the
+                // current page. Inert by design — every level it replaces is
+                // reachable from the page itself.
+                <li aria-hidden className="flex items-center gap-1 sm:hidden">
+                  <ChevronRightIcon
+                    size={13}
+                    color="181A20"
+                    className="mx-0.5 shrink-0 opacity-25"
+                  />
+                  <span className="px-0.5 text-[#181A20]/40">…</span>
+                </li>
               )}
-              {!last && (
-                <span aria-hidden className="text-[#181A20]/30">
-                  /
-                </span>
-              )}
-            </li>
+            </Fragment>
           );
         })}
       </ol>
