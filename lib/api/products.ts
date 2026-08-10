@@ -6,7 +6,15 @@
 import { safeGet, safeList } from "./http";
 import { API_ENDPOINTS, API_ROUTES } from "@/utils/apis";
 import { PRODUCTS_LIMITS } from "@/utils/constants";
-import type { ApiCategory, ApiField, ApiPage, ApiProduct, ApiProductDetail } from "./types";
+import type {
+  ApiCategory,
+  ApiField,
+  ApiPage,
+  ApiProduct,
+  ApiProductDetail,
+  ApiProductTypeListItem,
+  ApiProductVariantListItem,
+} from "./types";
 
 /* ------------------------------------------------------------------ *
  * View models
@@ -155,20 +163,32 @@ export async function getCategoriesWithProducts(): Promise<CategoryWithProductsV
 }
 
 /**
- * Every category + product title, for the "surface / product" enquiry-form
- * autocomplete. Categories first (broader), then products, de-duplicated.
+ * Every title in the catalogue, for the "surface / product" enquiry-form
+ * autocomplete. Broadest first (categories → products → types → variants),
+ * de-duplicated.
  */
 export async function getCatalogOptions(): Promise<string[]> {
-  const [categories, products] = await Promise.all([
+  const [categories, products, productTypes, productVariants] = await Promise.all([
     safeList<ApiCategory>(API_ENDPOINTS.categories, {
       searchParams: { limit: PRODUCTS_LIMITS.categories },
     }),
     safeList<ApiProduct>(API_ENDPOINTS.products, {
       searchParams: { limit: PRODUCTS_LIMITS.products },
     }),
+    safeList<ApiProductTypeListItem>(API_ENDPOINTS.productTypes, {
+      searchParams: { limit: PRODUCTS_LIMITS.productTypes },
+    }),
+    safeList<ApiProductVariantListItem>(API_ENDPOINTS.productVariants, {
+      searchParams: { limit: PRODUCTS_LIMITS.productVariants },
+    }),
   ]);
 
-  const titles = [...categories.map((c) => c.title), ...products.map((p) => p.title)];
+  const titles = [
+    ...categories.map((c) => c.title),
+    ...products.map((p) => p.title),
+    ...productTypes.map((t) => t.title),
+    ...productVariants.map((v) => v.title),
+  ];
   return Array.from(new Set(titles.filter((t) => t.length > 0)));
 }
 

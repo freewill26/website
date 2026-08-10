@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { GalleryFilterOptionVM, GalleryTaxonomyVM } from "@/lib/api/gallery";
 import { CheckIcon, CloseIcon, SearchIcon } from "@/components/ui/icons";
 import {
@@ -22,9 +22,9 @@ const UNCATEGORISED = "__uncategorised__";
 
 /**
  * Searchable filter picker: a centered dialog on desktop, a bottom sheet on
- * mobile. Each category is a selectable header with its own products listed
- * beneath it; picking a category, a product, or "All media" applies the filter
- * and closes.
+ * mobile. Each category is a selectable header with its products beneath it,
+ * their types one level deeper and those types' variants deeper again; picking
+ * any row — or "All media" — applies that filter and closes.
  */
 export default function GalleryBrowseSheet({
   open,
@@ -65,24 +65,75 @@ export default function GalleryBrowseSheet({
     return map;
   }, [taxonomy.products]);
 
+  // Types bucketed by their parent product, and variants by their parent type,
+  // so each level renders nested under the one above it.
+  const typesByProduct = useMemo(() => {
+    const map = new Map<string, GalleryFilterOptionVM[]>();
+    for (const t of taxonomy.productTypes) {
+      if (!t.productId) continue;
+      const bucket = map.get(t.productId);
+      if (bucket) bucket.push(t);
+      else map.set(t.productId, [t]);
+    }
+    return map;
+  }, [taxonomy.productTypes]);
+
+  const variantsByType = useMemo(() => {
+    const map = new Map<string, GalleryFilterOptionVM[]>();
+    for (const v of taxonomy.productVariants) {
+      if (!v.productTypeId) continue;
+      const bucket = map.get(v.productTypeId);
+      if (bucket) bucket.push(v);
+      else map.set(v.productTypeId, [v]);
+    }
+    return map;
+  }, [taxonomy.productVariants]);
+
+  /**
+   * Attaches each product's types (and each type's variants) and applies the
+   * search. `keepAll` short-circuits it for the subtree of an already-matching
+   * ancestor — that whole branch is shown regardless of individual titles.
+   * Otherwise a node survives if its own title matches (bringing its whole
+   * subtree along) or if anything beneath it matches (bringing just those).
+   */
+  const withTypes = useCallback(
+    (products: GalleryFilterOptionVM[], keepAll: boolean) =>
+      products
+        .map((p) => {
+          const productMatches = keepAll || p.title.toLowerCase().includes(q);
+          const types = (typesByProduct.get(p.id) ?? [])
+            .map((t) => {
+              const typeMatches = productMatches || t.title.toLowerCase().includes(q);
+              const allVariants = variantsByType.get(t.id) ?? [];
+              const variants = typeMatches
+                ? allVariants
+                : allVariants.filter((v) => v.title.toLowerCase().includes(q));
+              return { type: t, variants, typeMatches };
+            })
+            .filter(({ variants, typeMatches }) => typeMatches || variants.length > 0);
+          return { product: p, types, productMatches };
+        })
+        .filter(({ types, productMatches }) => productMatches || types.length > 0),
+    [typesByProduct, variantsByType, q],
+  );
+
   // Category groups honouring the search: a category shows if its own title
-  // matches (then all its products come along) or if any of its products match
-  // (then only the matching ones show).
+  // matches (then its whole subtree comes along) or if any of its products or
+  // their types match (then only the matching ones show).
   const groups = useMemo(() => {
     return taxonomy.categories
       .map((cat) => {
-        const catMatches = cat.title.toLowerCase().includes(q);
-        const all = productsByCategory.get(cat.id) ?? [];
-        const products = q === "" || catMatches ? all : all.filter((p) => p.title.toLowerCase().includes(q));
+        const catMatches = q === "" || cat.title.toLowerCase().includes(q);
+        const products = withTypes(productsByCategory.get(cat.id) ?? [], catMatches);
         return { cat, products };
       })
       .filter(({ cat, products }) => q === "" || cat.title.toLowerCase().includes(q) || products.length > 0);
-  }, [taxonomy.categories, productsByCategory, q]);
+  }, [taxonomy.categories, productsByCategory, withTypes, q]);
 
-  const uncategorised = useMemo(() => {
-    const all = productsByCategory.get(UNCATEGORISED) ?? [];
-    return q === "" ? all : all.filter((p) => p.title.toLowerCase().includes(q));
-  }, [productsByCategory, q]);
+  const uncategorised = useMemo(
+    () => withTypes(productsByCategory.get(UNCATEGORISED) ?? [], q === ""),
+    [productsByCategory, withTypes, q],
+  );
 
   if (!open) return null;
 
@@ -137,7 +188,7 @@ export default function GalleryBrowseSheet({
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search categories & products…"
+              placeholder="Search the whole catalogue…"
               className="w-full bg-transparent text-base text-[#181A20] outline-none placeholder:text-black/40 sm:text-[15px]"
             />
           </div>
@@ -156,13 +207,31 @@ export default function GalleryBrowseSheet({
                 active={activeKey === `category:${cat.id}`}
                 onClick={() => pick(selectionFromOption(cat))}
               />
-              {products.map((p) => (
-                <ProductRow
-                  key={p.id}
-                  label={p.title}
-                  active={activeKey === `product:${p.id}`}
-                  onClick={() => pick(selectionFromOption(p))}
-                />
+              {products.map(({ product, types }) => (
+                <div key={product.id}>
+                  <ProductRow
+                    label={product.title}
+                    active={activeKey === `product:${product.id}`}
+                    onClick={() => pick(selectionFromOption(product))}
+                  />
+                  {types.map(({ type, variants }) => (
+                    <div key={type.id}>
+                      <TypeRow
+                        label={type.title}
+                        active={activeKey === `productType:${type.id}`}
+                        onClick={() => pick(selectionFromOption(type))}
+                      />
+                      {variants.map((v) => (
+                        <VariantRow
+                          key={v.id}
+                          label={v.title}
+                          active={activeKey === `productVariant:${v.id}`}
+                          onClick={() => pick(selectionFromOption(v))}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               ))}
             </div>
           ))}
@@ -172,20 +241,38 @@ export default function GalleryBrowseSheet({
               <div className="px-4 pb-1 pt-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[#181A20]/45">
                 Other products
               </div>
-              {uncategorised.map((p) => (
-                <ProductRow
-                  key={p.id}
-                  label={p.title}
-                  active={activeKey === `product:${p.id}`}
-                  onClick={() => pick(selectionFromOption(p))}
-                />
+              {uncategorised.map(({ product, types }) => (
+                <div key={product.id}>
+                  <ProductRow
+                    label={product.title}
+                    active={activeKey === `product:${product.id}`}
+                    onClick={() => pick(selectionFromOption(product))}
+                  />
+                  {types.map(({ type, variants }) => (
+                    <div key={type.id}>
+                      <TypeRow
+                        label={type.title}
+                        active={activeKey === `productType:${type.id}`}
+                        onClick={() => pick(selectionFromOption(type))}
+                      />
+                      {variants.map((v) => (
+                        <VariantRow
+                          key={v.id}
+                          label={v.title}
+                          active={activeKey === `productVariant:${v.id}`}
+                          onClick={() => pick(selectionFromOption(v))}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               ))}
             </div>
           )}
 
           {nothingToShow && (
             <p className="px-4 py-8 text-center text-sm text-[#181A20]/55">
-              No categories or products match “{query}”.
+              Nothing matches “{query}”.
             </p>
           )}
         </div>
@@ -220,6 +307,46 @@ function ProductRow({ label, active, onClick }: { label: string; active: boolean
     >
       <span>{label}</span>
       {active && <CheckIcon size={16} color="00687F" />}
+    </button>
+  );
+}
+
+/**
+ * Product-type row — one indent deeper than its product, and set lighter so
+ * the four levels stay legible at a glance on a phone.
+ */
+function TypeRow({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center justify-between gap-3 rounded-xl py-2.5 pl-12 pr-4 text-left text-[13.5px] transition-colors hover:bg-black/[0.04] sm:py-1.5"
+      style={{ color: active ? "#00687F" : "rgba(24,26,32,0.6)", fontWeight: active ? 700 : 400 }}
+    >
+      <span>{label}</span>
+      {active && <CheckIcon size={15} color="00687F" />}
+    </button>
+  );
+}
+
+/**
+ * Product-variant row — the deepest level, indented once more and lighter
+ * again. A leading rule stands in for further indentation, which would eat too
+ * much of a phone-width sheet.
+ */
+function VariantRow({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex w-full items-center justify-between gap-3 rounded-xl py-2 pl-16 pr-4 text-left text-[13px] transition-colors hover:bg-black/[0.04] sm:py-1.5"
+      style={{ color: active ? "#00687F" : "rgba(24,26,32,0.5)", fontWeight: active ? 700 : 400 }}
+    >
+      <span className="flex items-center gap-2">
+        <span aria-hidden className="block h-px w-2.5 bg-current opacity-40" />
+        {label}
+      </span>
+      {active && <CheckIcon size={14} color="00687F" />}
     </button>
   );
 }

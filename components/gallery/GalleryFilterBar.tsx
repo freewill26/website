@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { GalleryTaxonomyVM } from "@/lib/api/gallery";
+import type { GalleryFilterOptionVM, GalleryTaxonomyVM } from "@/lib/api/gallery";
 import { GALLERY_LIMITS } from "@/utils/constants";
 import { SearchIcon, SlidersIcon } from "@/components/ui/icons";
 import {
@@ -18,9 +18,17 @@ interface GalleryFilterBarProps {
   onOpenBrowse: () => void;
 }
 
+/** Display label for a filter's kind — the camelCase kinds need shortening. */
+const KIND_LABEL: Record<GalleryFilterOptionVM["kind"], string> = {
+  category: "category",
+  product: "product",
+  productType: "type",
+  productVariant: "variant",
+};
+
 /**
- * Sticky gallery filter toolbar: a smart searchbar (type to find any category
- * or product), a chip row of category filters capped at
+ * Sticky gallery filter toolbar: a smart searchbar (type to find anything at
+ * any level of the catalogue), a chip row of those filters capped at
  * {@link GALLERY_LIMITS.chipRow} (with an inline "Load More" toggle), and a
  * "Browse" button that opens the full searchable picker sheet.
  */
@@ -36,21 +44,31 @@ export default function GalleryFilterBar({
 
   const activeKey = selectionKey(selection);
 
-  // Searchbar results: categories + products matched by title.
+  // Searchbar results: every level of the catalogue, matched by title.
   const q = query.trim().toLowerCase();
   const results = useMemo(() => {
     if (!q) return [];
-    return [...taxonomy.categories, ...taxonomy.products]
+    return [
+      ...taxonomy.categories,
+      ...taxonomy.products,
+      ...taxonomy.productTypes,
+      ...taxonomy.productVariants,
+    ]
       .filter((o) => o.title.toLowerCase().includes(q))
       .slice(0, GALLERY_LIMITS.searchResults);
   }, [taxonomy, q]);
 
-  // Chip row: "All" + a quick-pick of category and product filters (categories
+  // Chip row: "All" + a quick-pick of filters from every level (broadest
   // first), capped so the collapsed row shows exactly chipRow chips
   // (All + N + "Load More"); expanding reveals the rest.
   const filters = useMemo(
-    () => [...taxonomy.categories, ...taxonomy.products],
-    [taxonomy.categories, taxonomy.products],
+    () => [
+      ...taxonomy.categories,
+      ...taxonomy.products,
+      ...taxonomy.productTypes,
+      ...taxonomy.productVariants,
+    ],
+    [taxonomy.categories, taxonomy.products, taxonomy.productTypes, taxonomy.productVariants],
   );
   const collapsedCount = Math.max(0, GALLERY_LIMITS.chipRow - 2); // reserve All + Load More
   const needsToggle = filters.length + 1 > GALLERY_LIMITS.chipRow;
@@ -91,8 +109,8 @@ export default function GalleryFilterBar({
             }}
             onFocus={() => setSearchOpen(true)}
             onBlur={() => setTimeout(() => setSearchOpen(false), 120)}
-            placeholder="Search categories & products…"
-            aria-label="Search categories and products"
+            placeholder="Search the whole catalogue…"
+            aria-label="Search categories, products, types and variants"
             className="w-full bg-transparent text-[15px] text-[#181A20] outline-none placeholder:text-black/40"
           />
         </div>
@@ -112,7 +130,7 @@ export default function GalleryFilterBar({
                 >
                   <span>{o.title}</span>
                   <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#181A20]/40">
-                    {o.kind}
+                    {KIND_LABEL[o.kind]}
                   </span>
                 </button>
               </li>
@@ -149,7 +167,7 @@ export default function GalleryFilterBar({
         <button
           type="button"
           onClick={onOpenBrowse}
-          aria-label="Browse categories and products"
+          aria-label="Browse categories, products, types and variants"
           className="flex flex-none items-center gap-2 rounded-full px-4 py-[11px] text-[12.5px] font-bold uppercase tracking-[0.06em] text-[#111820] transition-colors hover:border-brand hover:text-brand"
           style={{
             border: "1px solid rgba(24,26,32,0.2)",
