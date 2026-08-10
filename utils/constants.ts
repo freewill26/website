@@ -58,6 +58,10 @@ export const ABOUT_LIMITS = {
 export const PRODUCTS_LIMITS = {
   categories: 50,
   products: 300,
+  /** Types across all products — several per product, so roomier than `products`. */
+  productTypes: 600,
+  /** Variants across all types — several per type again. */
+  productVariants: 1200,
 } as const;
 
 /**
@@ -99,6 +103,10 @@ export const GALLERY_LIMITS = {
   categories: 50,
   /** Products scanned to build the full flattened image list. */
   products: 300,
+  /** Product types scanned alongside them — several per product. */
+  productTypes: 600,
+  /** Product variants scanned alongside those — several per type again. */
+  productVariants: 1200,
   /** Images returned per infinite-scroll page. */
   imagesPerPage: 10,
   /** Chips shown in the collapsed filter row, incl. "All" and "Load More". */

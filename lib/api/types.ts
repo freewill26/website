@@ -51,13 +51,20 @@ export interface ApiProductSpecBlock {
   content: string;
 }
 
-/** One "Product Types" card — a variant the product comes in, authored in the CMS. */
-export interface ApiProductType {
-  image: string;
-  imageAlt?: string | null;
+/**
+ * One child card, as nested on its parent's detail response — a type on
+ * `GET /products/:id`, a variant on `GET /product-types/:id`. Each links to its
+ * own detail page.
+ */
+export interface ApiCatalogueChild {
+  id: string;
   title: string;
   description: string;
+  image: string | null;
+  imageAlt: string | null;
+  order: number;
 }
+
 
 /** `GET /products/:id` — the full record, for the product detail page. */
 export interface ApiProductDetail extends ApiProduct {
@@ -69,7 +76,90 @@ export interface ApiProductDetail extends ApiProduct {
   blueprintHtml: string | null;
   features: ApiProductFeature[];
   specifications: ApiProductSpecBlock[];
-  productTypes: ApiProductType[];
+  productTypes: ApiCatalogueChild[];
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+}
+
+/**
+ * `GET /product-types` — a product type in list form. Carries its parent's id
+ * and category so the Gallery screen can file its images under both without a
+ * second lookup.
+ */
+export interface ApiProductTypeListItem {
+  id: string;
+  productId: string;
+  title: string;
+  description: string;
+  image: string | null;
+  imageAlt: string | null;
+  images: string[];
+  order: number;
+  product: { id: string; title: string; categoryId: string | null } | null;
+}
+
+/**
+ * `GET /product-types/:id` — the full record. A type is authored exactly like a
+ * product, so this carries the same sections; it just has a parent product
+ * instead of a category, and no types of its own.
+ */
+export interface ApiProductTypeDetail extends ApiProductTypeListItem {
+  broadDescription: string;
+  tag: string | null;
+  aboutTitle: string | null;
+  aboutDescription: string | null;
+  aboutImage: string | null;
+  blueprintHtml: string | null;
+  features: ApiProductFeature[];
+  specifications: ApiProductSpecBlock[];
+  variants: ApiCatalogueChild[];
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+}
+
+/**
+ * `GET /product-variants` — a variant in list form. Carries its whole parent
+ * chain (type → product → category) so the Gallery screen can file its images
+ * under every level, and the detail page can build a breadcrumb, without extra
+ * lookups.
+ */
+export interface ApiProductVariantListItem {
+  id: string;
+  productTypeId: string;
+  title: string;
+  description: string;
+  image: string | null;
+  imageAlt: string | null;
+  images: string[];
+  order: number;
+  productType: {
+    id: string;
+    title: string;
+    productId: string;
+    product: { id: string; title: string; categoryId: string | null } | null;
+  } | null;
+}
+
+/**
+ * `GET /product-variants/:id` — the full record. A variant is authored exactly
+ * like a type, so this carries the same sections; the hierarchy stops here, so
+ * it has no children of its own.
+ */
+export interface ApiProductVariantDetail extends ApiProductVariantListItem {
+  broadDescription: string;
+  tag: string | null;
+  aboutTitle: string | null;
+  aboutDescription: string | null;
+  aboutImage: string | null;
+  blueprintHtml: string | null;
+  features: ApiProductFeature[];
+  specifications: ApiProductSpecBlock[];
   seoTitle: string;
   seoDescription: string;
   ogTitle: string;
