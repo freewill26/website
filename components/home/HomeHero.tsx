@@ -27,9 +27,11 @@ interface HomeHeroProps {
 }
 
 /**
- * Home hero — a 320vh pinned section whose background video is *scrubbed* by
- * scroll position (the design's signature scroll-driven hero). The editorial
- * card fades out as you descend and two captions band in/out, while the video
+ * Home hero — a pinned section whose background video is *scrubbed* by scroll
+ * position (the design's signature scroll-driven hero). The section's height is
+ * derived from the clip's own duration on mount, so replacing the CMS video
+ * keeps the same scrub rate without touching this file. The editorial card
+ * fades out as you descend and two captions band in/out, while the video
  * playhead tracks scroll progress. `data-hero-line` / `data-hero-fade` still
  * stagger in once <SplashScreen> clears (see globals.css `.fw-intro`).
  */
@@ -58,8 +60,28 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       return 1;
     };
 
+    // --- Scroll budget is derived from the clip, not hard-coded -------------
+    // The pinned section is 100svh of viewport plus SCROLL_VH_PER_SECOND of
+    // scroll travel for every second of video, so the *scrub rate* (seconds of
+    // footage per pixel of scroll) stays constant no matter how long the clip
+    // is. Swap in a 12s video from the CMS and the section simply grows; the
+    // hero keeps the exact same feel. Clamped so a very short or very long
+    // upload still yields a sane page.
+    const SCROLL_VH_PER_SECOND = 55;
+    const MIN_SCROLL_VH = 120;
+    const MAX_SCROLL_VH = 420;
+    const applyHeight = () => {
+      const d = video?.duration;
+      const travel = d && isFinite(d) && d > 0
+        ? clamp(d * SCROLL_VH_PER_SECOND, MIN_SCROLL_VH, MAX_SCROLL_VH)
+        : 220;
+      outer.style.height = `${100 + travel}svh`;
+    };
+    applyHeight();
+
     if (video) {
       video.muted = true;
+      video.playsInline = true;
       // The markup ships `preload="none"` so the clip can't delay the window
       // load event (and with it hydration — a media element keeps the "delaying
       // the load event" flag raised while it fetches). Kicking the fetch off
@@ -69,45 +91,183 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       try {
         video.load();
       } catch {}
+      video.addEventListener("loadedmetadata", applyHeight);
+      video.addEventListener("durationchange", applyHeight);
     }
+
+    const reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // --- Wheel damping while pinned -----------------------------------------
+    // A quick flick would otherwise blow through the whole clip in a few
+    // frames. While the hero is pinned we take over wheel input, scale it
+    // down, and glide the page toward the target with a capped velocity, so the
+    // story always plays through at a watchable pace. The moment the target
+    // hits either end of the pinned range we stop intercepting, so the user
+    // is never trapped — native scrolling carries them straight out. Touch,
+    // keyboard and scrollbar input stay fully native.
+    const WHEEL_GAIN = 0.55; // how much of the raw wheel delta we honour
+    const GLIDE_TAU = 0.16; // s; easing time-constant of the page glide
+    const MAX_GLIDE_VH_PER_S = 140; // caps flick speed (≈2.5× the scrub rate)
+    let glideTarget = 0;
+    let glideY = 0;
+    let gliding = false;
+    let selfScroll = false; // true while the scroll event was caused by us
+
+    const pinnedRange = () => {
+      const rect = outer.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      return { top, end: top + rect.height - window.innerHeight };
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) return; // pinch-zoom
+      const { top, end } = pinnedRange();
+      if (end <= top) return;
+      const y = window.scrollY;
+      // Only while the hero is (about to be) pinned.
+      if (y < top - 1 || y > end + 1) return;
+
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      const delta = e.deltaY * unit * WHEEL_GAIN;
+      if (!gliding) {
+        glideTarget = y;
+        glideY = y;
+      }
+      const next = glideTarget + delta;
+      // Pushing past either end: hand back to native scroll and let it leave.
+      if ((next < top && delta < 0) || (next > end && delta > 0)) {
+        gliding = false;
+        return;
+      }
+      e.preventDefault();
+      glideTarget = clamp(next, top, end);
+      gliding = true;
+    };
+
+    const onScroll = () => {
+      if (selfScroll) return;
+      // External scroll (scrollbar, keys, touch) — re-anchor the glide there.
+      gliding = false;
+    };
+
+    if (!reduceMotion) {
+      window.addEventListener("wheel", onWheel, { passive: false });
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    // --- Scrub engine -------------------------------------------------------
+    // Naively assigning `currentTime` every frame is what makes this stutter:
+    // each assignment starts a seek, and a seek issued while the previous one
+    // is still in flight gets dropped, so the picture lands on keyframes in
+    // visible jumps. Instead we let the decoder do the work whenever we can —
+    // when the playhead only needs to move *forward* a little we actually play
+    // the video and vary `playbackRate` to catch up, which is decoded smoothly
+    // at full frame rate. Seeking is reserved for scrolling back up (video
+    // can't play in reverse) and for big jumps, and is only ever issued when no
+    // seek is already pending.
+    //
+    // Everything visual — video, captions, progress bar — is driven by one
+    // *eased* progress value rather than raw scroll, so the whole composition
+    // moves as a single smooth system no matter how jerky the input is.
+    const SMOOTH_TAU = 0.2; // s; easing time-constant for eased progress
+    const MAX_PROGRESS_PER_S = 0.6; // caps how fast the story can advance
+    const JUMP = 0.6; // s of playhead error above which we snap, not ease
+    const DEAD = 0.02; // s of error we consider "arrived"
+    const CATCH_UP = 0.2; // s we aim to erase playhead error in, when playing
 
     let raf = 0;
     let dead = false;
-    let cur = 0; // lerped playhead
+    let pe = 0; // eased progress 0..1
+    let last = performance.now();
+    let primed = false;
 
-    const loop = () => {
+    const loop = (now: number) => {
       if (dead) return;
+      // Frame-rate independent easing — a fixed per-frame lerp runs twice as
+      // fast on a 120Hz display as on 60Hz, which is jank of its own.
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+
+      // Page glide (wheel damping).
+      if (gliding) {
+        const gap = glideTarget - glideY;
+        let step = gap * (1 - Math.exp(-dt / GLIDE_TAU));
+        const maxStep = (MAX_GLIDE_VH_PER_S / 100) * window.innerHeight * dt;
+        step = clamp(step, -maxStep, maxStep);
+        glideY += step;
+        if (Math.abs(glideTarget - glideY) < 0.5) {
+          glideY = glideTarget;
+          gliding = false;
+        }
+        selfScroll = true;
+        window.scrollTo(0, glideY);
+        selfScroll = false;
+      }
+
       const vh = window.innerHeight;
       const rect = outer.getBoundingClientRect();
       const total = rect.height - vh;
       const p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
 
+      if (!primed) {
+        primed = true;
+        pe = p;
+      }
+      if (reduceMotion) {
+        pe = p;
+      } else {
+        const step = (p - pe) * (1 - Math.exp(-dt / SMOOTH_TAU));
+        const maxStep = MAX_PROGRESS_PER_S * dt;
+        pe += clamp(step, -maxStep, maxStep);
+        // Once the hero has scrolled away, don't leave the story half-told.
+        if (rect.bottom <= 0 || rect.top >= vh) pe = p;
+      }
+      pe = clamp(pe, 0, 1);
+
       if (video && video.duration && isFinite(video.duration) && video.readyState >= 2) {
-        const t = p * Math.max(0, video.duration - 0.06);
-        cur += (t - cur) * 0.14;
-        if (Math.abs(video.currentTime - cur) > 0.01) {
-          try {
-            video.currentTime = cur;
-          } catch {}
+        const playable = Math.max(0, video.duration - 0.06);
+        const cur = pe * playable;
+        const t = video.currentTime;
+        const err = cur - t;
+
+        if (err > DEAD && err < JUMP) {
+          // Moving forward by a little: play, and scale the rate to close the
+          // gap over CATCH_UP seconds. Decoded playback = no seek stutter.
+          const rate = clamp(err / CATCH_UP, 0.0625, 8);
+          if (Math.abs(video.playbackRate - rate) > 0.01) video.playbackRate = rate;
+          if (video.paused) video.play().catch(() => {});
+        } else if (Math.abs(err) > DEAD) {
+          // Backwards, or too far ahead to play through: seek — but never while
+          // another seek is still resolving, otherwise the request is wasted.
+          if (!video.paused) video.pause();
+          if (!video.seeking) {
+            try {
+              video.currentTime = cur;
+            } catch {}
+          }
+        } else if (!video.paused) {
+          video.pause();
         }
       }
 
       if (contentRef.current) {
-        const o = 1 - Math.min(1, p / 0.16);
+        const o = 1 - Math.min(1, pe / 0.16);
         contentRef.current.style.opacity = String(o);
         contentRef.current.style.visibility = o <= 0.01 ? "hidden" : "visible";
       }
       if (cap1Ref.current) {
-        const c = band(p, 0.24, 0.55);
+        const c = band(pe, 0.24, 0.55);
         cap1Ref.current.style.opacity = String(c);
         cap1Ref.current.style.transform = `translateY(${28 - 28 * c}px)`;
       }
       if (cap2Ref.current) {
-        const c = band(p, 0.6, 0.94);
+        const c = band(pe, 0.6, 0.94);
         cap2Ref.current.style.opacity = String(c);
         cap2Ref.current.style.transform = `translateY(${28 - 28 * c}px)`;
       }
-      if (progRef.current) progRef.current.style.transform = `scaleX(${p})`;
+      if (progRef.current) progRef.current.style.transform = `scaleX(${pe})`;
 
       raf = requestAnimationFrame(loop);
     };
@@ -116,6 +276,16 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
     return () => {
       dead = true;
       cancelAnimationFrame(raf);
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("scroll", onScroll);
+      if (video) {
+        video.removeEventListener("loadedmetadata", applyHeight);
+        video.removeEventListener("durationchange", applyHeight);
+        try {
+          video.pause();
+          video.playbackRate = 1;
+        } catch {}
+      }
     };
   }, []);
 
@@ -124,6 +294,8 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       ref={outerRef}
       id="fw-hero-outer"
       className="relative bg-cream"
+      // Replaced on mount with a duration-derived height (see the effect
+      // above); this literal is only the pre-hydration / no-JS default.
       style={{ height: "320svh" }}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
