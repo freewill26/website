@@ -67,14 +67,18 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
     // is. Swap in a 12s video from the CMS and the section simply grows; the
     // hero keeps the exact same feel. Clamped so a very short or very long
     // upload still yields a sane page.
-    const SCROLL_VH_PER_SECOND = 55;
-    const MIN_SCROLL_VH = 120;
-    const MAX_SCROLL_VH = 420;
+    //
+    // Kept deliberately tight: the hero is an overture, not a chapter, and a
+    // visitor who wants the page underneath shouldn't have to wade through
+    // several screens of pinned video to reach it.
+    const SCROLL_VH_PER_SECOND = 26;
+    const MIN_SCROLL_VH = 80;
+    const MAX_SCROLL_VH = 240;
     const applyHeight = () => {
       const d = video?.duration;
       const travel = d && isFinite(d) && d > 0
         ? clamp(d * SCROLL_VH_PER_SECOND, MIN_SCROLL_VH, MAX_SCROLL_VH)
-        : 220;
+        : 120;
       outer.style.height = `${100 + travel}svh`;
     };
     applyHeight();
@@ -99,17 +103,18 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // --- Wheel damping while pinned -----------------------------------------
-    // A quick flick would otherwise blow through the whole clip in a few
-    // frames. While the hero is pinned we take over wheel input, scale it
-    // down, and glide the page toward the target with a capped velocity, so the
-    // story always plays through at a watchable pace. The moment the target
-    // hits either end of the pinned range we stop intercepting, so the user
-    // is never trapped — native scrolling carries them straight out. Touch,
-    // keyboard and scrollbar input stay fully native.
-    const WHEEL_GAIN = 0.55; // how much of the raw wheel delta we honour
-    const GLIDE_TAU = 0.16; // s; easing time-constant of the page glide
-    const MAX_GLIDE_VH_PER_S = 140; // caps flick speed (≈2.5× the scrub rate)
+    // --- Wheel smoothing while pinned ---------------------------------------
+    // While the hero is pinned we take over wheel input and glide the page
+    // toward the target, which turns the mouse wheel's discrete notches into
+    // continuous travel so the scrub doesn't step. The gain is 1:1 — this
+    // smooths the input, it does not slow it down; a flick covers exactly the
+    // distance it would natively, just eased over a few frames. The moment the
+    // target hits either end of the pinned range we stop intercepting, so the
+    // user is never trapped — native scrolling carries them straight out.
+    // Touch, keyboard and scrollbar input stay fully native throughout.
+    const WHEEL_GAIN = 1; // 1:1 with native scroll — smoothing, not damping
+    const GLIDE_TAU = 0.1; // s; easing time-constant of the page glide
+    const MAX_GLIDE_VH_PER_S = 320; // ceiling on flick speed, rarely reached
     let glideTarget = 0;
     let glideY = 0;
     let gliding = false;
@@ -171,9 +176,12 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
     // Everything visual — video, captions, progress bar — is driven by one
     // *eased* progress value rather than raw scroll, so the whole composition
     // moves as a single smooth system no matter how jerky the input is.
-    const SMOOTH_TAU = 0.2; // s; easing time-constant for eased progress
-    const MAX_PROGRESS_PER_S = 0.6; // caps how fast the story can advance
-    const JUMP = 0.6; // s of playhead error above which we snap, not ease
+    const SMOOTH_TAU = 0.12; // s; easing time-constant for eased progress
+    const MAX_PROGRESS_PER_S = 1.8; // ceiling on story speed; a hard flick hits it
+    // Raised alongside the faster scrub: playbackRate goes to 8×, which erases
+    // 1.6s of error within CATCH_UP, so anything under that can still ride the
+    // smooth decoded path rather than falling back to a visibly stepping seek.
+    const JUMP = 1.2; // s of playhead error above which we snap, not ease
     const DEAD = 0.02; // s of error we consider "arrived"
     const CATCH_UP = 0.2; // s we aim to erase playhead error in, when playing
 
@@ -296,7 +304,7 @@ export default function HomeHero({ content, meta1, meta2 }: HomeHeroProps) {
       className="relative bg-cream"
       // Replaced on mount with a duration-derived height (see the effect
       // above); this literal is only the pre-hydration / no-JS default.
-      style={{ height: "320svh" }}
+      style={{ height: "220svh" }}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* `data-splash-critical` makes <SplashScreen> hold the intro until this
