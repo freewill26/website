@@ -1,3 +1,4 @@
+import FloatingDock from "@/components/site/FloatingDock";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { getContactChannels, whatsappHref } from "@/lib/api/contact";
 
@@ -6,12 +7,13 @@ const WHATSAPP_PREFILL =
 
 /**
  * Persistent floating action anchored to the bottom-right corner: a single
- * WhatsApp quick-chat pill.
+ * WhatsApp quick-chat pill. {@link FloatingDock} hides it over the footer so
+ * it never covers the social links there.
  */
 export default async function FloatingEstimate() {
   const { whatsapp } = await getContactChannels();
   return (
-    <div className="fixed bottom-[max(16px,env(safe-area-inset-bottom))] right-[clamp(16px,3vw,32px)] z-[800] flex flex-col items-end gap-3 sm:bottom-[clamp(16px,3vw,32px)]">
+    <FloatingDock>
       <a
         href={whatsappHref(whatsapp) + WHATSAPP_PREFILL}
         target="_blank"
@@ -28,6 +30,6 @@ export default async function FloatingEstimate() {
         </span>
         <span className="hidden sm:inline">LET&apos;S CONNECT</span>
       </a>
-    </div>
+    </FloatingDock>
   );
 }

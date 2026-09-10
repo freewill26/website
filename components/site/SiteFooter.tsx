@@ -72,6 +72,7 @@ export default async function SiteFooter() {
       </div>
 
       <div
+        data-footer-legal
         className="mt-6 flex flex-wrap justify-between gap-4 border-t pt-6 text-[11px] tracking-[0.08em] text-[#181A20]/45"
         style={{ borderColor: "rgba(24,26,32,0.12)" }}
       >
