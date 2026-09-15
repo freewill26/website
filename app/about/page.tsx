@@ -7,11 +7,12 @@ import AboutManifesto from "@/components/about/AboutManifesto";
 import AboutStats from "@/components/about/AboutStats";
 import AboutStory from "@/components/about/AboutStory";
 import AboutFounderQuote from "@/components/about/AboutFounderQuote";
-import AboutTeam from "@/components/about/AboutTeam";
+// import AboutTeam from "@/components/about/AboutTeam";
 import AboutAward from "@/components/about/AboutAward";
 import AboutContact from "@/components/about/AboutContact";
 import HomeBrands from "@/components/home/HomeBrands";
-import { getAboutPageContent, getTeam } from "@/lib/api/about";
+import { getAboutPageContent } from "@/lib/api/about";
+// import { getTeam } from "@/lib/api/about";
 import type { AboutStoryVM } from "@/lib/api/about";
 import { getBrands } from "@/lib/api/home";
 import { getCatalogOptions } from "@/lib/api/products";
@@ -42,9 +43,9 @@ function storyLines(story: AboutStoryVM) {
  * defaults independently, so one slow/failing endpoint can't break the page.
  */
 export default async function AboutPage() {
-  const [content, team, brands, catalogOptions] = await Promise.all([
+  const [content, brands, catalogOptions] = await Promise.all([
     getAboutPageContent(),
-    getTeam(),
+    // getTeam(),
     getBrands(),
     getCatalogOptions(),
   ]);
@@ -100,7 +101,9 @@ export default async function AboutPage() {
           author={content.testimonial.author}
           occupation={content.testimonial.occupation}
         />
+        {/* THE TEAM section hidden
         <AboutTeam founders={team.founders} people={team.people} />
+        */}
         <AboutAward award={content.award} />
         <HomeBrands
           brands={brands}
