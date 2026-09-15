@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FwReveal } from "@/components/site/FwReveal";
 import ImageSlot from "@/components/site/ImageSlot";
 import type { CategoryTile } from "@/lib/api/home";
+import { categoryHref } from "@/lib/navigation";
 import { ArrowUpRightIcon, ArrowRightIcon } from "@/components/ui/icons";
 
 /** Bento span keyed by position: first tile is the hero, 2nd & 7th are wide. */
@@ -76,53 +77,63 @@ export default function HomeProducts({
         {tiles.map((category, idx) => (
           <FwReveal
             key={category.id}
-            className={`group relative cursor-pointer overflow-hidden rounded-xl ${SPAN_CLASS[spanFor(idx)]}`}
+            className={`group relative overflow-hidden rounded-xl ${SPAN_CLASS[spanFor(idx)]}`}
             style={{ border: "1px solid rgba(24,26,32,0.08)" }}
           >
-            <ImageSlot
-              label={category.title}
-              src={category.image ?? undefined}
-              className="absolute inset-0 h-full w-full"
-            />
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(16,18,26,0) 42%, rgba(16,18,26,0.86) 100%)",
-              }}
-            />
-            <div
-              className="pointer-events-none absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full px-3 py-[7px]"
-              style={{
-                background: "rgba(20,22,30,0.55)",
-                backdropFilter: "blur(6px)",
-                WebkitBackdropFilter: "blur(6px)",
-              }}
+            {/* The whole tile is the hit area, and it opens the products index
+                already scrolled to this category's section. Categories with no
+                products aren't rendered there, so those fall back to the top of
+                the page rather than dead-ending. */}
+            <Link
+              href={categoryHref(category.id)}
+              aria-label={`${category.title} — see products`}
+              className="absolute inset-0 block no-underline"
             >
-              <span className="font-display text-xs text-white/70">{category.no}</span>
-              <span className="text-[10px] font-bold tracking-[0.14em] text-[#9FC0FF]">
-                {category.kicker}
-              </span>
-            </div>
-            <div className="pointer-events-none absolute inset-x-[18px] bottom-4 flex items-end justify-between gap-3">
-              <div>
-                <div
-                  className="font-display uppercase leading-[1.1] text-white"
-                  style={{ fontSize: "clamp(20px,1.6vw,28px)" }}
-                >
-                  {category.title}
-                </div>
-                <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72] line-clamp-2">
-                  {category.description}
-                </div>
-              </div>
-              <span
-                className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                style={{ background: "rgba(255,255,255,0.16)" }}
+              <ImageSlot
+                label={category.title}
+                src={category.image ?? undefined}
+                className="absolute inset-0 h-full w-full"
+              />
+              <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(16,18,26,0) 42%, rgba(16,18,26,0.86) 100%)",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full px-3 py-[7px]"
+                style={{
+                  background: "rgba(20,22,30,0.55)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                }}
               >
-                <ArrowUpRightIcon size={15} />
-              </span>
-            </div>
+                <span className="font-display text-xs text-white/70">{category.no}</span>
+                <span className="text-[10px] font-bold tracking-[0.14em] text-[#9FC0FF]">
+                  {category.kicker}
+                </span>
+              </div>
+              <div className="pointer-events-none absolute inset-x-[18px] bottom-4 flex items-end justify-between gap-3">
+                <div>
+                  <div
+                    className="font-display uppercase leading-[1.1] text-white"
+                    style={{ fontSize: "clamp(20px,1.6vw,28px)" }}
+                  >
+                    {category.title}
+                  </div>
+                  <div className="mt-[5px] text-xs leading-[1.5] text-white/[0.72] line-clamp-2">
+                    {category.description}
+                  </div>
+                </div>
+                <span
+                  className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  style={{ background: "rgba(255,255,255,0.16)" }}
+                >
+                  <ArrowUpRightIcon size={15} />
+                </span>
+              </div>
+            </Link>
           </FwReveal>
         ))}
 
