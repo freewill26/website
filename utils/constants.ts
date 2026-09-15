@@ -98,6 +98,16 @@ export const VIDEO_LIMITS = {
   perPage: 12,
 } as const;
 
+/**
+ * Clientele page. The whole roster is server-rendered in one pass — 73 logos
+ * across six sectors is small enough that paging it would cost more than it
+ * saves, and the filter tabs need the full set client-side anyway.
+ */
+export const CLIENTELE_LIMITS = {
+  /** Client records fetched to build the six sector groups. */
+  clients: 400,
+} as const;
+
 export const GALLERY_LIMITS = {
   /** Category images shown once, ahead of the product feed. */
   categories: 50,

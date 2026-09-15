@@ -223,6 +223,27 @@ export interface ApiGlobalReach {
   description: string;
 }
 
+/** The six sectors the Clientele page groups client logos under. */
+export type ApiClientCategory =
+  | "HOTELS_RESORTS_CLUBS"
+  | "EDUCATIONAL_ACADEMIES"
+  | "BUILDERS"
+  | "PRIVATE"
+  | "GOVERNMENT_SECTOR"
+  | "INDIAN_INTERNATIONAL_EVENTS";
+
+export interface ApiClient {
+  id: string;
+  /** Null for logos carried over from the legacy site that aren't identified yet. */
+  name: string | null;
+  logo: string | null;
+  logoAlt: string | null;
+  link: string | null;
+  category: ApiClientCategory;
+  isActive: boolean;
+  order: number;
+}
+
 /** `GET /brands` — partner organisations and product brands for the marquee. */
 export interface ApiBrand {
   id: string;

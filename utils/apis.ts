@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
   events: "/events",
   testimonials: "/testimonials",
   brands: "/brands",
+  clients: "/clients",
   milestones: "/milestones",
   globalReach: "/global-reach",
   socialLinks: "/social-links",

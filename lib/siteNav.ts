@@ -15,6 +15,7 @@ export const SITE_NAV: SiteNavItem[] = [
   { label: "Blog", href: "/blog", footerOnly: true },
   { label: "Catalogue", href: "/catalogue", footerOnly: true },
   { label: "Videos", href: "/videos", footerOnly: true },
+  { label: "Clientele", href: "/clientele", footerOnly: true },
   { label: "Contact", href: "/contact" },
 ];
 
