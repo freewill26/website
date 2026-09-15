@@ -10,7 +10,8 @@ import type { BrandVM, HomeBrandsVM } from "@/lib/api/home";
  * brands we represent (drifting right). Pure logo strips — logos render
  * grayscale and bloom to full colour on hover; brands without an artwork
  * fall back to an Anton wordmark. Rows pause on hover and
- * `prefers-reduced-motion` freezes the drift.
+ * `prefers-reduced-motion` freezes the drift — which is also what makes the
+ * optional per-logo links clickable, since the strip stops under the cursor.
  */
 interface HomeBrandsProps {
   brands: HomeBrandsVM;
@@ -34,26 +35,53 @@ function padForLoop(items: BrandVM[]): BrandVM[] {
   return padded;
 }
 
-function BrandLogo({ brand }: { brand: BrandVM }) {
+const LOGO_CLASS =
+  "group/logo flex h-[92px] flex-none items-center opacity-70 transition-opacity duration-500 hover:opacity-100";
+
+/**
+ * One logo. A row that has a `link` set in the CMS renders as an anchor that
+ * opens in a new tab; without one it stays a plain tile, exactly as before.
+ *
+ * `decorative` marks the copies the marquee repeats purely to fill the track —
+ * they're taken out of the tab order and hidden from assistive tech, so a
+ * keyboard user meets each organisation once rather than a dozen times.
+ */
+function BrandLogo({ brand, decorative }: { brand: BrandVM; decorative?: boolean }) {
+  const inner = brand.image ? (
+    <Image
+      src={brand.image}
+      alt={brand.imageAlt}
+      width={220}
+      height={72}
+      className="max-h-[64px] w-auto object-contain grayscale transition-[filter] duration-500 group-hover/logo:grayscale-0"
+    />
+  ) : (
+    <span className="whitespace-nowrap font-display text-[clamp(26px,2.8vw,42px)] uppercase leading-none tracking-[0.02em] text-cream">
+      {brand.title}
+    </span>
+  );
+
+  if (!brand.link) {
+    return (
+      <div className={LOGO_CLASS} title={brand.title} aria-hidden={decorative || undefined}>
+        {inner}
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="group/logo flex h-[92px] flex-none items-center opacity-70 transition-opacity duration-500 hover:opacity-100"
+    <a
+      href={brand.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${LOGO_CLASS} no-underline`}
       title={brand.title}
+      aria-label={`${brand.title} (opens in a new tab)`}
+      aria-hidden={decorative || undefined}
+      tabIndex={decorative ? -1 : undefined}
     >
-      {brand.image ? (
-        <Image
-          src={brand.image}
-          alt={brand.imageAlt}
-          width={220}
-          height={72}
-          className="max-h-[64px] w-auto object-contain grayscale transition-[filter] duration-500 group-hover/logo:grayscale-0"
-        />
-      ) : (
-        <span className="whitespace-nowrap font-display text-[clamp(26px,2.8vw,42px)] uppercase leading-none tracking-[0.02em] text-cream">
-          {brand.title}
-        </span>
-      )}
-    </div>
+      {inner}
+    </a>
   );
 }
 
@@ -110,7 +138,13 @@ function MarqueeRow({
               style={{ gap }}
             >
               {padded.map((brand, i) => (
-                <BrandLogo key={`${brand.id}-${i}`} brand={brand} />
+                <BrandLogo
+                  key={`${brand.id}-${i}`}
+                  brand={brand}
+                  // Only the first pass of the first copy is the real list;
+                  // everything after it is padding and the looping duplicate.
+                  decorative={copy === 1 || i >= items.length}
+                />
               ))}
             </div>
           ))}

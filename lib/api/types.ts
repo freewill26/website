@@ -230,6 +230,8 @@ export interface ApiBrand {
   description: string;
   image: string | null;
   imageAlt: string | null;
+  /** Optional external site, set per row in the CMS. */
+  link: string | null;
   category: "ORGANISATION" | "BRAND";
   order: number;
 }

@@ -88,6 +88,8 @@ export interface BrandVM {
   description: string;
   image: string | null;
   imageAlt: string;
+  /** Optional external site; the logo becomes a new-tab link when set. */
+  link: string | null;
 }
 
 /** The two marquee rows: partners we collaborate with / brands we represent. */
@@ -507,6 +509,8 @@ function defaultBrands(entries: Array<[title: string, description: string]>): Br
     description,
     image: null,
     imageAlt: title,
+    // The fallback list is generic copy, not real records — nothing to link to.
+    link: null,
   }));
 }
 
@@ -563,6 +567,9 @@ export async function getBrands(): Promise<HomeBrandsVM> {
     description: b.description,
     image: b.image,
     imageAlt: b.imageAlt ?? b.title,
+    // Older records predate the column, and the API can still hand back "" if
+    // a row was saved before the service started normalising blanks.
+    link: b.link?.trim() || null,
   });
 
   return {
