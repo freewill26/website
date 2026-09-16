@@ -18,7 +18,9 @@ interface GalleryClientProps {
 const GALLERY_ANIM_BATCH = 12;
 
 /**
- * Instagram-feed-style gallery with a category/product filter. The square grid
+ * Instagram-feed-style gallery with a category/product filter. The mosaic is a
+ * true masonry: the columns are fixed, but every tile keeps its own photo's
+ * width-to-height ratio, so nothing is cropped or stretched. It
  * loads the next page automatically as the user nears the bottom
  * (IntersectionObserver on a sentinel). The filter bar / browse sheet drive a
  * `selection`; changing it refetches page 1 for that filter and the infinite
@@ -120,13 +122,16 @@ export default function GalleryClient({ initialItems, initialHasMore, taxonomy }
         {showEmpty ? (
           <EmptyState filtered={selection.type !== "all"} />
         ) : (
-          <div key={selKey} className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 md:grid-cols-4">
+          <div
+            key={selKey}
+            className="columns-2 gap-2 [&>*]:mb-2 sm:columns-3 sm:gap-3 sm:[&>*]:mb-3 md:columns-4"
+          >
             {items.map((g, i) => (
               <button
                 key={g.id}
                 type="button"
                 onClick={() => setViewer(i)}
-                className="group relative aspect-square w-full overflow-hidden rounded-lg border-0 p-0 text-left transition-transform duration-200 active:scale-[0.97] sm:rounded-2xl md:active:scale-100"
+                className="group relative block w-full break-inside-avoid overflow-hidden rounded-lg border-0 p-0 text-left transition-transform duration-200 active:scale-[0.97] sm:rounded-2xl md:active:scale-100"
                 style={{
                   background: "#DCD3BE",
                   boxShadow: "0 2px 12px rgba(24,26,32,0.08)",
@@ -137,13 +142,19 @@ export default function GalleryClient({ initialItems, initialHasMore, taxonomy }
                 <Image
                   src={g.src}
                   alt={g.title}
-                  fill
+                  // The API hands the site bare image URLs with no stored
+                  // dimensions, so the intrinsic size is left to the browser:
+                  // 0/0 plus `h-auto` renders each photo at its true ratio.
+                  width={0}
+                  height={0}
                   sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                  className="absolute inset-0 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="pointer-events-none absolute inset-0 bg-[#0A0E1C]/0 transition-colors duration-300 group-hover:bg-[#0A0E1C]/25" />
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/55 to-transparent md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100" />
-                <span className="pointer-events-none absolute inset-x-3 bottom-3 text-[12px] font-semibold uppercase tracking-[0.04em] text-white drop-shadow sm:text-[13px] md:opacity-0 md:transition-opacity md:duration-300 md:group-hover:opacity-100">
+                {/* Scrim and name stay on at every breakpoint — the card has to
+                    say what it is without waiting for a hover it may never get. */}
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/70 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-3 bottom-3 text-[12px] font-semibold uppercase tracking-[0.04em] text-white drop-shadow sm:text-[13px]">
                   {g.title}
                 </span>
               </button>
