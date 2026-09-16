@@ -43,7 +43,7 @@ export default function ProductDetailChildren({
         className="m-0 list-none columns-1 gap-px overflow-hidden rounded-2xl bg-[#16305C]/15 p-0 [&>*]:mb-px sm:columns-2 lg:columns-3"
       >
         {items.map((item) => (
-          <li key={item.id} className="relative break-inside-avoid bg-slate-800">
+          <li key={item.id} className="relative break-inside-avoid">
             {/* Not a flex row: the photo is the only thing in normal flow, so
                 it alone sets the tile's height at its own ratio, and the name
                 is layered over it rather than sitting beside it. */}
