@@ -244,6 +244,54 @@ export interface ApiClient {
   order: number;
 }
 
+/** The kinds of site a project was built for — the Projects page's filter tabs. */
+export type ApiProjectSector =
+  | "SCHOOL"
+  | "BUILDER"
+  | "SPORTS_STADIUM"
+  | "CORPORATE"
+  | "GOVERNMENT"
+  | "HOSPITALITY";
+
+/**
+ * One project photograph. `categories` are the lines of work the photo shows —
+ * the same Category records that group the product catalogue, resolved by the
+ * API to id + title so a tag can be labelled without a second request. A photo
+ * can carry several (a wide shot showing flooring and seating) or none.
+ */
+export interface ApiProjectImage {
+  id: string;
+  url: string;
+  alt: string | null;
+  order: number;
+  categoryIds: string[];
+  categories: { id: string; title: string }[];
+}
+
+/** `GET /projects` — a completed installation and its tagged photo set. */
+export interface ApiProject {
+  id: string;
+  title: string;
+  description: string;
+  broadDescription: string | null;
+  location: string | null;
+  client: string | null;
+  completedYear: number | null;
+  image: string | null;
+  imageAlt: string | null;
+  sector: ApiProjectSector;
+  images: ApiProjectImage[];
+  /** Union of the photos' tags, derived by the API — the work done on site. */
+  categories: { id: string; title: string }[];
+  seoTitle: string;
+  seoDescription: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  isActive: boolean;
+  order: number;
+}
+
 /** `GET /brands` — partner organisations and product brands for the marquee. */
 export interface ApiBrand {
   id: string;

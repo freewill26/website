@@ -108,6 +108,18 @@ export const CLIENTELE_LIMITS = {
   clients: 400,
 } as const;
 
+/**
+ * Projects page. The whole roster is server-rendered in one pass, like the
+ * Clientele wall — the sector tabs need the full set client-side anyway, and a
+ * project carries its photos inline so one request covers the index's covers.
+ */
+export const PROJECT_LIMITS = {
+  /** Projects fetched for the index and the sector groups. */
+  list: 200,
+  /** Other projects offered at the foot of a project detail page. */
+  related: 3,
+} as const;
+
 export const GALLERY_LIMITS = {
   /** Category images shown once, ahead of the product feed. */
   categories: 50,
