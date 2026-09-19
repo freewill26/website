@@ -9,6 +9,7 @@ export interface SiteNavItem {
 export const SITE_NAV: SiteNavItem[] = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
+  { label: "Projects", href: "/projects" },
   { label: "Gallery", href: "/gallery" },
   { label: "About", href: "/about" },
   { label: "News", href: "/news", footerOnly: true },
