@@ -42,7 +42,7 @@ export default function ProductDetailHero({ title, tag, description, image, imag
         }}
       />
 
-      <div className="relative box-border px-[6vw] pb-[clamp(56px,7vw,104px)]">
+      <div className="relative box-border px-[6vw] pb-[clamp(56px,7vw,104px)] pt-[clamp(140px,18vh,220px)]">
         <FwReveal className="mb-[26px] flex flex-wrap items-center gap-3.5">
           <Link
             href={ROUTES.products}
