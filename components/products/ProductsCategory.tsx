@@ -90,7 +90,7 @@ export default function ProductsCategory({
           <article
             key={p.id}
             data-rail-card
-            className="flex w-[min(400px,82vw)] flex-none flex-col overflow-hidden rounded-2xl bg-white"
+            className="group relative flex w-[min(400px,82vw)] flex-none flex-col overflow-hidden rounded-2xl bg-white"
             style={{
               scrollSnapAlign: "start",
               border: "1px solid rgba(24,26,32,0.08)",
@@ -114,7 +114,7 @@ export default function ProductsCategory({
               </p>
               <Link
                 href={productHref(p.id)}
-                className="group mt-auto flex items-center justify-between pt-4 no-underline"
+                className="mt-auto flex items-center justify-between pt-4 no-underline after:absolute after:inset-0 after:content-['']"
                 style={{ borderTop: "1px solid rgba(24,26,32,0.1)" }}
               >
                 <span className="text-xs font-bold tracking-[0.14em] text-brand">
